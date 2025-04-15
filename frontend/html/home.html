@@ -16,21 +16,31 @@
   </head>
   <body>
 
-    <div class="topnav">
+    <div class="sidebar" id="Sidebar">
        
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+      
+      
+        <a class="active home" style="font-size: 100%;font-family:  'Nunito', sans-serif">Home</a>
+    
+        <a href="#menu" style="font-size: 100%;font-family:  'Nunito', sans-serif">Menu</a>
+
+        <a href="Special Order.HTML" style="font-size: 100%; font-family:  'Nunito', sans-serif">Customize Order</a>
+
+        <a href="#about" style="font-size: 100%;font-family:  'Nunito', sans-serif">About Us</a>
+    
+        <a href="Login.html"style="font-size: 100%;">Login</a>
+    
+      
+    </div>
+
+    <div class="topnav" id="Topnav">
       <div class="top-nav-container">
-        <a class="active home" style="font-size: 130%;">Home</a>
-    
-        <a href="#menu" style="font-size: 130%;">Menu</a>
 
-        <a href="Special Order.HTML" style="font-size: 130%;">Customize Order</a>
+        <span class="sidebar-toggle" onclick="toggleNav()"> &#9776;</span>
 
-
-    
-        <a href="Login.html"style="font-size: 130%;">Login</a>
-    
         <div class="topnav-right">
-    
+          
           <a  href="https://www.facebook.com/Candycakestanta" target="_blank">
             <img class="social-media" src="https://static.wixstatic.com/media/23fd2a2be53141ed810f4d3dcdcd01fa.png/v1/fill/w_38,h_38,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/23fd2a2be53141ed810f4d3dcdcd01fa.png" ></a>
           </a>
@@ -38,73 +48,77 @@
             <img class="social-media" src="https://static.wixstatic.com/media/81af6121f84c41a5b4391d7d37fce12a.png/v1/fill/w_38,h_38,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/81af6121f84c41a5b4391d7d37fce12a.png"></a>
           </a>
         </div>
-      </div>
+       </div>
     </div>
-  
-    <div class="row">
-      <div class="col bg-img" style="background-image: url('../images/Homepagebg.jpeg');
+
+
+
+  <div class="main" id="main">
+    <div  class="hero-image" style ="background-image: url('../images/homepage2.jpg');
                                                                     height:450px; 
                                                                     background-position: center;
                                                                     background-repeat: no-repeat;
                                                                     background-size: cover;
-                                                                    position: relative;">
+                                                                    position: relative;"> 
+    <section class="hero">
+      <div class="hero-text" id="hero-text">
+        <h1 class="title">Candy Cakes-Tanta</h1>
+          <p>Custom cakes, cupcakes, and treats with beautiful decoration and great taste!</p>
+                    <a onclick="document.location = 'Special Order.HTML' ;"><button class="block">Customize Your Order</button></a>
       
-        <div class="MainText" id="Maintext">
-          <h2 class="title">Candy Cakes-Tanta</h2>
-          <p>We're offering custom cakes, Fondant cakes, cupcakes & desserts <br> special decoration with a very good quality <br> <br> </p></center>
-          <a onclick="document.location = 'Special Order.HTML' ;"><button class="block">To Customize Your Order</button></a>
         </div>
+        </section>
       </div>
-    </div> 
-
-
-    <div class="row">
-      <div class="col">
-        <h2 style="color:#ff459f; text-align: center;">Menu</h2>  
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col">
-        <div class="container-fluid py-2">
-          <div class="d-flex flex-row flex-wrap mb-2"> 
-            <div class="card card-body"><a href="subpages/birthday.html">Birthday</a></div>
-            <div class="card card-body"><a href="subpages/minis.html">Minis</a></div>
-            <div class="card card-body"><a href="subpages/wedding.html">Wedding & Engagement</a></div>
-          </div>
-          <div class="d-flex flex-row flex-wrap">
-              <div class="card card-body"><a href="subpages/eid.html">Eid Treats</a></div>
-              <div class="card card-body"><a href="subpages/others.html">Special occasions</a></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="container-fluid">
-      <div class="row" style="background-color:  #ff379b; color: white;" >
-        <div class="col">
-          <h2>About us</h2>
-          <table style="color: white;">
-            <tr>
-              <td><p>HIII</p></td>
-            </tr>
-          </table>
-        </div>          
-      </div> 
-    </div>
   
+
+
+    <div class="row">
+      <div class="col">
+        <h2 class="section-title" id="menu">Menu</h2>  
+      </div>
+    </div>   
+        <div class="card-container">
+            <div class="card" ><a href="subpages/birthday.html">Birthday</a></div>
+            <div class="card" ><a href="subpages/minis.html">Minis</a></div>
+            <div class="card"><a href="subpages/wedding.html">Wedding & Engagement</a></div>
+          
+              <div class="card"><a href="subpages/eid.html">Eid Treats</a></div>
+              <div class="card"><a href="subpages/others.html">Special occasions</a></div>
+          </div>
+       
         
+     
+ <h2 class="section-title" id="about">About Us</h2>
+    <p style="padding: 0 20px 40px; text-align: center;">
+      We're passionate about creating custom desserts for every occasion. From birthdays to weddings, our cakes bring joy to your celebrations.
+    </p>
+  </div>
+  </div>
+
  
     <script>
+      
+          function toggleNav() {
+        const sidebar = document.getElementById("Sidebar");
+        if (sidebar.style.width === "250px") {
+          closeNav();
+        } else {
+          openNav();
+        }
+      }
+      
       function openNav() {
         document.getElementById("Sidebar").style.width = "250px";
         document.getElementById("main").style.marginLeft = "250px";
+        document.getElementById("Sidebar").style.display = "block"; 
       }
       
       function closeNav() {
         document.getElementById("Sidebar").style.width = "0";
         document.getElementById("main").style.marginLeft= "0";
+        document.getElementById("Sidebar").style.display = "none"; 
       }
+      
     </script>
     <script src="../js/popper.min.js"></script>
     <script src="../js/jquery-3.6.4.min.js"></script>
