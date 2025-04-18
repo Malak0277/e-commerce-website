@@ -27,7 +27,11 @@ function generateCards(list, containerId = '.container') {
 
         const myOrderButtons = document.createElement("a");
         myOrderButtons.className = "btn btn-warning";
-        myOrderButtons.href = "../Order Now.html";
+        myOrderButtons.href = "#";
+        myOrderButtons.addEventListener('click', function(e) {
+            e.preventDefault();
+            addToCart(list[i].code, 1);  // Use the cake code as the product ID
+        });
         
         const myOrderNowTexts = document.createTextNode("Order Now"); 
         const cakeIds = document.createTextNode(list[i].code); 
