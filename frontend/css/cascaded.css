@@ -56,7 +56,9 @@ body {
 
 
   .sidebar {
+    display: none;
     position: fixed;
+    
     top: 0;
     left: 0;
     width: 220px;
@@ -66,7 +68,7 @@ body {
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     z-index: 1000;
     border: none;
-    border-radius: 30px;
+    border-radius: 20px;
   }
 
   .sidebar a {
@@ -111,7 +113,7 @@ body {
     border-radius: 50%;
   }
   .main {
-    margin-left: 220px;
+    
     padding: 20px;
   }
 
@@ -368,11 +370,12 @@ body {
 
    
   @media (max-width: 768px) {
-    .sidebar {
+    /* .sidebar {
       width: 100%;
-      height: auto;
+      height: 100%;
       position: relative;
-    }
+     
+    } */
 
     .main {
       margin-left: 0;
@@ -632,11 +635,6 @@ body {
 
 
 
-  @media screen and (max-height: 450px) {
-    .sidebar {padding-top: 15px;}
-    .sidebar a {font-size: 18px;}
-  }
-  
 
 .social-media {
 width : 25px;
