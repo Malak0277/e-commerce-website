@@ -71,16 +71,19 @@ body {
     border-radius: 20px;
   }
 
-  .sidebar a {
+
+
+  .sidebar a, .closebtn {
     display: block;
     padding: 15px 25px;
     color: #4a4a4a;
     text-decoration: none;
     font-weight: bold;
     transition: background-color 0.3s;
+    cursor: pointer;
   }
 
-  .sidebar a:hover {
+  .sidebar-content a:hover {
     background-color: #ffb3cc;
     color: white;
   }
@@ -93,7 +96,7 @@ body {
     margin-bottom: 20px;
   }
   
-  .sidebar .closebtn {
+  .closebtn {
     font-size: 25px;
     margin-left: 0;
     position: relative;
