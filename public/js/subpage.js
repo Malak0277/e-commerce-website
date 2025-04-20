@@ -1,4 +1,23 @@
-function generateCards(list, containerId = '.container') {
+document.addEventListener("DOMContentLoaded", () => {
+    const params = new URLSearchParams(window.location.search);
+    const type = params.get("type");
+
+    if (!type) {
+      document.getElementById("cake-list").innerHTML = "<p>No cake type provided.</p>";
+      return;
+    }
+
+    fetch(`/cakes?type=${type}`)
+      .then(response => response.json())
+      .then(data => {
+        generateCards(data);
+      })
+      .catch(error => {
+        document.getElementById("cake-list").innerHTML = "<p>Error loading cakes.</p>";
+      });
+  });
+
+  function generateCards(list, containerId = '.container') {
     let myContainer = document.querySelector(containerId);
     let myRow = myContainer.querySelector('.row');  // Find existing row
    

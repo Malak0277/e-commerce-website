@@ -85,14 +85,14 @@
         <h2 class="section-title" id="menu">Menu</h2>  
       </div>
     </div>   
-        <div class="card-container">
-            <div class="card" ><a href="subpages/birthday.html">Birthday</a></div>
-            <div class="card" ><a href="subpages/minis.html">Minis</a></div>
-            <div class="card"><a href="subpages/wedding.html">Wedding & Engagement</a></div>
-          
-              <div class="card"><a href="subpages/eid.html">Eid Treats</a></div>
-              <div class="card"><a href="subpages/others.html">Special occasions</a></div>
-          </div>
+    <div class="card-container">
+      <div class="card" data-type="birthday">Birthday</div>
+      <div class="card" data-type="minis">Minis</div>
+      <div class="card" data-type="wedding">Wedding & Engagement</div>
+      <div class="card" data-type="eid">Eid Treats</div>
+      <div class="card" data-type="others">Special Occasions</div>
+    </div>
+    
        
         
      
@@ -106,6 +106,24 @@
  
     <script>
       
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const cards = document.querySelectorAll(".card");
+
+    cards.forEach(card => {
+      card.addEventListener("click", () => {
+        const type = card.dataset.type;
+        if (type) {
+          window.location.href = `/html/subpage.html?type=${type}`;
+        }
+      });
+    });
+  });
+
+
+
+
+
           function toggleNav() {
         const sidebar = document.getElementById("sidebar");
         if (sidebar.style.width === "250px") {
