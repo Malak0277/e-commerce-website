@@ -7,4 +7,4 @@ const db = mysql.createConnection({
   database: 'cake_shop'
 });
 
-module.exports = db;
+//module.exports = db;
