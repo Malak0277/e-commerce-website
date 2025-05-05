@@ -5,20 +5,61 @@
     <title>Shopping Cart - Candy Cakes</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="../css/bootstrap.css">
-    <link rel="stylesheet" href="../css/style1.css">
+    <link rel="stylesheet" href="../css/cascaded.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <div class="container">
+    <div class="topnav">
+        <div class="top-nav-container">
+            <span class="sidebar-toggle" onclick="toggleNav()">&#9776;</span>
+            <div class="topnav-right">
+                <a href="profile.html" class="profile-link">
+                    <img src="../images/profil.jpg" alt="Profile" class="profile-icon">
+                </a>
+                <div class="social-media-container">
+                    <a href="https://www.facebook.com/Candycakestanta" target="_blank">
+                        <img class="social-media" src="https://static.wixstatic.com/media/23fd2a2be53141ed810f4d3dcdcd01fa.png/v1/fill/w_38,h_38,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/23fd2a2be53141ed810f4d3dcdcd01fa.png">
+                    </a>
+                    <a href="https://www.instagram.com/candy_cakes_tanta/" target="_blank">
+                        <img class="social-media" src="https://static.wixstatic.com/media/81af6121f84c41a5b4391d7d37fce12a.png/v1/fill/w_38,h_38,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/81af6121f84c41a5b4391d7d37fce12a.png">
+                    </a>
+                </div>
+                <!-- Shopping Cart Icon with count -->
+                <a href="shopping-cart.html" class="cart-icon-link active">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count" id="nav-cart-count">0</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <a href="profile.html" class="profile-link">
+                <img src="../images/profil.jpg" alt="Profile" class="profile-icon">
+            </a>
+            <div class="closebtn" onclick="closeNav()">&times;</div>
+        </div>
+        <a href="home.html" style="font-size: 100%;font-family: 'Nunito', sans-serif">Home</a>
+        <a href="home.html#menu" style="font-size: 100%;font-family: 'Nunito', sans-serif">Menu</a>
+        <a href="Special Order.HTML" style="font-size: 100%; font-family: 'Nunito', sans-serif">Customize Order</a>
+        <a href="home.html#about" style="font-size: 100%;font-family: 'Nunito', sans-serif">About Us</a>
+        <a href="Login.html" style="font-size: 100%;">Login</a>
+        
+    </div>
+
+    <div class="main" id="main">
         <h1 class="title">Your Shopping Cart</h1>
 
-        <div class="row">
+        <div class="row cart-container">
             <div class="cart-section">
-                <div id="cart-items"></div>
+                <div id="cart-items" class="cart-items-container"></div>
 
                 <div id="empty-cart-message" class="empty-message">
                     <h3>Your cart is empty</h3>
                     <p>Browse our delicious cakes and add some treats to your cart!</p>
-                    <a href="home.html#menu"><button class="btn-main">Continue Shopping</button></a>
+                    <a href="home.html#menu"><button class="btn-main"><i class="fas fa-shopping-bag"></i> Continue Shopping</button></a>
                 </div>
             </div>
 
@@ -33,7 +74,7 @@
                         <label for="promo-code">Promo Code</label>
                         <div class="input-group">
                             <input type="text" class="form-control" id="promo-code" placeholder="Enter promo code">
-                            <button class="btn btn-outline-secondary" id="apply-promo">Apply</button>
+                            <button class="btn promo-btn" id="apply-promo">Apply</button>
                         </div>
                         <div id="promo-message" class="promo-message"></div>
                     </div>
@@ -45,12 +86,34 @@
 
                     <hr>
                     <div class="d-flex justify-content-between total-row"><span>Total:</span><span id="total">$0.00</span></div>
-                    <button class="btn-main mt-3" id="checkout-btn">Proceed to Checkout</button>
+                    <button class="btn-main mt-3" id="checkout-btn"><i class="fas fa-shopping-cart"></i> Proceed to Checkout</button>
                 </div>
             </div>
         </div>
     </div>
 
+    <script>
+        function toggleNav() {
+            const sidebar = document.getElementById("sidebar");
+            if (sidebar.style.width === "250px") {
+                closeNav();
+            } else {
+                openNav();
+            }
+        }
+      
+        function openNav() {
+            document.getElementById("sidebar").style.width = "250px";
+            document.getElementById("main").style.marginLeft = "250px";
+            document.getElementById("sidebar").style.display = "block"; 
+        }
+      
+        function closeNav() {
+            document.getElementById("sidebar").style.width = "0";
+            document.getElementById("main").style.marginLeft= "0";
+            document.getElementById("sidebar").style.display = "none"; 
+        }
+    </script>
     <script src="../js/shopping-cart.js"></script>
 </body>
 </html>

@@ -15,11 +15,39 @@
 
     // Initialize the cart page
     document.addEventListener('DOMContentLoaded', function() {
+        // Load cart from localStorage
+        loadCartFromStorage();
         updateCartDisplay();
         setupEventListeners();
+        updateNavCartCount();
     });
-     // Add this function to handle promo codes
-     function applyPromoCode() {
+    
+    // Load cart from localStorage
+    function loadCartFromStorage() {
+        const storedItems = localStorage.getItem('cartItems');
+        if (storedItems) {
+            cart.items = JSON.parse(storedItems);
+            updateCartTotals();
+        }
+    }
+
+    // Save cart to localStorage
+    function saveCartToStorage() {
+        localStorage.setItem('cartItems', JSON.stringify(cart.items));
+        updateNavCartCount();
+    }
+
+    // Update the cart count in the navigation
+    function updateNavCartCount() {
+        const count = cart.items.reduce((total, item) => total + item.quantity, 0);
+        const navCountElement = document.getElementById('nav-cart-count');
+        if (navCountElement) {
+            navCountElement.textContent = count;
+        }
+    }
+
+    // Add this function to handle promo codes
+    function applyPromoCode() {
         const promoCodeInput = document.getElementById('promo-code');
         const promoMessage = document.getElementById('promo-message');
         const code = promoCodeInput.value.trim().toUpperCase();
@@ -66,12 +94,14 @@
             });
         }
         updateCartTotals();
+        saveCartToStorage();
     }
 
     // Remove item from cart
     function removeFromCart(productId) {
         cart.items = cart.items.filter(item => item.id !== productId);
         updateCartTotals();
+        saveCartToStorage();
     }
 
     // Update item quantity
@@ -80,6 +110,7 @@
         if (item) {
             item.quantity = Math.max(1, newQuantity);
             updateCartTotals();
+            saveCartToStorage();
         }
     }
 
@@ -128,14 +159,14 @@
                     <div class="card">
                         <div class="d-flex justify-content-between">
                             <h5>${item.name}</h5>
-                            <button onclick="removeFromCart('${item.id}')" class="btn btn-sm btn-danger">x</button>
+                            <button onclick="removeFromCart('${item.id}')" class="btn-danger">×</button>
                         </div>
-                        <p>$${item.price.toFixed(2)} each</p>
+                        <p class="item-price">$${item.price.toFixed(2)} each</p>
                         <div class="quantity-controls">
-                            <button onclick="updateQuantity('${item.id}', ${item.quantity-1})" class="btn btn-sm btn-outline-secondary">-</button>
+                            <button onclick="updateQuantity('${item.id}', ${item.quantity-1})">-</button>
                             <span>${item.quantity}</span>
-                            <button onclick="updateQuantity('${item.id}', ${item.quantity+1})" class="btn btn-sm btn-outline-secondary">+</button>
-                            <span class="ms-auto">$${(item.price * item.quantity).toFixed(2)}</span>
+                            <button onclick="updateQuantity('${item.id}', ${item.quantity+1})">+</button>
+                            <span class="ms-auto item-total">$${(item.price * item.quantity).toFixed(2)}</span>
                         </div>
                     </div>
                 `;
@@ -181,10 +212,12 @@
         
         // testing 
         const demoButtons = `
-            <div class="card mt-3">
-                <h5>TESTTTTTTTTT</h5>
-                <button onclick="addToCart('cake001', 1)" class="btn btn-sm btn-primary me-2">Add Cake 1</button>
-                <button onclick="addToCart('cake002', 1)" class="btn btn-sm btn-primary">Add Cake 2</button>
+            <div class="card demo-card mt-3">
+                <h5>Demo Products</h5>
+                <div class="demo-buttons">
+                    <button onclick="addToCart('cake001', 1)" class="btn-main demo-btn">Add Chocolate Cake</button>
+                    <button onclick="addToCart('cake002', 1)" class="btn-main demo-btn">Add Wedding Cake</button>
+                </div>
             </div>
         `;
         document.getElementById('cart-items').insertAdjacentHTML('beforeend', demoButtons);

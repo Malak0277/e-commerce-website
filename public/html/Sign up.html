@@ -1,115 +1,152 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    
-    <title>Candy Cakes-Tanta</title>
+    <title>Sign Up - Candy Cakes</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="../images/Candy Cake.jpg" type="image/x-icon">
-
     <link rel="stylesheet" href="../css/bootstrap.css">
     <link rel="stylesheet" href="../css/cascaded.css">
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">  
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
   
         <div class="container-fluid gradient-custom">
           <div style="height: 50px;"></div>
 
-          <div class="row justify-content-center align-items-center h-1000">
-            <div class="col-12 col-lg-9 col-xl-7">
-              <div class="card shadow-2-strong card-registration" style="border-radius: 15px; ">
-                <div class="card-body p-4 p-md-5">
-                  <h2 class="title" style="text-align: center; font-family: 'Great Vibes', cursive;">Candy Cakes-Tanta</h2>
-                  <hr>
-                  <h3 class="mb-4 pb-2 pb-md-0 mb-md-5" style="text-align: center;">Sign Up</h3>
-                 
-                 
-                 
-                 
-                  <form id="form">
-                    
-                    <div class="row" style="padding-left: 18vmax;">
-                        <div class="form-outline" >
-                          <input name="firstName" placeholder="First Name"type="text" id="firstName" class="form-control form-control-lg my-fname" style="text-align: center;"/>
-                          <div class="error" style="color: #ff3860; font-size: 9px; height: 13px;"></div>
-                        </div>
-    
-                      </div>
-<br>
-                      <div class="row" style="padding-left: 18vmax;">
-      
-                        <div class="form-outline">
-                          <input name="lastName" placeholder="Last Name" type="text" id="lastName" class="form-control form-control-lg my-lname" style="text-align: center;" />
-                          <div class="error" style="color: #ff3860; font-size: 9px; height: 13px;"></div>
-                        </div>
-                      </div>
-                      <br>
-      
-                    <div class="row" style="padding-left: 18vmax;">
-                     
-      
-                        <div class="form-outline">
-                          <input name="email" placeholder="Email" type="text" id="emailAddress" class="form-control form-control-lg my-email" style="text-align: center;"/>
-                          <div class="error" style="color: #ff3860; font-size: 9px; height: 13px;"></div>
-                        </div>
-                      </div>
-                    
-                        <br>  
-                        <!-- <div class="row" style="padding-left: 18vmax;">
-
-                        <div class="form-outline">
-                          
-                          <input name="number" placeholder="Phone Number" type="tel" id="phoneNumber" class="form-control form-control-lg my-number" style="text-align: center;"/>
-                        <div class="error" style="color: #ff3860; font-size: 9px; height: 13px;"></div>
-                        </div>
-      
-                      </div>
-                    <br> -->
-      
-                    <div class="row" style="padding-left: 18vmax;">
-
-                      <div class="form-outline">
-                        <input name="pass" placeholder="Password" type="typePasswordX" id="password" class="form-control form-control-lg my-pass" style="text-align: center;"/>
-                      <div class="error" style="color: #ff3860; font-size: 9px; height: 13px;"></div>
-                      </div>
+    <div class="main" id="main">
+        <div class="container-fluid">
+            <div class="row login-container">
+                <!-- Sweet Treats Image Section -->
+                <div class="col-md-6 p-0 d-none d-md-block">
+                    <div class="login-image">
+                        <img src="../images/signup2.jpg" alt="Join Our Sweet Family" class="img-fluid h-100 w-100">
                     </div>
-                    <br>
-
-                    <div class="row" style="padding-left: 18vmax;">
-
-                      <div class="form-outline">
-                        <input name="pass2" placeholder="Re-enter Password" type="typePasswordX" id="password" class="form-control form-control-lg my-pass2" style="text-align: center;"/>
-                      <div class="error" style="color: #ff3860; font-size: 9px; height: 13px;"></div>
-                      </div>
-                    </div>
-                    <br>
-
-                    <div class="row d-flex justify-content-center">
-                          
-                            <button class="block1 rounded" style="width: 80%;" type="submit">Register</button>
-                      
-                  </div>
-      
-                    
-      
-                  </form>
-
-
-
                 </div>
-              </div>
+                
+                <!-- Signup Form Section -->
+                <div class="col-md-6 login-form-section">
+                    <div class="login-form-wrapper">
+                        <form id="form" class="login-form">
+                            <h1 class="title">Candy Cakes</h1>
+                            <p class="text-center mb-4">Join our sweet family!</p>
+                            <hr>
+                            
+                            <h3 class="login-heading">Sign Up</h3>
+                            
+                            <div class="form-group">
+                                <label for="firstName" class="form-label">First Name</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                    </div>
+                                    <input name="firstName" type="text" id="firstName" class="form-control my-fname" placeholder="Enter your first name" />
+                                </div>
+                                <div class="error" style="color: #ff3860; font-size: 9px; height: 13px;"></div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="lastName" class="form-label">Last Name</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                    </div>
+                                    <input name="lastName" type="text" id="lastName" class="form-control my-lname" placeholder="Enter your last name" />
+                                </div>
+                                <div class="error" style="color: #ff3860; font-size: 9px; height: 13px;"></div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="emailAddress" class="form-label">Email</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                    </div>
+                                    <input name="email" type="text" id="emailAddress" class="form-control my-email" placeholder="Enter your email" />
+                                </div>
+                                <div class="error" style="color: #ff3860; font-size: 9px; height: 13px;"></div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="password" class="form-label">Password</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                    </div>
+                                    <input name="pass" type="password" id="password" class="form-control my-pass" placeholder="Create a password" />
+                                </div>
+                                <div class="error" style="color: #ff3860; font-size: 9px; height: 13px;"></div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="confirmPassword" class="form-label">Confirm Password</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                    </div>
+                                    <input name="pass2" type="password" id="confirmPassword" class="form-control my-pass2" placeholder="Confirm your password" />
+                                </div>
+                                <div class="error" style="color: #ff3860; font-size: 9px; height: 13px;"></div>
+                            </div>
+                            
+                            <button class="btn-main" type="submit"><i class="fas fa-user-plus"></i> Create Account</button>
+                            
+                            <div class="signup-link">
+                                <p class="mt-4 text-center">Already have an account? <a href="Login.html">Login</a></p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-          </div>
-          <div style="height: 50px;"></div>
-
         </div>
-      
-</body>
+    </div>
 
-<script src="validation.js"></script>
-<script src= "../frameworks/bootstrap-4.0.0-dist (1)/js/popper.min.js"></script>
-<script src= "../frameworks/bootstrap-4.0.0-dist (1)/js/jquery-3.6.4.min.js"></script>
-<script src= "../frameworks/bootstrap-4.0.0-dist (1)/js/jquery-3.6.4.min.js"></script>
+    <script>
+        function toggleNav() {
+            const sidebar = document.getElementById("sidebar");
+            if (sidebar.style.width === "250px") {
+                closeNav();
+            } else {
+                openNav();
+            }
+        }
+      
+        function openNav() {
+            document.getElementById("sidebar").style.width = "250px";
+            document.getElementById("main").style.marginLeft = "250px";
+            document.getElementById("sidebar").style.display = "block"; 
+        }
+      
+        function closeNav() {
+            document.getElementById("sidebar").style.width = "0";
+            document.getElementById("main").style.marginLeft= "0";
+            document.getElementById("sidebar").style.display = "none"; 
+        }
+        
+        // Update cart count from localStorage if available
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCartCount();
+        });
+        
+        // Function to update cart count
+        function updateCartCount() {
+            let count = 0;
+            const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+            
+            if (cartItems.length) {
+                count = cartItems.reduce((total, item) => total + item.quantity, 0);
+            }
+            
+            document.getElementById('nav-cart-count').textContent = count;
+        }
+    </script>
+    <script src="../js/validation.js"></script>
+    <script src="../js/popper.min.js"></script>
+    <script src="../js/jquery-3.6.4.min.js"></script>
+    <script src="../js/bootstrap.js"></script>
+</body>
+</html>
