@@ -642,10 +642,31 @@ body {
 .social-media {
 width : 25px;
 height: 25px;
-background-color: #f19bcb;
 }
 
+/* Update the social-media class */
+.social-media {
+  width: 30px;          /* Match profile icon size */
+  height: 30px;         /* Match profile icon size */
+  border-radius: 50%;   /* Make them circular like the profile icon */
+  padding: 3px;         /* Add some padding inside */
+  background-color: transparent;  /* Remove the background color */
+  background-color: #f19bcb;
+}
 
+/* Add styles for the social media links in the topnav */
+.topnav-right a {
+  display: flex;
+  align-items: center;
+  height: 100%;        /* Take full height of navbar */
+  padding: 10px;       /* Adjust padding to match other nav items */
+}
+
+/* Add hover effect */
+.social-media:hover {
+  background-color: #ffb3cc;
+  transition: background-color 0.3s;
+}
   
          
           
