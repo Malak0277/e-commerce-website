@@ -1,3 +1,4 @@
+const { publicDecrypt } = require('crypto');
 const db = require('./config/db');  // Import the promise-based pool
 
 async function initializeDatabase() {
@@ -65,3 +66,4 @@ async function initializeDatabase() {
 }
 
 initializeDatabase();
+

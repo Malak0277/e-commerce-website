@@ -1,17 +1,17 @@
-const mysql = require('mysql2');
+const { MongoClient } = require('mongodb');
 require('dotenv').config();
 
-const pool = mysql.createPool({
-  host: process.env.DB_HOST || 'localhost',
-  user: process.env.DB_USER || 'root',
-  password: process.env.DB_PASSWORD || '',
-  database: process.env.DB_NAME || 'ecommerce_db',
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0
-});
+const client = new MongoClient(process.env.MONGO_URI);
 
-// Convert pool to use promises
-const promisePool = pool.promise();
+async function connectDB() {
+  try {
+    await client.connect();
+    console.log('MongoDB connected');
+    return client.db('ecommerce_db');
+  } catch (err) {
+    console.error('MongoDB connection error:', err);
+    process.exit(1);
+  }
+}
 
-module.exports = promisePool;
+module.exports = connectDB;
