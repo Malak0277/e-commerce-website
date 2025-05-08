@@ -50,6 +50,28 @@ router.get("/", (req, res) => {
      
 });
 
+/*
+router.get("/", async (req, res) => {
+    try {
+        const { type } = req.query;
+        if (type) {
+            
+            const cakes = await Cake.find({ category_name: type });
+            res.json(cakes);
+        } else {
+            const cakes = await Cake.find();
+            res.json(cakes);
+        }
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+*/
+
+
+
+
+
 
 
 
