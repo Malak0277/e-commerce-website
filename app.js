@@ -17,7 +17,7 @@ app.get('/home', (req, res) => {
 })
 
 app.get('/', (req, res) => {
-    res.redirect('html/home.html');
+    res.redirect('html/login.html');
 })
 
 // Add after your routes
