@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const path = require('path');
-const Cake = require('../schemas/cake');
+const Cake = require('../schemas/Cake');
+const adminMiddleware = require('../middlewares/adminMiddleware');
 
 
 // Simulate a database or data source
@@ -26,21 +26,17 @@ const cakesData = {
         { code: '#W14', source: "../../images/subpages/wedding_images/W14.jpeg" },
     
     ],
-    // Add more cake types here...
 };
 
 
-// Route to handle dynamic rendering based on cake type
-router.get("/", (req, res) => {
-    //res.sendFile(path.join(__dirname, '..', 'public', 'html', 'subpage.html'));
-    
+/*
+router.get("/", async(req, res) => {    
     const { type } = req.query;
 
     if (type) {
-        // If a type is specified, get the corresponding cake data
         const cakes = cakesData[type.toLowerCase()];
         if (cakes) {
-            res.json(cakes); // Send the cake data as JSON to be handled by the frontend
+            res.json(cakes);
         } else {
             res.status(404).send("Cake type not found");
         }
@@ -49,14 +45,15 @@ router.get("/", (req, res) => {
     }
      
 });
+*/
 
-/*
+
+
 router.get("/", async (req, res) => {
     try {
         const { type } = req.query;
         if (type) {
-            
-            const cakes = await Cake.find({ category_name: type });
+            const cakes = await Cake.find({ category: type });
             res.json(cakes);
         } else {
             const cakes = await Cake.find();
@@ -66,132 +63,47 @@ router.get("/", async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 });
-*/
 
-
-
-
-
-
-
-
-/*
-// GET a specific cake by ID
-router.get("/:id", async (req, res) => {
+router.get('/:id', async (req, res) => {
     try {
         const cake = await Cake.findById(req.params.id);
-        if (cake) {
-            res.json(cake);
-        } else {
-            res.status(404).json({ message: "Cake not found" });
-        }
-    } catch (error) {
-        res.status(500).json({ message: error.message });
+        if (!cake) return res.status(404).json({ message: "Cake not found" });
+        res.json(cake);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
     }
 });
 
-// POST - Add a new cake (for admin/owner)
-router.post("/", async (req, res) => {
-    const cake = new Cake({
-        code: req.body.code,
-        type: req.body.type,
-        name: req.body.name,
-        price: req.body.price,
-        description: req.body.description,
-        imageUrl: req.body.imageUrl
-    });
-
+router.post('/', adminMiddleware, async (req, res) => {
     try {
-        const newCake = await cake.save();
-        res.status(201).json(newCake);
-    } catch (error) {
-        res.status(400).json({ message: error.message });
+        const newCake = new Cake(req.body);
+        const savedCake = await newCake.save();
+        res.status(201).json(savedCake);
+    } catch (err) {
+        res.status(400).json({ message: err.message });
     }
 });
 
-// PUT - Update a cake (for admin/owner)
-router.put("/:id", async (req, res) => {
+router.put('/:id', adminMiddleware, async (req, res) => {
     try {
-        const cake = await Cake.findById(req.params.id);
-        if (cake) {
-            Object.assign(cake, req.body);
-            const updatedCake = await cake.save();
-            res.json(updatedCake);
-        } else {
-            res.status(404).json({ message: "Cake not found" });
-        }
-    } catch (error) {
-        res.status(400).json({ message: error.message });
+        const updatedCake = await Cake.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        if (!updatedCake) return res.status(404).json({ message: "Cake not found" });
+        res.json(updatedCake);
+    } catch (err) {
+        res.status(400).json({ message: err.message });
     }
 });
 
-// DELETE - Remove a cake (for admin/owner)
-router.delete("/:id", async (req, res) => {
+router.delete('/:id', adminMiddleware, async (req, res) => {
     try {
-        const cake = await Cake.findById(req.params.id);
-        if (cake) {
-            await cake.remove();
-            res.json({ message: "Cake deleted" });
-        } else {
-            res.status(404).json({ message: "Cake not found" });
-        }
-    } catch (error) {
-        res.status(500).json({ message: error.message });
+        const deletedCake = await Cake.findByIdAndDelete(req.params.id);
+        if (!deletedCake) return res.status(404).json({ message: "Cake not found" });
+        res.json({ message: "Cake deleted" });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
     }
 });
 
-// Search cakes by name or description
-router.get("/search", async (req, res) => {
-    try {
-        const { query } = req.query;
-        const cakes = await Cake.find({
-            $or: [
-                { name: { $regex: query, $options: 'i' } },
-                { description: { $regex: query, $options: 'i' } }
-            ]
-        });
-        res.json(cakes);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-});
 
-// Get cakes with filtering and sorting
-router.get("/filter", async (req, res) => {
-    try {
-        const { type, minPrice, maxPrice, sortBy } = req.query;
-        let query = {};
-
-        if (type) query.type = type;
-        if (minPrice || maxPrice) {
-            query.price = {};
-            if (minPrice) query.price.$gte = minPrice;
-            if (maxPrice) query.price.$lte = maxPrice;
-        }
-
-        let sort = {};
-        if (sortBy) {
-            sort[sortBy] = 1; // 1 for ascending, -1 for descending
-        }
-
-        const cakes = await Cake.find(query).sort(sort);
-        res.json(cakes);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-});
-
-*/
-
-
-
- //GET /api/cakes?type=birthday – Get only birthday cakes
-
-
- //POST /api/cakes – ➕ (Owner) Add a new cake
-
- //PUT /api/cakes/:id – 📝 (Owner) Edit a cake
-
- //DELETE /api/cakes/:id – ❌ (Owner) Delete a cake
 
  module.exports = router
