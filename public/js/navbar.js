@@ -59,4 +59,21 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Update cart count when page loads
     updateCartCount();
+
+    // Handle dropdown menu
+    const dropdownToggle = document.querySelector('.dropdown-toggle');
+    const dropdownContent = document.querySelector('.dropdown-content');
+
+    dropdownToggle.addEventListener('click', function(e) {
+        e.preventDefault();
+        dropdownContent.style.display = 
+            dropdownContent.style.display === 'block' ? 'none' : 'block';
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.dropdown')) {
+            dropdownContent.style.display = 'none';
+        }
+    });
 }); 

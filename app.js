@@ -1,38 +1,32 @@
-const express = require('express');
+require('dotenv').config() 
+const express = require('express')
 const app = express();
-const cakeRouter = require('./routes/cakes');
+const cakeRouter = require('./routes/cake');
+const connectDB = require('./config/database');
 
-const connectDB = require('./config/db');
-
+// Connect to database
+connectDB();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("./public"));
-app.use('/cakes', cakeRouter);
-
-
+app.use('/cake', cakeRouter);
 
 app.get('/home', (req, res) => {
     res.redirect('html/home.html');
 })
 
 app.get('/', (req, res) => {
-    
     res.redirect('html/home.html');
 })
 
-
-app.listen(3000, () => {
-    console.log('Server is running on port 3000');
+// Add after your routes
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
 });
 
-
-async function main() {
-    const db = await connectDB();
-  
-    // Example: get all cakes
-    const cakes = await db.collection('cakes').find().toArray();
-    console.log(cakes);
-  }
-  
-  main();
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});

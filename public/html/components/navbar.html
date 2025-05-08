@@ -6,11 +6,25 @@
         <div class="closebtn" onclick="closeNav()">&times;</div>
     </div>
     
-    <a class="active home" style="font-size: 100%;font-family: 'Nunito', sans-serif">Home</a>
-    <a href="#menu" style="font-size: 100%;font-family: 'Nunito', sans-serif">Menu</a>
-    <a href="Special Order.HTML" style="font-size: 100%; font-family: 'Nunito', sans-serif">Customize Order</a>
-    <a href="#about" style="font-size: 100%;font-family: 'Nunito', sans-serif">About Us</a>
-    <a href="Login.html" style="font-size: 100%;">Login</a>
+    <a class="home" href="home.html" style="font-size: 100%;font-family: 'Nunito', sans-serif">Home</a>
+    
+    <!-- Dropdown Menu -->
+    <div class="dropdown">
+        <a class="dropdown-toggle" style="font-size: 100%;font-family: 'Nunito', sans-serif">
+            Menu <i class="fas fa-caret-down"></i>
+        </a>
+        <div class="dropdown-content">
+            <a href="subpage.html?type=birthday">Birthday Cakes</a>
+            <a href="subpage.html?type=minis">Minis</a>
+            <a href="subpage.html?type=wedding">Wedding & Engagement</a>
+            <a href="subpage.html?type=eid">Eid Treats</a>
+            <a href="subpage.html?type=others">Special Occasions</a>
+        </div>
+    </div>
+
+    <a href="customize_order.html" style="font-size: 100%; font-family: 'Nunito', sans-serif">Customize Order</a>
+    <a  style="font-size: 100%;font-family: 'Nunito', sans-serif">About Us</a>
+    <a href="login.html" style="font-size: 100%;">Login</a>
 </div>
 
 <div class="topnav">
@@ -28,7 +42,7 @@
                     <img class="social-media" src="https://static.wixstatic.com/media/81af6121f84c41a5b4391d7d37fce12a.png/v1/fill/w_38,h_38,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/81af6121f84c41a5b4391d7d37fce12a.png">
                 </a>
             </div>
-            <a href="shopping-cart.html" class="cart-icon-link">
+            <a href="shopping_cart.html" class="cart-icon-link">
                 <i class="fas fa-shopping-cart"></i>
                 <span class="cart-count" id="nav-cart-count">0</span>
             </a>

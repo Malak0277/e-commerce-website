@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    fetch(`/cakes?type=${type}`)
+    fetch(`/cake?type=${type}`)
       .then(response => response.json())
       .then(data => {
         generateCards(data);
