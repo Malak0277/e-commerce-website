@@ -1332,4 +1332,73 @@ height: 13px;
 
 .dropdown:hover .dropdown-toggle {
     background-color: #f1f1f1;
+}
+
+/* Custom sidebar dropdown styles for menu */
+.custom-dropdown {
+    position: relative;
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+}
+.custom-dropdown-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    background: linear-gradient(90deg, #ffb3cc 0%, #ffe0eb 100%);
+    color: #f279a1;
+    border-radius: 18px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    box-shadow: 0 2px 8px rgba(255, 55, 155, 0.07);
+}
+.custom-dropdown-toggle:focus,
+.custom-dropdown-toggle:hover {
+    background: linear-gradient(90deg, #ff79ac 0%, #ffb3cc 100%);
+    color: #fff;
+    outline: none;
+}
+.custom-dropdown-content {
+    display: none;
+    position: relative;
+    background: #fff0f6;
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(255, 55, 155, 0.10);
+    margin-top: 4px;
+    padding: 0;
+    z-index: 10;
+    width: 100%;
+}
+.custom-dropdown-content a {
+    color: #1b1316;
+    padding: 12px 32px;
+    text-decoration: none;
+    display: block;
+    border-radius: 12px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1rem;
+    transition: background 0.2s, color 0.2s;
+}
+.custom-dropdown-content a:hover {
+    background: #ffb3cc;
+    color: #fff;
+}
+.custom-dropdown:hover .custom-dropdown-content,
+.custom-dropdown:focus-within .custom-dropdown-content {
+    display: block;
+}
+.custom-dropdown:hover .custom-dropdown-toggle,
+.custom-dropdown:focus-within .custom-dropdown-toggle {
+    background: linear-gradient(90deg, #ff79ac 0%, #ffb3cc 100%);
+    color: #fff;
 } 
+
+.reviews-section { margin-top: 40px; }
+.review { background: #fff0f6; border-radius: 10px; padding: 15px; margin-bottom: 15px; }
+.review-rating { color: #ff79ac; font-size: 1.2em; }
+.review-meta { font-size: 0.9em; color: #888; }
+.avg-rating { font-weight: bold; color: #d72660; margin-bottom: 10px; }
+#review-form textarea, #review-form select { width: 100%; margin-bottom: 10px; }

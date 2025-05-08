@@ -46,8 +46,8 @@
         }
     }
 
-    // Add this function to handle promo codes
-    function applyPromoCode() {
+     // Add this function to handle promo codes
+     function applyPromoCode() {
         const promoCodeInput = document.getElementById('promo-code');
         const promoMessage = document.getElementById('promo-message');
         const code = promoCodeInput.value.trim().toUpperCase();

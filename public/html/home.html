@@ -59,6 +59,27 @@
       </p>
     </div>
     </div>
+ 
+    <!-- Reviews will be loaded here -->
+  </div>
+  <div id="review-form-container">
+    <h4>Leave a Review</h4>
+    <form id="review-form">
+      <label for="rating">Rating:</label>
+      <select id="rating" required>
+        <option value="">Select</option>
+        <option value="5">★★★★★</option>
+        <option value="4">★★★★☆</option>
+        <option value="3">★★★☆☆</option>
+        <option value="2">★★☆☆☆</option>
+        <option value="1">★☆☆☆☆</option>
+      </select>
+      <label for="reviewText">Your Review:</label>
+      <textarea id="reviewText" rows="2" required></textarea>
+      <button type="submit" class="btn-main">Submit Review</button>
+    </form>
+  </div>
+</div>
 
     <script src="../js/loadNavbar.js"></script>
     <script src="../js/navbar.js"></script>
