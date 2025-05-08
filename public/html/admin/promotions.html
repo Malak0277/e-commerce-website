@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promotions Management - Candy Cakes-Tanta</title>
+    <link rel="stylesheet" href="../../css/bootstrap.css">
+    <link rel="stylesheet" href="../../css/cascaded.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .admin-sidebar {
+            background-color: #ffe0eb;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .admin-content {
+            padding: 20px;
+        }
+        .admin-nav-link {
+            color: #4a4a4a;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin-bottom: 5px;
+            display: block;
+            text-decoration: none;
+        }
+        .admin-nav-link:hover, .admin-nav-link.active {
+            background-color: #ff79ac;
+            color: white;
+        }
+        .admin-nav-link i {
+            margin-right: 10px;
+        }
+        .promo-status {
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        .status-active { background-color: #d4edda; color: #155724; }
+        .status-expired { background-color: #f8d7da; color: #721c24; }
+        .status-upcoming { background-color: #cce5ff; color: #004085; }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2 admin-sidebar">
+                <h3 class="mb-4">Admin Panel</h3>
+                <nav>
+                    <a href="dashboard.html" class="admin-nav-link">
+                        <i class="fas fa-tachometer-alt"></i> Dashboard
+                    </a>
+                    <a href="products.html" class="admin-nav-link">
+                        <i class="fas fa-box"></i> Products
+                    </a>
+                    <a href="orders.html" class="admin-nav-link">
+                        <i class="fas fa-shopping-cart"></i> Orders
+                    </a>
+                    <a href="users.html" class="admin-nav-link">
+                        <i class="fas fa-users"></i> Users
+                    </a>
+                    <a href="promotions.html" class="admin-nav-link active">
+                        <i class="fas fa-tag"></i> Promotions
+                    </a>
+                    <a href="../home.html" class="admin-nav-link">
+                        <i class="fas fa-home"></i> Back to Site
+                    </a>
+                </nav>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-md-9 col-lg-10 admin-content">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2>Promotions Management</h2>
+                    <button class="btn btn-success" id="addPromotionBtn">
+                        <i class="fas fa-plus"></i> Add Promotion
+                    </button>
+                </div>
+
+                <!-- Search and Filter -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" id="searchPromo" placeholder="Search promotions...">
+                            </div>
+                            <div class="col-md-3">
+                                <select class="form-select" id="statusFilter">
+                                    <option value="">All Status</option>
+                                    <option value="active">Active</option>
+                                    <option value="upcoming">Upcoming</option>
+                                    <option value="expired">Expired</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <input type="date" class="form-control" id="dateFilter">
+                            </div>
+                            <div class="col-md-2">
+                                <button class="btn btn-primary w-160" id="exportPromos">
+                                    <i class="fas fa-download"></i> Export
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Promotions Table -->
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Code</th>
+                                        <th>Description</th>
+                                        <th>Discount</th>
+                                        <th>Type</th>
+                                        <th>Status</th>
+                                        <th>Start Date</th>
+                                        <th>End Date</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="promosTable">
+                                    <!-- Will be populated by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Promotion Modal -->
+    <div class="modal fade" id="promoModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="promoModalTitle">Add Promotion</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="promoForm">
+                        <input type="hidden" id="promoId">
+                        <div class="mb-3">
+                            <label class="form-label">Code</label>
+                            <input type="text" class="form-control" id="promoCode" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Description</label>
+                            <input type="text" class="form-control" id="promoDescription" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Discount</label>
+                            <input type="number" class="form-control" id="promoDiscount" min="1" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Type</label>
+                            <select class="form-select" id="promoType">
+                                <option value="percent">Percent (%)</option>
+                                <option value="fixed">Fixed Amount</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Start Date</label>
+                            <input type="date" class="form-control" id="promoStart">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">End Date</label>
+                            <input type="date" class="form-control" id="promoEnd">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Status</label>
+                            <select class="form-select" id="promoStatus">
+                                <option value="active">Active</option>
+                                <option value="upcoming">Upcoming</option>
+                                <option value="expired">Expired</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger" id="deletePromo">Delete</button>
+                    <button type="button" class="btn btn-primary" id="savePromo">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../js/jquery-3.6.4.min.js"></script>
+    <script src="../../js/bootstrap.js"></script>
+    <script src="../../js/admin/promotions.js"></script>
+</body>
+</html> 
