@@ -6,6 +6,11 @@ const app = express();
 
 const cakeRouter = require('./routes/cake');
 const authRouter = require('./routes/auth');
+const userRouter = require('./routes/user');
+const orderRouter = require('./routes/order');
+const cartRouter = require('./routes/cart');
+const discountRouter = require('./routes/discount');
+const reviewRouter = require('./routes/review');
 
 // Database
 connectDB();
@@ -18,8 +23,11 @@ app.use(express.static("./public"));
 // Routes
 app.use('/auth', authRouter);
 app.use('/cake', cakeRouter);
-
-
+app.use('/user', userRouter);
+app.use('/order', orderRouter);
+app.use('/cart', cartRouter);
+app.use('/discount', discountRouter);
+app.use('/review', reviewRouter);
 
 app.get('/home', (req, res) => {
     res.redirect('html/home.html');
