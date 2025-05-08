@@ -1,75 +1,123 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    
-    <title>Candy Cakes-Tanta</title>
+    <title>Login - Candy Cakes</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="../images/Candy Cake.jpg" type="image/x-icon">
-
     <link rel="stylesheet" href="../css/bootstrap.css">
     <link rel="stylesheet" href="../css/cascaded.css">
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet"> 
-
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <form action="" id="form">
-        <div class="container-fluid gradient-custom">
+   
 
-          <div style="height: 50px;"></div>
-          <div class="row d-flex justify-content-center align-items-center h-1000">
-            <div class="col-12 col-md-8 col-lg-6 col-xl-5"  >
-              <div class="card bg-white text-black" style="border-radius: 1rem;">
-                <div class="card-body p-5 text-left">
-      
-                  <div class="mb-md-5 mt-md-4 pb-5">
-                    
-                    <h2 class="title" style="text-align: center; font-family: 'Great Vibes', cursive;">Candy Cakes-Tanta</h2>
-                    <hr>
-                 <h2 class="fw-bold mb-2 text-uppercase"style="text-align:center">Login</h2>
-                   
-      
-                    <div class="form-outline form-white mb-4 my-input">
-                        <label class="form-label" for="typeEmailX" >Email</label>
-                        <input name="email" type="text" id="typeEmailX" class="form-control form-control-lg my-email" />
-                      <div class="error" style="color: #ff3860; font-size: 9px; height: 13px;"></div>
+    <div class="main" id="main">
+        <div class="container-fluid">
+            <div class="row login-container">
+                <!-- Sweet Treats Image Section -->
+                <div class="col-md-6 p-0 d-none d-md-block">
+                    <div class="login-image">
+                        <!-- The image with the "Sweet Moments Await" text -->
+                        <img src="../images/signup2.jpg" alt="Sweet Moments Await" class="img-fluid h-100 w-100">
                     </div>
-                    <br>
-
-                  <div class="form-outline form-white mb-4 my-input">
-                     <label class="form-label" for="typePasswordX">Password</label>
-                     <input name="pass" type="password" id="typePasswordX" class="form-control form-control-lg my-pass" />
-                     <div class="error" style="color: #ff3860; font-size: 9px; height: 13px;"></div>
-                  </div>
-      
-                <p class="small mb-5 pb-lg-2"><a class="text-black-50" style="text-align:center" href="#!">Forgot password?</a></p>
-                
-                <button class="block2 rounded" style="border: none;" type="submit">Login</button>
-      
-               
-                    
-      
-                  </div>
-      
-                  <div>
-                <p class="mb-0" style="text-align: center;">Don't have an account? <a href="Sign up.html" class="text-black-50 fw-bold"style="text-align:center">Sign Up</a>
-                    </p>
-                  </div>
-      
                 </div>
-              </div>
+                
+                <!-- Login Form Section -->
+                <div class="col-md-6 login-form-section">
+                    <div class="login-form-wrapper">
+                        <form id="form" class="login-form">
+                            <h1 class="title">Candy Cakes</h1>
+                            <p class="text-center mb-4">Welcome back, sweet tooth!</p>
+                            <hr>
+                            
+                            <h3 class="login-heading">Sign In</h3>
+                            
+                            <div class="form-group mb-4">
+                                <label for="typeEmailX" class="form-label">Email</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                    </div>
+                                    <input name="email" type="text" id="typeEmailX" class="form-control my-email" placeholder="Enter your email" />
+                                </div>
+                                <div class="error" style="color: #ff3860; font-size: 9px; height: 13px;"></div>
+                            </div>
+                            
+                            <div class="form-group mb-4">
+                                <label for="typePasswordX" class="form-label">Password</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                    </div>
+                                    <input name="pass" type="password" id="typePasswordX" class="form-control my-pass" placeholder="Enter your password" />
+                                </div>
+                                <div class="error" style="color: #ff3860; font-size: 9px; height: 13px;"></div>
+                            </div>
+                            
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="remember-me">
+                                    <label class="form-check-label" for="remember-me">Remember me</label>
+                                </div>
+                                <a href="#" class="forgot-password">Forgot password?</a>
+                            </div>
+                            
+                            <button class="btn-main" type="submit"><i class="fas fa-sign-in-alt"></i> Login</button>
+                            
+                            <div class="signup-link">
+                                <p class="mt-4 text-center">Don't have an account? <a href="Sign up.html">Sign Up</a></p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-          </div>
-          <div style="height: 50px;"></div>
-
         </div>
-     
-    </form>
-</body>
+    </div>
 
-<script src="validation.js"></script>
-<script src= "../frameworks/bootstrap-4.0.0-dist (1)/js/popper.min.js"></script>
-<script src= "../frameworks/bootstrap-4.0.0-dist (1)/js/jquery-3.6.4.min.js"></script>
-<script src= "../frameworks/bootstrap-4.0.0-dist (1)/js/jquery-3.6.4.min.js"></script>
+    <script>
+        function toggleNav() {
+            const sidebar = document.getElementById("sidebar");
+            if (sidebar.style.width === "250px") {
+                closeNav();
+            } else {
+                openNav();
+            }
+        }
+      
+        function openNav() {
+            document.getElementById("sidebar").style.width = "250px";
+            document.getElementById("main").style.marginLeft = "250px";
+            document.getElementById("sidebar").style.display = "block"; 
+        }
+      
+        function closeNav() {
+            document.getElementById("sidebar").style.width = "0";
+            document.getElementById("main").style.marginLeft= "0";
+            document.getElementById("sidebar").style.display = "none"; 
+        }
+        
+        // Update cart count from localStorage if available
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCartCount();
+        });
+        
+        // Function to update cart count
+        function updateCartCount() {
+            let count = 0;
+            const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+            
+            if (cartItems.length) {
+                count = cartItems.reduce((total, item) => total + item.quantity, 0);
+            }
+            
+            document.getElementById('nav-cart-count').textContent = count;
+        }
+    </script>
+    <script src="../js/login.js"></script>
+</body>
+</html>

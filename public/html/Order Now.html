@@ -1,93 +1,82 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    
-    <title>Candy Cakes-Tanta</title>
+    <title>Order Now - Candy Cakes</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="../images/Candy Cake.jpg" type="image/x-icon">
-
     <link rel="stylesheet" href="../css/bootstrap.css">
     <link rel="stylesheet" href="../css/cascaded.css">
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet"> 
-
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <form id="form">
-        <div class="container-fluid gradient-custom">
-          <div style="height: 50px;"></div>
+    <div id="navbar-container"></div>
 
-          <div class="row d-flex justify-content-center align-items-center h-1000">
-            <div class="col-12 col-md-8 col-lg-6 col-xl-5"  >
-              <div class="card bg-white text-black" style="border-radius: 1rem;">
-                <div class="card-body p-5 text-left">
-                  <h2 class="title" style="text-align: center; font-family: 'Great Vibes', cursive;">Candy Cakes-Tanta</h2>
-                  <hr>
-                  <div class="mb-md-5 mt-md-4 pb-0">
-                    <label for="datepicker1">Date</label>
-                    <input 
-                    name="date"
-                    type="date"
-                    class="form-outline form-white mb-0 form-control border-2 my-date"
-                    >
-                    <div class="error" style="color: #ff3860; font-size: 9px; height: 13px;"></div>
+
+    <div class="main" id="main">
+        <div class="container-fluid">
+            <div class="row d-flex justify-content-center align-items-center">
+                <div class="col-12 col-md-8 col-lg-6">
+                    <div class="card bg-white text-black custom-form-card">
+                        <div class="card-body p-5 text-left">
+                            <h1 class="title">Order Now</h1>
+                            <p class="text-center mb-4">Quick order form for standard items</p>
+                            <hr>
+                            <form id="form">
+                                <div class="mb-3">
+                                    <label for="datepicker1" class="form-label">Delivery Date</label>
+                                    <input 
+                                    name="date"
+                                    type="date"
+                                    class="form-control my-date"
+                                    required
+                                    >
+                                    <div class="invalid-feedback">Please select a date.</div>
+                                </div>
+                
+                                <div class="mb-3">
+                                    <label class="form-label" for="typeAddress">Delivery Address</label>
+                                    <input name="address" type="text" id="typeAddressX" class="form-control my-address" required />
+                                    <div class="invalid-feedback">Please provide your address.</div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label" for="size">Number of People</label>
+                                    <select name="size" class="form-select my-size" aria-label="Default select example" required>
+                                        <option value="">Select number of people</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">More than 8</option>
+                                    </select>
+                                    <div class="invalid-feedback">Please select number of people.</div>
+                                </div>
+                        
+                                <div class="mb-3">
+                                    <label class="form-label" for="information">Comments</label>
+                                    <textarea name="Comments" class="form-control my-comm" id="information" rows="4" placeholder="Additional instructions for your order"></textarea>
+                                    <div class="invalid-feedback">Please provide any special instructions.</div>
+                                </div>
             
-                   
-      
-                    <div class="form-outline form-white mb-4">
-                        <label class="form-label" for="typeAddress" >Address</label>
-                        <input name="address" type="text" id="typeAddressX" class="form-control form-control-lg my-address" />
-                        <div class="error" style="color: #ff3860; font-size: 9px; height: 13px;"></div>
+                                <button class="btn-main" type="submit"><i class="fas fa-shopping-bag"></i> Order Now</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
-                <div class="form-outline form-white mb-4">
-                <select name="size" class="form-select form-outline form-white mb-4 form-control border-2 my-size" style="width: 100%;" aria-label="Default select example">
-                  <option selected value="n">Number of People</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">More than 8</option>
-                </select>
-                <div class="error" style="color: #ff3860; font-size: 9px; height: 13px;"></div>
-              </div>
-              <div class="form-outline mb-4">
-                <label class="form-label" for="information">Comments</label>
-                <textarea name="Comments" class="form-control my-comm" id="information" rows="4"></textarea>
-                <div class="error" style="color: #ff3860; font-size: 9px; height: 13px;"></div>
-              </div>
-
-      
-                
-                <button class="block2 rounded" style="border: none;" type="submit">Order Now</button>
-      
-               
-                    
-      
-                  </div>
-      
-                  <div>
-              
-                  </div>
-      
-                </div>
-              </div>
             </div>
-            <div style="height: 50px;"></div>
+        </div>
+    </div>
 
-          </div>
-     
-    </form>
+    <script src="../js/navbar.js"></script>
+    <script src="../js/loadNavbar.js"></script>
 </body>
-
-
-<script src="validation.js"></script>
-<script src= "../frameworks/bootstrap-4.0.0-dist (1)/js/popper.min.js"></script>
-<script src= "../frameworks/bootstrap-4.0.0-dist (1)/js/jquery-3.6.4.min.js"></script>
-<script src= "../frameworks/bootstrap-4.0.0-dist (1)/js/jquery-3.6.4.min.js"></script>
+</html>

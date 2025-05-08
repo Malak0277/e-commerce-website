@@ -10,10 +10,8 @@ app.use('/cakes', cakeRouter);
 
 
 
-
 app.get('/home', (req, res) => {
-    
-    res.sendFile(__dirname + '/public/html/home.html');
+    res.redirect('html/home.html');
 })
 
 app.get('/', (req, res) => {
