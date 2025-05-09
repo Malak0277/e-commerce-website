@@ -1,9 +1,7 @@
 const express = require('express');
 const app = express();
 const cakeRouter = require('./routes/cakes');
-
 const connectDB = require('./config/db');
-
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -27,8 +25,8 @@ async function main() {
     const db = await connectDB();
   
     // Example: get all cakes
-    const cakes = await db.collection('cakes').find().toArray();
-    console.log(cakes);
+    //const cakes = await db.collection('cakes').find().toArray();
+    //console.log(cakes);
   }
   
   main();
