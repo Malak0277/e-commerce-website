@@ -1443,3 +1443,161 @@ height: 13px;
   background-color: #ff79ac;
   color: #fff;
 }
+
+/* --- Scoped PROMO MODAL BUTTONS & FORM --- */
+#promoModal .modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+#promoModal .btn-danger {
+  background-color: #ff79ac !important;
+  color: #fff !important;
+  border: none;
+  border-radius: 12px !important;
+  min-width: 110px;
+  height: 42px;
+  font-weight: 700;
+  font-size: 17px;
+  box-shadow: 0 2px 8px rgba(255, 55, 155, 0.10);
+  transition: background 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: 0.5px;
+}
+#promoModal .btn-danger:hover {
+  background-color: #ffb3cc !important;
+  color: #fff !important;
+}
+#promoModal .btn-primary {
+  min-width: 110px;
+  font-weight: 700;
+  font-size: 17px;
+  background-color: #6fb5d8 !important;
+  border-radius: 12px !important;
+  border: none;
+  transition: background 0.2s;
+  color: #fff !important;
+}
+#promoModal .btn-primary:hover {
+  background-color: #ff79ac !important;
+  color: #fff !important;
+}
+
+/* --- Scoped USER MODAL DELETE BUTTON --- */
+#userDetailsModal .btn-danger {
+  background-color: #ff79ac !important;
+  color: #fff !important;
+  border: none;
+  border-radius: 12px !important;
+  min-width: 110px;
+  height: 42px;
+  font-weight: 700;
+  font-size: 17px;
+  box-shadow: 0 2px 8px rgba(255, 55, 155, 0.10);
+  transition: background 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: 0.5px;
+}
+#userDetailsModal .btn-danger:hover {
+  background-color: #ffb3cc !important;
+  color: #fff !important;
+}
+
+/* Responsive admin panel styles */
+@media (max-width: 992px) {
+  .admin-sidebar {
+    position: static;
+    width: 100%;
+    min-height: unset;
+    padding: 10px 10px 0 10px;
+    border-radius: 0 0 18px 18px;
+    margin-bottom: 20px;
+  }
+  .admin-content {
+    padding: 10px;
+  }
+}
+@media (max-width: 768px) {
+  .admin-sidebar {
+    padding: 8px 4px 0 4px;
+    font-size: 1rem;
+    border-radius: 0 0 12px 12px;
+  }
+  .admin-sidebar h3 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+  .admin-nav-link {
+    padding: 8px 10px;
+    font-size: 1rem;
+    margin-bottom: 2px;
+  }
+  .admin-content {
+    padding: 6px;
+  }
+  .admin-content h2 {
+    font-size: 1.3rem;
+    margin-bottom: 12px;
+  }
+  .card, .card-body {
+    padding: 8px;
+  }
+  .table-responsive {
+    overflow-x: auto;
+  }
+  .table {
+    font-size: 0.95rem;
+  }
+  .modal-dialog {
+    max-width: 98vw !important;
+    margin: 1.2rem auto;
+  }
+  .modal-content {
+    border-radius: 12px;
+  }
+  .form-label, label {
+    font-size: 1rem;
+  }
+  .form-control, .form-select {
+    font-size: 1rem;
+    padding: 8px 10px;
+  }
+  .btn, .btn-sm, .btn-primary, .btn-danger, .btn-info {
+    font-size: 1rem;
+    padding: 8px 12px;
+    min-width: 80px;
+    border-radius: 8px;
+  }
+}
+@media (max-width: 576px) {
+  .admin-sidebar {
+    padding: 4px 2px 0 2px;
+    font-size: 0.95rem;
+    border-radius: 0 0 8px 8px;
+  }
+  .admin-content {
+    padding: 2px;
+  }
+  .admin-content h2 {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+  }
+  .card, .card-body {
+    padding: 4px;
+  }
+  .table {
+    font-size: 0.9rem;
+  }
+  .modal-dialog {
+    max-width: 99vw !important;
+    margin: 0.5rem auto;
+  }
+  .modal-content {
+    border-radius: 8px;
+  }
+}
+
