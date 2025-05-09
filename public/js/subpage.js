@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+
     const params = new URLSearchParams(window.location.search);
     const type = params.get("type");
 
@@ -7,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    fetch(`/cakes?type=${type}`)
+    fetch(`/cake?type=${type}`)
       .then(response => response.json())
       .then(data => {
         generateCards(data);

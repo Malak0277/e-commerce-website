@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Shopping Cart - Candy Cakes</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <link rel="stylesheet" href="../css/cascaded.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div id="navbar-container"></div>
+
+
+    <div class="main" id="main">
+        <h1 class="title">Your Shopping Cart</h1>
+
+        <div class="row cart-container">
+            <div class="cart-section">
+                <div id="cart-items" class="cart-items-container"></div>
+
+                <div id="empty-cart-message" class="empty-message">
+                    <h3>Your cart is empty</h3>
+                    <p>Browse our delicious cakes and add some treats to your cart!</p>
+                    <a href="home.html#menu"><button class="btn-main"><i class="fas fa-shopping-bag"></i> Continue Shopping</button></a>
+                </div>
+            </div>
+
+            <div class="summary-section">
+                <div class="card summary-card">
+                    <h3>Order Summary</h3>
+                    <div class="d-flex justify-content-between"><span>Subtotal:</span><span id="subtotal">$0.00</span></div>
+                    <div class="d-flex justify-content-between"><span>Tax (5%):</span><span id="tax">$0.00</span></div>
+                    <div class="d-flex justify-content-between"><span>Shipping:</span><span id="shipping">$0.00</span></div>
+
+                    <div class="promo-section">
+                        <label for="promo-code">Promo Code</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="promo-code" placeholder="Enter promo code">
+                            <button class="btn promo-btn" id="apply-promo">Apply</button>
+                        </div>
+                        <div id="promo-message" class="promo-message"></div>
+                    </div>
+
+                    <div class="d-flex justify-content-between" id="discount-row" style="display: none;">
+                        <span>Discount:</span>
+                        <span id="discount">-$0.00</span>
+                    </div>
+
+                    <hr>
+                    <div class="d-flex justify-content-between total-row"><span>Total:</span><span id="total">$0.00</span></div>
+                    <button class="btn-main mt-3" id="checkout-btn"><i class="fas fa-shopping-cart"></i> Proceed to Checkout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/loadNavbar.js"></script>
+    <script src="../js/navbar.js"></script>
+    <script src="../js/shopping-cart.js"></script>
+</body>
+</html>

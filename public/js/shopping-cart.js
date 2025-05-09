@@ -46,8 +46,8 @@
         }
     }
 
-    // Add this function to handle promo codes
-    function applyPromoCode() {
+     // Add this function to handle promo codes
+     function applyPromoCode() {
         const promoCodeInput = document.getElementById('promo-code');
         const promoMessage = document.getElementById('promo-message');
         const code = promoCodeInput.value.trim().toUpperCase();
@@ -213,10 +213,11 @@
         // testing 
         const demoButtons = `
             <div class="card demo-card mt-3">
-                <h5>Demo Products</h5>
+                <h5> products </h5>
                 <div class="demo-buttons">
                     <button onclick="addToCart('cake001', 1)" class="btn-main demo-btn">Add Chocolate Cake</button>
                     <button onclick="addToCart('cake002', 1)" class="btn-main demo-btn">Add Wedding Cake</button>
+                    
                 </div>
             </div>
         `;

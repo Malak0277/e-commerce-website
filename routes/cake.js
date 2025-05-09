@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const path = require('path');
-
+const Cake = require('../schemas/Cake');
+const authMiddleware = require('../middlewares/authMiddleware');
+const adminMiddleware = require('../middlewares/adminMiddleware');
+const createError = require('../utils/createError');
 
 // Simulate a database or data source
 const cakesData = {
@@ -25,20 +27,17 @@ const cakesData = {
         { code: '#W14', source: "../../images/subpages/wedding_images/W14.jpeg" },
     
     ],
-    // Add more cake types here...
 };
 
-// Route to handle dynamic rendering based on cake type
-router.get("/", (req, res) => {
-    //res.sendFile(path.join(__dirname, '..', 'public', 'html', 'subpage.html'));
-    
+
+/*
+router.get("/", async(req, res) => {    
     const { type } = req.query;
 
     if (type) {
-        // If a type is specified, get the corresponding cake data
         const cakes = cakesData[type.toLowerCase()];
         if (cakes) {
-            res.json(cakes); // Send the cake data as JSON to be handled by the frontend
+            res.json(cakes);
         } else {
             res.status(404).send("Cake type not found");
         }
@@ -47,44 +46,55 @@ router.get("/", (req, res) => {
     }
      
 });
-
-
-
-
-/*
-router.get("/", (req, res) => {  //Get all cakes
-    //const filteredCakes = [...data.cakes]
-    const {type} = req.query
-    if(type){
-        if(type === "birthday"){
-            res.sendFile(path.join(__dirname, '..', 'public', 'html', 'subpages', 'birthday.html'));
-        }
-        else if(type === "minis"){
-            res.sendFile(path.join(__dirname, '..', 'public', 'html', 'subpages', 'minis.html'));
-        }
-        else if(type === "wedding"){
-            res.sendFile(path.join(__dirname, '..', 'public', 'html', 'subpages', 'wedding.html'));
-        }
-        else if(type === "eid"){
-            res.sendFile(path.join(__dirname, '..', 'public', 'html', 'subpages', 'eid.html'));
-        }
-        else if(type === "others"){
-            res.sendFile(path.join(__dirname, '..', 'public', 'html', 'subpages', 'others.html'));
-        }
-    }
-    else{
-        res.send("Get all cakes")
-    }
-});
 */
 
- //GET /api/cakes?type=birthday – Get only birthday cakes
 
 
- //POST /api/cakes – ➕ (Owner) Add a new cake
+router.get("/", async (req, res) => {
+    const { type } = req.query;
+    if (type) {
+        const cakes = await Cake.find({ category: type });
+        res.json(cakes);
+    } else {
+        const cakes = await Cake.find();
+        res.json(cakes);
+    }
+});
 
- //PUT /api/cakes/:id – 📝 (Owner) Edit a cake
+router.get('/:id', async (req, res, next) => { //todo
+    const cake = await Cake.findById(req.params.id);
+    if (!cake){
+        return next(createError(404, "Cake not found"));
+    }
+    res.json(cake);
+});
 
- //DELETE /api/cakes/:id – ❌ (Owner) Delete a cake
+router.post('/', authMiddleware, adminMiddleware, async (req, res) => { //todo
+    const cake = new Cake(req.body);
+    await cake.save();
+    res.status(201).json(cake);
+});
+
+router.put('/:id', authMiddleware, adminMiddleware, async (req, res, next) => { //todo
+    const cake = await Cake.findByIdAndUpdate(
+        req.params.id,
+        req.body,
+        { new: true, runValidators: true }
+    );
+    if (!cake) {
+        return next(createError(404, "Cake not found"));
+    }
+    res.json(cake);
+});
+
+router.delete('/:id', authMiddleware, adminMiddleware, async (req, res) => { //todo
+    const cake = await Cake.findByIdAndDelete(req.params.id);
+    if (!cake) {
+        return next(createError(404, "Cake not found"));
+    }
+    res.json({ message: 'Cake deleted successfully' });
+});
+
+
 
  module.exports = router

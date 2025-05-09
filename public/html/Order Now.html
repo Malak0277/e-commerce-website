@@ -14,43 +14,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <div class="topnav">
-        <div class="top-nav-container">
-            <span class="sidebar-toggle" onclick="toggleNav()">&#9776;</span>
-            <div class="topnav-right">
-                <a href="profile.html" class="profile-link">
-                    <img src="../images/profil.jpg" alt="Profile" class="profile-icon">
-                </a>
-                <div class="social-media-container">
-                    <a href="https://www.facebook.com/Candycakestanta" target="_blank">
-                        <img class="social-media" src="https://static.wixstatic.com/media/23fd2a2be53141ed810f4d3dcdcd01fa.png/v1/fill/w_38,h_38,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/23fd2a2be53141ed810f4d3dcdcd01fa.png">
-                    </a>
-                    <a href="https://www.instagram.com/candy_cakes_tanta/" target="_blank">
-                        <img class="social-media" src="https://static.wixstatic.com/media/81af6121f84c41a5b4391d7d37fce12a.png/v1/fill/w_38,h_38,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/81af6121f84c41a5b4391d7d37fce12a.png">
-                    </a>
-                </div>
-                <!-- Shopping Cart Icon with count -->
-                <a href="shopping-cart.html" class="cart-icon-link">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span class="cart-count" id="nav-cart-count">0</span>
-                </a>
-            </div>
-        </div>
-    </div>
+    <div id="navbar-container"></div>
 
-    <div class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <a href="profile.html" class="profile-link">
-                <img src="../images/profil.jpg" alt="Profile" class="profile-icon">
-            </a>
-            <div class="closebtn" onclick="closeNav()">&times;</div>
-        </div>
-        <a href="home.html" style="font-size: 100%;font-family: 'Nunito', sans-serif">Home</a>
-        <a href="home.html#menu" style="font-size: 100%;font-family: 'Nunito', sans-serif">Menu</a>
-        <a href="Special Order.HTML" style="font-size: 100%; font-family: 'Nunito', sans-serif">Customize Order</a>
-        <a href="home.html#about" style="font-size: 100%;font-family: 'Nunito', sans-serif">About Us</a>
-        <a href="Login.html" style="font-size: 100%;">Login</a>
-    </div>
 
     <div class="main" id="main">
         <div class="container-fluid">
@@ -111,75 +76,7 @@
         </div>
     </div>
 
-    <script>
-        function toggleNav() {
-            const sidebar = document.getElementById("sidebar");
-            if (sidebar.style.width === "250px") {
-                closeNav();
-            } else {
-                openNav();
-            }
-        }
-      
-        function openNav() {
-            document.getElementById("sidebar").style.width = "250px";
-            document.getElementById("main").style.marginLeft = "250px";
-            document.getElementById("sidebar").style.display = "block"; 
-        }
-      
-        function closeNav() {
-            document.getElementById("sidebar").style.width = "0";
-            document.getElementById("main").style.marginLeft= "0";
-            document.getElementById("sidebar").style.display = "none"; 
-        }
-        
-        // Update cart count from localStorage if available
-        document.addEventListener('DOMContentLoaded', function() {
-            updateCartCount();
-            
-            // Form validation
-            const form = document.getElementById('form');
-            
-            form.addEventListener('submit', function(event) {
-                if (!form.checkValidity()) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                    
-                    // Show all validation errors
-                    const inputs = form.querySelectorAll('input, select, textarea');
-                    inputs.forEach(input => {
-                        if (!input.validity.valid) {
-                            input.classList.add('is-invalid');
-                        }
-                    });
-                } else {
-                    // Form is valid, you can submit
-                    alert('Your order has been placed! We will contact you shortly.');
-                }
-            });
-            
-            // Remove validation styling on input
-            const inputs = form.querySelectorAll('input, select, textarea');
-            inputs.forEach(input => {
-                input.addEventListener('input', function() {
-                    if (this.value.trim() !== '') {
-                        this.classList.remove('is-invalid');
-                    }
-                });
-            });
-        });
-        
-        // Function to update cart count
-        function updateCartCount() {
-            let count = 0;
-            const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-            
-            if (cartItems.length) {
-                count = cartItems.reduce((total, item) => total + item.quantity, 0);
-            }
-            
-            document.getElementById('nav-cart-count').textContent = count;
-        }
-    </script>
+    <script src="../js/navbar.js"></script>
+    <script src="../js/loadNavbar.js"></script>
 </body>
 </html>

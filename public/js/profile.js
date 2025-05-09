@@ -1,6 +1,6 @@
 
 function toggleNav() {
-    const sidebar = document.getElementById("Sidebar");
+    const sidebar = document.getElementById("sidebar");
     if (sidebar.style.width === "250px") {
       closeNav();
     } else {
@@ -9,15 +9,15 @@ function toggleNav() {
   }
   
   function openNav() {
-    document.getElementById("Sidebar").style.width = "250px";
+    document.getElementById("sidebar").style.width = "250px";
     document.getElementById("main").style.marginLeft = "250px";
-    document.getElementById("Sidebar").style.display = "block"; 
+    document.getElementById("sidebar").style.display = "block"; 
   }
   
   function closeNav() {
-    document.getElementById("Sidebar").style.width = "0";
+    document.getElementById("sidebar").style.width = "0";
     document.getElementById("main").style.marginLeft= "0";
-    document.getElementById("Sidebar").style.display = "none"; 
+    document.getElementById("sidebar").style.display = "none"; 
   }
   
   

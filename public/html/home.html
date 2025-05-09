@@ -17,157 +17,73 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">  
   </head>
   <body>
-
-    <div class="sidebar" id="sidebar">
-       
-      <div class="sidebar-header">
-        <a href="profile.html" class="profile-link">
-            <img src="../images/profil.jpg" alt="Profile" class="profile-icon">
-          </a>
-        <div class="closebtn" onclick="closeNav()">&times;</div>
-      </div>
-      
-        <a class="active home" style="font-size: 100%;font-family:  'Nunito', sans-serif">Home</a>
-    
-        <a href="#menu" style="font-size: 100%;font-family:  'Nunito', sans-serif">Menu</a>
-
-        <a href="Special Order.HTML" style="font-size: 100%; font-family:  'Nunito', sans-serif">Customize Order</a>
-
-        <a href="#about" style="font-size: 100%;font-family:  'Nunito', sans-serif">About Us</a>
-    
-        <a href="Login.html" style="font-size: 100%;">Login</a>
+    <div id="navbar-container"></div>
+    <div class="main" id="main">
+      <div  class="hero-image" style ="background-image: url('../images/homepage2.jpg');
+                                                                  height:450px; 
+                                                                  background-position: center;
+                                                                  background-repeat: no-repeat;
+                                                                  background-size: cover;
+                                                                  position: relative;"> 
+      <section class="hero">
+        <div class="hero-text" id="hero-text">
+          <h1 class="title">Candy Cakes-Tanta</h1>
+            <p>Custom cakes, cupcakes, and treats with beautiful decoration and great taste!</p>
+                      <a onclick="document.location = 'customize_order.HTML' ;"><button class="block">Customize Your Order</button></a>
         
-       
-      
-    </div>
-
-    <div class="topnav">
-      <div class="top-nav-container">
-
-        <span class="sidebar-toggle" onclick="toggleNav()"> &#9776;</span>
-
-        <div class="topnav-right">
-          
-
-          <a href="profile.html" class="profile-link">
-            <img src="../images/profil.jpg" alt="Profile" class="profile-icon">
-          </a>
-          <div class="social-media-container">
-            <a href="https://www.facebook.com/Candycakestanta" target="_blank">
-              <img class="social-media" src="https://static.wixstatic.com/media/23fd2a2be53141ed810f4d3dcdcd01fa.png/v1/fill/w_38,h_38,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/23fd2a2be53141ed810f4d3dcdcd01fa.png">
-            </a>
-            <a href="https://www.instagram.com/candy_cakes_tanta/" target="_blank">
-              <img class="social-media" src="https://static.wixstatic.com/media/81af6121f84c41a5b4391d7d37fce12a.png/v1/fill/w_38,h_38,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/81af6121f84c41a5b4391d7d37fce12a.png">
-            </a>
           </div>
-          <!-- Shopping Cart Icon -->
-          <a href="shopping-cart.html" class="cart-icon-link">
-            <i class="fas fa-shopping-cart"></i>
-            <span class="cart-count" id="nav-cart-count">0</span>
-          </a>
+          </section>
         </div>
-       </div>
-    </div>
-
-
-
-  <div class="main" id="main">
-    <div  class="hero-image" style ="background-image: url('../images/homepage2.jpg');
-                                                                    height:450px; 
-                                                                    background-position: center;
-                                                                    background-repeat: no-repeat;
-                                                                    background-size: cover;
-                                                                    position: relative;"> 
-    <section class="hero">
-      <div class="hero-text" id="hero-text">
-        <h1 class="title">Candy Cakes-Tanta</h1>
-          <p>Custom cakes, cupcakes, and treats with beautiful decoration and great taste!</p>
-                    <a onclick="document.location = 'Special Order.HTML' ;"><button class="block">Customize Your Order</button></a>
-      
-        </div>
-        </section>
-      </div>
-  
-
-
-    <div class="row">
-      <div class="col">
-        <h2 class="section-title" id="menu">Menu</h2>  
-      </div>
-    </div>   
-    <div class="card-container">
-      <div class="card" data-type="birthday">Birthday</div>
-      <div class="card" data-type="minis">Minis</div>
-      <div class="card" data-type="wedding">Wedding & Engagement</div>
-      <div class="card" data-type="eid">Eid Treats</div>
-      <div class="card" data-type="others">Special Occasions</div>
-    </div>
     
+
+
+      <div class="row">
+        <div class="col">
+          <h2 class="section-title" id="menu">Menu</h2>  
+        </div>
+      </div>   
+      <div class="card-container">
+        <div class="card" data-type="birthday">Birthday</div>
+        <div class="card" data-type="minis">Minis</div>
+        <div class="card" data-type="wedding">Wedding & Engagement</div>
+        <div class="card" data-type="eid">Eid Treats</div>
+        <div class="card" data-type="others">Special Occasions</div>
+      </div>
+      
+         
+          
        
-        
-     
  <h2 class="section-title" id="about">About Us</h2>
-    <p style="padding: 0 20px 40px; text-align: center;">
-      We're passionate about creating custom desserts for every occasion. From birthdays to weddings, our cakes bring joy to your celebrations.
-    </p>
-  </div>
-  </div>
-
+      <p style="padding: 0 20px 40px; text-align: center;">
+        We're passionate about creating custom desserts for every occasion. From birthdays to weddings, our cakes bring joy to your celebrations.
+      </p>
+    </div>
+    </div>
  
-    <script>
-      
+    <!-- Reviews will be loaded here -->
+  </div>
+  <div id="review-form-container">
+    <h4>Leave a Review</h4>
+    <form id="review-form">
+      <label for="rating">Rating:</label>
+      <select id="rating" required>
+        <option value="">Select</option>
+        <option value="5">★★★★★</option>
+        <option value="4">★★★★☆</option>
+        <option value="3">★★★☆☆</option>
+        <option value="2">★★☆☆☆</option>
+        <option value="1">★☆☆☆☆</option>
+      </select>
+      <label for="reviewText">Your Review:</label>
+      <textarea id="reviewText" rows="2" required></textarea>
+      <button type="submit" class="btn-main">Submit Review</button>
+    </form>
+  </div>
+</div>
 
-  document.addEventListener("DOMContentLoaded", () => {
-    const cards = document.querySelectorAll(".card");
-
-    cards.forEach(card => {
-      card.addEventListener("click", () => {
-        const type = card.dataset.type;
-        if (type) {
-          window.location.href = `/html/subpage.html?type=${type}`;
-        }
-      });
-    });
-    
-    // Update cart count from localStorage if available
-    updateCartCount();
-  });
-
-  // Function to update cart count
-  function updateCartCount() {
-    let count = 0;
-    const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-    
-    if (cartItems.length) {
-      count = cartItems.reduce((total, item) => total + item.quantity, 0);
-    }
-    
-    document.getElementById('nav-cart-count').textContent = count;
-    document.getElementById('sidebar-cart-count').textContent = count;
-  }
-
-  function toggleNav() {
-    const sidebar = document.getElementById("sidebar");
-    if (sidebar.style.width === "250px") {
-      closeNav();
-    } else {
-      openNav();
-    }
-  }
-  
-  function openNav() {
-    document.getElementById("sidebar").style.width = "250px";
-    document.getElementById("main").style.marginLeft = "250px";
-    document.getElementById("sidebar").style.display = "block"; 
-  }
-  
-  function closeNav() {
-    document.getElementById("sidebar").style.width = "0";
-    document.getElementById("main").style.marginLeft= "0";
-    document.getElementById("sidebar").style.display = "none"; 
-  }
-      
-    </script>
+    <script src="../js/loadNavbar.js"></script>
+    <script src="../js/navbar.js"></script>
+    <script src="../js/home.js"></script>
     <script src="../js/popper.min.js"></script>
     <script src="../js/jquery-3.6.4.min.js"></script>
     <script src="../js/bootstrap.js"></script>

@@ -1,25 +1,46 @@
-const express = require('express');
-const app = express();
-const cakeRouter = require('./routes/cakes');
-const connectDB = require('./config/db');
+require('dotenv').config() 
+const express = require('express')
+const connectDB = require('./config/database');
 
+const app = express();
+
+const cakeRouter = require('./routes/cake');
+const authRouter = require('./routes/auth');
+const userRouter = require('./routes/user');
+const orderRouter = require('./routes/order');
+const cartRouter = require('./routes/cart');
+const discountRouter = require('./routes/discount');
+const reviewRouter = require('./routes/review');
+
+// Database
+connectDB();
+
+// Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("./public"));
-app.use('/cakes', cakeRouter);
 
-
-
+// Routes
+app.use('/auth', authRouter);
+app.use('/cake', cakeRouter);
+app.use('/user', userRouter);
+app.use('/order', orderRouter);
+app.use('/cart', cartRouter);
+app.use('/discount', discountRouter);
+app.use('/review', reviewRouter);
 
 app.get('/home', (req, res) => {
-    res.sendFile(__dirname + '/public/html/home.html');
+    res.redirect('html/home.html');
 })
 
+app.get('/', (req, res) => {
+    res.redirect('html/login.html');
+})
 
-app.listen(3000, () => {
-    console.log('Server is running on port 3000');
-});
+const errorHandler = require('./middleware/errorHandler');
+app.use(errorHandler);
 
+<<<<<<< HEAD
 
 async function main() {
     const db = await connectDB();
@@ -30,3 +51,9 @@ async function main() {
   }
   
   main();
+=======
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
+>>>>>>> b305b233c12ed091b7a895a3cc277379b801b892

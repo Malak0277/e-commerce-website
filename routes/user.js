@@ -1,0 +1,75 @@
+const express = require('express');
+const bcrypt = require('bcrypt');
+const User = require('../schemas/User');
+const createError = require('../utils/createError');
+const generateToken = require('../utils/generateToken');
+const authMiddleware = require('../middlewares/authMiddleware');
+const adminMiddleware = require('../middlewares/adminMiddleware');
+const router = express.Router();
+
+
+router.post('/signup', async (req, res, next) => {
+    const { name, email, password } = req.body; //todo 
+
+    const existingUser = await User.findOne({ email });
+    if (existingUser) return next(createError(400, "User already exists"));
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const newUser = new User({ name, email, password: hashedPassword }); //todo
+    await newUser.save();
+
+    const token = generateToken(newUser._id);
+
+    res.status(201).json({ token }); //todo
+});
+
+router.post('/login', async (req, res, next) => {
+        const { email, password } = req.body; //todo
+
+        const user = await User.findOne({ email });
+        if (!user) return next(createError(401, "Invalid credentials"));
+
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) return next(createError(401, "Invalid credentials"));
+
+        const token = generateToken(user._id);
+
+        res.json({ token }); //todo
+
+});
+
+
+router.get('/profile', authMiddleware, async (req, res) => { //todo
+    const user = await User.findById(req.user.id).select('-password');
+    res.json(user);
+});
+
+router.put('/profile', authMiddleware, async (req, res) => { //todo
+    const updates = req.body;
+    const user = await User.findByIdAndUpdate(req.user.id, updates, { new: true }).select('-password');
+    res.json(user);
+});
+
+
+router.get('/', authMiddleware, adminMiddleware, async (req, res) => { //todo
+    const users = await User.find();
+    res.json(users);
+});
+
+router.get('/:id', authMiddleware, adminMiddleware, async (req, res) => { //todo
+    try {
+        const user = await User.findById(req.params.id);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        res.json(user);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+
+
+
+module.exports = router;

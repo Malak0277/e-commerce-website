@@ -22,14 +22,14 @@ async function main() {
   const cakes = await Cake.insertMany([
     {
       name: 'Basbousa with Cream',
-      category_name: 'Traditional',
+      category_name: 'birthday',
       description: 'Sweet Egyptian semolina cake soaked in syrup, filled with cream.',
       price: 75.00,
       image_url: 'https://yourcdn.com/images/basbousa.jpg'
     },
     {
       name: 'Kunafa Nutella',
-      category_name: 'Modern',
+      category_name: 'wedding',
       description: 'Kunafa layered with Nutella and cream cheese filling.',
       price: 90.00,
       image_url: 'https://yourcdn.com/images/kunafa-nutella.jpg'
