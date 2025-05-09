@@ -11,186 +11,208 @@ mongoose.connect(process.env.MONGODB_URI)
     process.exit(1);
   });
 
-const birthdayCakes = [
+
+const miniCakes = [
   {
-    name: "Chocolate Dream Birthday Cake",
-    category: "birthday",
-    description: "A rich chocolate cake with layers of chocolate ganache and chocolate buttercream frosting. Decorated with chocolate curls and sprinkles.",
-    price: 45.99,
-    image_url: "../images/subpages/birthday_images/B01.JPG"
+    name: "Classic Mini Chocolate",
+    category: "minis",
+    description: "Delightful bite-sized chocolate cake perfect for individual servings or small gatherings.",
+    price: 24.99,
+    image_url: "../images/subpages/minis_images/M01.jpg"
   },
   {
-    name: "Vanilla Celebration Cake",
-    category: "birthday",
-    description: "Classic vanilla cake with vanilla buttercream frosting. Decorated with colorful sprinkles and a birthday message.",
-    price: 39.99,
-    image_url: "../images/subpages/birthday_images/B02.JPG"
+    name: "Mini Red Velvet",
+    category: "minis",
+    description: "Charming mini red velvet cake with cream cheese frosting, perfect for two.",
+    price: 26.99,
+    image_url: "../images/subpages/minis_images/M02.jpg"
   },
   {
-    name: "Rainbow Delight Cake",
-    category: "birthday",
-    description: "Colorful layers of vanilla cake with rainbow buttercream frosting. Topped with rainbow sprinkles and a unicorn topper.",
-    price: 49.99,
-    image_url: "../images/subpages/birthday_images/B03.JPG"
+    name: "Mini Carrot Cake",
+    category: "minis",
+    description: "Moist mini carrot cake with walnuts and cream cheese frosting.",
+    price: 25.99,
+    image_url: "../images/subpages/minis_images/M03.jpg"
   },
   {
-    name: "Strawberry Shortcake",
-    category: "birthday",
-    description: "Light and fluffy vanilla cake layered with fresh strawberries and whipped cream. Perfect for summer celebrations.",
-    price: 42.99,
-    image_url: "../images/subpages/birthday_images/B04.JPG"
+    name: "Mini Vanilla Bean",
+    category: "minis",
+    description: "Elegant mini vanilla bean cake with fresh berries and whipped cream.",
+    price: 23.99,
+    image_url: "../images/subpages/minis_images/M04.jpg"
   },
   {
-    name: "Carrot Cake Delight",
-    category: "birthday",
-    description: "Moist carrot cake with cream cheese frosting and walnut pieces. A classic favorite with a modern twist.",
-    price: 44.99,
-    image_url: "../images/subpages/birthday_images/B05.JPG"
+    name: "Mini Lemon Delight",
+    category: "minis",
+    description: "Tangy mini lemon cake with citrus glaze and candied lemon peel.",
+    price: 24.99,
+    image_url: "../images/subpages/minis_images/M05.jpg"
   },
   {
-    name: "Red Velvet Classic",
-    category: "birthday",
-    description: "Rich red velvet cake with cream cheese frosting. Elegant and delicious for any celebration.",
-    price: 47.99,
-    image_url: "../images/subpages/birthday_images/B06.JPG"
+    name: "Mini Coffee Crunch",
+    category: "minis",
+    description: "Rich coffee-flavored mini cake with chocolate ganache and coffee beans.",
+    price: 25.99,
+    image_url: "../images/subpages/minis_images/M06.jpg"
   },
   {
-    name: "Lemon Blueberry Cake",
-    category: "birthday",
-    description: "Zesty lemon cake with fresh blueberries and lemon cream cheese frosting. A refreshing summer treat.",
-    price: 43.99,
-    image_url: "../images/subpages/birthday_images/B07.JPG"
+    name: "Mini Strawberry Dream",
+    category: "minis",
+    description: "Fresh strawberry mini cake with whipped cream and fresh berries.",
+    price: 26.99,
+    image_url: "../images/subpages/minis_images/M07.jpg"
   },
   {
-    name: "Chocolate Raspberry Cake",
-    category: "birthday",
-    description: "Decadent chocolate cake with raspberry filling and chocolate ganache. A perfect combination of sweet and tart.",
-    price: 48.99,
-    image_url: "../images/subpages/birthday_images/B08.png"
+    name: "Mini Tiramisu",
+    category: "minis",
+    description: "Classic Italian mini tiramisu with coffee-soaked layers and mascarpone cream.",
+    price: 27.99,
+    image_url: "../images/subpages/minis_images/M08.jpg"
   },
   {
-    name: "Coconut Dream Cake",
-    category: "birthday",
-    description: "Moist coconut cake with coconut cream frosting and toasted coconut flakes. A tropical delight.",
-    price: 45.99,
-    image_url: "../images/subpages/birthday_images/B09.JPG"
+    name: "Mini Cheesecake",
+    category: "minis",
+    description: "Creamy mini cheesecake with graham cracker crust and berry compote.",
+    price: 24.99,
+    image_url: "../images/subpages/minis_images/M09.jpg"
   },
   {
-    name: "Funfetti Party Cake",
-    category: "birthday",
-    description: "Colorful vanilla cake with rainbow sprinkles and vanilla buttercream. Perfect for birthday celebrations.",
-    price: 41.99,
-    image_url: "../images/subpages/birthday_images/B10.png"
+    name: "Mini Black Forest",
+    category: "minis",
+    description: "Decadent mini black forest cake with cherries and chocolate shavings.",
+    price: 26.99,
+    image_url: "../images/subpages/minis_images/M10.jpg"
+  },
+  {
+    name: "Mini Caramel Delight",
+    category: "minis",
+    description: "Rich caramel-flavored mini cake with salted caramel drizzle and toffee bits.",
+    price: 25.99,
+    image_url: "../images/subpages/minis_images/M11.jpg"
+  },
+  {
+    name: "Mini Coconut Dream",
+    category: "minis",
+    description: "Tropical mini coconut cake with coconut cream frosting and toasted coconut flakes.",
+    price: 24.99,
+    image_url: "../images/subpages/minis_images/M12.jpg"
+  },
+  {
+    name: "Mini Hazelnut Crunch",
+    category: "minis",
+    description: "Nutty mini hazelnut cake with chocolate ganache and crushed hazelnuts.",
+    price: 26.99,
+    image_url: "../images/subpages/minis_images/M13.jpg"
+  },
+  {
+    name: "Mini Raspberry Bliss",
+    category: "minis",
+    description: "Fresh raspberry mini cake with white chocolate ganache and fresh berries.",
+    price: 25.99,
+    image_url: "../images/subpages/minis_images/M14.jpg"
   }
 ];
 
-const weddingCakes = [
+const specialCakes = [
   {
-    name: "Elegant White Wedding Cake",
-    category: "wedding",
-    description: "Classic white wedding cake with delicate sugar flowers and pearl decorations. Multiple tiers with vanilla bean buttercream.",
-    price: 299.99,
-    image_url: "../images/subpages/wedding_images/W01.jpeg"
+    name: "Anniversary Celebration",
+    category: "others",
+    description: "Elegant anniversary cake with romantic decorations and personalized message.",
+    price: 89.99,
+    image_url: "../images/subpages/others_images/O01.jpg"
   },
   {
-    name: "Royal Chocolate Wedding Cake",
-    category: "wedding",
-    description: "Luxurious chocolate wedding cake with gold leaf accents and chocolate ganache. Decorated with fresh flowers.",
-    price: 349.99,
-    image_url: "../images/subpages/wedding_images/W02.jpeg"
+    name: "Graduation Cap Cake",
+    category: "others",
+    description: "Creative graduation-themed cake with edible cap and diploma decorations.",
+    price: 79.99,
+    image_url: "../images/subpages/others_images/O02.jpg"
   },
   {
-    name: "Naked Wedding Cake",
-    category: "wedding",
-    description: "Trendy naked cake with fresh berries and flowers. Vanilla layers with light buttercream and seasonal fruits.",
-    price: 279.99,
-    image_url: "../images/subpages/wedding_images/W03.jpeg"
+    name: "Baby Shower Delight",
+    category: "others",
+    description: "Adorable baby shower cake with pastel colors and baby-themed decorations.",
+    price: 84.99,
+    image_url: "../images/subpages/others_images/O03.jpg"
   },
   {
-    name: "Floral Garden Wedding Cake",
-    category: "wedding",
-    description: "Elegant white cake decorated with cascading sugar flowers and greenery. Perfect for garden weddings.",
-    price: 329.99,
-    image_url: "../images/subpages/wedding_images/W04.jpeg"
+    name: "Corporate Event Cake",
+    category: "others",
+    description: "Professional corporate-themed cake perfect for business celebrations.",
+    price: 94.99,
+    image_url: "../images/subpages/others_images/O04.jpg"
   },
   {
-    name: "Modern Geometric Wedding Cake",
-    category: "wedding",
-    description: "Contemporary design with geometric patterns and metallic accents. Vanilla bean cake with raspberry filling.",
-    price: 359.99,
-    image_url: "../images/subpages/wedding_images/W05.jpeg"
-  },
-  {
-    name: "Rustic Wedding Cake",
-    category: "wedding",
-    description: "Charming naked cake with fresh flowers and berries. Perfect for rustic or outdoor weddings.",
-    price: 289.99,
-    image_url: "../images/subpages/wedding_images/W06.jpeg"
-  },
-  {
-    name: "Gilded Wedding Cake",
-    category: "wedding",
-    description: "Luxurious white cake with gold leaf details and pearl accents. Elegant and sophisticated.",
-    price: 379.99,
-    image_url: "../images/subpages/wedding_images/W07.jpeg"
-  },
-  {
-    name: "Vintage Wedding Cake",
-    category: "wedding",
-    description: "Classic design with intricate piping and vintage details. Perfect for traditional weddings.",
-    price: 319.99,
-    image_url: "../images/subpages/wedding_images/W08.jpeg"
-  },
-  {
-    name: "Tropical Wedding Cake",
-    category: "wedding",
-    description: "Exotic flavors with tropical flowers and fruits. Perfect for destination weddings.",
-    price: 339.99,
-    image_url: "../images/subpages/wedding_images/W09.jpeg"
-  },
-  {
-    name: "Minimalist Wedding Cake",
-    category: "wedding",
-    description: "Clean, modern design with subtle textures and elegant simplicity.",
-    price: 299.99,
-    image_url: "../images/subpages/wedding_images/W10.jpeg"
+    name: "Holiday Special",
+    category: "others",
+    description: "Festive holiday-themed cake with seasonal decorations and flavors.",
+    price: 89.99,
+    image_url: "../images/subpages/others_images/O05.jpg"
   }
 ];
 
-async function insertCakes() {
+async function insertOrUpdateCakes() {
   try {
-    // Clear existing cakes
-    await Cake.deleteMany({});
-    console.log('Cleared existing cakes');
+    console.log('Starting cake insertion/update process...');
 
-    // Insert birthday cakes
-    for (const cake of birthdayCakes) {
-      const cakeId = await getID('cake_id');
-      const newCake = new Cake({
-        cake_id: cakeId,
-        ...cake
+    // Process Mini cakes
+    for (const cake of miniCakes) {
+      const existingCake = await Cake.findOne({ 
+        name: cake.name,
+        category: cake.category 
       });
-      await newCake.save();
-    }
-    console.log('Inserted birthday cakes');
 
-    // Insert wedding cakes
-    for (const cake of weddingCakes) {
-      const cakeId = await getID('cake_id');
-      const newCake = new Cake({
-        cake_id: cakeId,
-        ...cake
+      if (existingCake) {
+        await Cake.findByIdAndUpdate(
+          existingCake._id,
+          cake,
+          { new: true, runValidators: true }
+        );
+        console.log(`Updated cake: ${cake.name}`);
+      } else {
+        const cakeId = await getID('cake_id');
+        const newCake = new Cake({
+          cake_id: cakeId,
+          ...cake
+        });
+        await newCake.save();
+        console.log(`Inserted new cake: ${cake.name}`);
+      }
+    }
+    console.log('Mini cakes processed');
+
+    // Process Other cakes
+    for (const cake of specialCakes) {
+      const existingCake = await Cake.findOne({ 
+        name: cake.name,
+        category: cake.category 
       });
-      await newCake.save();
-    }
-    console.log('Inserted wedding cakes');
 
-    console.log('All cakes inserted successfully');
+      if (existingCake) {
+        await Cake.findByIdAndUpdate(
+          existingCake._id,
+          cake,
+          { new: true, runValidators: true }
+        );
+        console.log(`Updated cake: ${cake.name}`);
+      } else {
+        const cakeId = await getID('cake_id');
+        const newCake = new Cake({
+          cake_id: cakeId,
+          ...cake
+        });
+        await newCake.save();
+        console.log(`Inserted new cake: ${cake.name}`);
+      }
+    }
+    console.log('Other cakes processed');
+
+    console.log('All cakes processed successfully');
     process.exit(0);
   } catch (error) {
-    console.error('Error inserting cakes:', error);
+    console.error('Error processing cakes:', error);
     process.exit(1);
   }
 }
 
-insertCakes(); 
+insertOrUpdateCakes(); 
