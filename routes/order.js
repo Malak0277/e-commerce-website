@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const Order = require('../schemas/Order');
-
+const Cart = require('./schemas/Cart');
+const Cake = require('./schemas/Cake');
 
 
 router.post('/', async (req, res) => { //todo
@@ -67,4 +68,50 @@ router.get('/', async (req, res) => { //todo
 //     }
 // });
 
+
+
+async function checkout(userId, shippingAddress) {
+    // 1. Find the user's cart
+    const cart = await Cart.findOne({ user_id: userId });
+  
+    if (!cart || cart.items.length === 0) {
+      throw new Error('Cart is empty');
+    }
+  
+    // 2. Calculate the total price from cart items
+    let totalPrice = 0;
+    const items = [];
+    
+    for (const item of cart.items) {
+      const cake = await Cake.findById(item.cake_id);
+      if (!cake) {
+        throw new Error('Cake not found');
+      }
+      totalPrice += item.quantity * item.price;
+      items.push({
+        cake_id: item.cake_id,
+        quantity: item.quantity,
+        price: item.price
+      });
+    }
+  
+    // 3. Create the order from cart
+    const order = new Order({
+      user_id: userId,
+      total_price: totalPrice,
+      shipping_address: shippingAddress,
+      items: items
+    });
+  
+    // Save the order to MongoDB
+    await order.save();
+  
+    // 4. Clear the cart after the order is created
+    await Cart.deleteOne({ user_id: userId });
+  
+    console.log('Order created and cart cleared');
+    return order;
+  }
+
+  
 module.exports = router;
