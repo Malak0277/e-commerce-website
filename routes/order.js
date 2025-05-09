@@ -3,6 +3,7 @@ const router = express.Router();
 const Order = require('../schemas/Order');
 const Cart = require('./schemas/Cart');
 const Cake = require('./schemas/Cake');
+const getID = require('../utils/idGenerator');
 
 
 router.post('/', async (req, res) => { //todo
@@ -70,6 +71,19 @@ router.get('/', async (req, res) => { //todo
 
 
 
+async function createOrder(userId, orderData) {
+  const orderNumber = await getID('order_number');
+
+  const newOrder = new Order({
+    order_number: orderNumber,
+    user_id: userId,
+    ...orderData
+  });
+
+  await newOrder.save();
+  return newOrder;
+}
+
 async function checkout(userId, shippingAddress) {
     // 1. Find the user's cart
     const cart = await Cart.findOne({ user_id: userId });
@@ -113,5 +127,5 @@ async function checkout(userId, shippingAddress) {
     return order;
   }
 
-  
+
 module.exports = router;

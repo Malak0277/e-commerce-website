@@ -4,6 +4,7 @@ const Cake = require('../schemas/Cake');
 const authMiddleware = require('../middlewares/authMiddleware');
 const adminMiddleware = require('../middlewares/adminMiddleware');
 const createError = require('../utils/createError');
+const getID = require('../utils/getNextNumber');
 
 // Simulate a database or data source
 const cakesData = {
@@ -95,6 +96,18 @@ router.delete('/:id', authMiddleware, adminMiddleware, async (req, res) => { //t
     res.json({ message: 'Cake deleted successfully' });
 });
 
+
+async function createCake(cakeData) {
+  const cakeId = await getID('cake_id'); 
+
+  const newCake = new Cake({
+    _id: cakeId,  // Using custom cake ID
+    ...cakeData
+  });
+
+  await newCake.save();
+  return newCake;
+}
 
 
  module.exports = router

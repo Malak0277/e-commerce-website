@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const orderSchema = new mongoose.Schema({
+  order_number: { type: Number, unique: true },
   user_id: { type: String, ref: 'User', required: true },
   total_price: { type: Number, required: true },
   shipping_address: { type: String, required: true },
