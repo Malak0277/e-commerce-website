@@ -1,5 +1,4 @@
 const express = require('express');
-const bcrypt = require('bcrypt');
 const User = require('../schemas/User');
 const createError = require('../utils/createError');
 const generateToken = require('../utils/generateToken');
@@ -8,24 +7,24 @@ const adminMiddleware = require('../middlewares/adminMiddleware');
 const router = express.Router();
 
 
-router.post('/signup', async (req, res, next) => {
-    const { name, email, password } = req.body; //todo 
+router.post('/signup', async (req, res, next) => { //todo? 
+    const { name, email, password } = req.body; 
 
     const existingUser = await User.findOne({ email });
     if (existingUser) return next(createError(400, "User already exists"));
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const newUser = new User({ name, email, password: hashedPassword }); //todo
+    const newUser = new User({ name, email, password: hashedPassword }); 
     await newUser.save();
 
     const token = generateToken(newUser._id);
 
-    res.status(201).json({ token }); //todo
+    res.status(201).json({ token }); 
 });
 
-router.post('/login', async (req, res, next) => {
-        const { email, password } = req.body; //todo
+router.post('/login', async (req, res, next) => { //todo?
+        const { email, password } = req.body; 
 
         const user = await User.findOne({ email });
         if (!user) return next(createError(401, "Invalid credentials"));
@@ -35,17 +34,17 @@ router.post('/login', async (req, res, next) => {
 
         const token = generateToken(user._id);
 
-        res.json({ token }); //todo
+        res.json({ token }); 
 
 });
 
 
-router.get('/profile', authMiddleware, async (req, res) => { //todo
+router.get('/profile', authMiddleware, async (req, res) => { //todo?
     const user = await User.findById(req.user.id).select('-password');
     res.json(user);
 });
 
-router.put('/profile', authMiddleware, async (req, res) => { //todo
+router.put('/profile', authMiddleware, async (req, res) => { //todo?
     const updates = req.body;
     const user = await User.findByIdAndUpdate(req.user.id, updates, { new: true }).select('-password');
     res.json(user);
@@ -61,8 +60,9 @@ router.get('/:id', authMiddleware, adminMiddleware, async (req, res) => { //todo
     try {
         const user = await User.findById(req.params.id);
         if (!user) {
-            return res.status(404).json({ message: 'User not found' });
+            return next(createError(404, "User not found"));
         }
+        
         res.json(user);
     } catch (error) {
         res.status(500).json({ message: error.message });

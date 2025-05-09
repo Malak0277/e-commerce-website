@@ -1,4 +1,4 @@
-const User = require('../models/User');
+const User = require('../schemas/User');
 
 const adminMiddleware = async (req, res, next) => {
     try {

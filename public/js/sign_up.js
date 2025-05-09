@@ -1,18 +1,22 @@
 document.addEventListener('DOMContentLoaded', function() {
     let form = document.getElementById("form");
+    let firstName = document.querySelector(".my-fname");
+    let lastName = document.querySelector(".my-lname");
     let email = document.querySelector(".my-email");
     let pass = document.querySelector(".my-pass");
+    let pass2 = document.querySelector(".my-pass2");
     
     form.addEventListener('submit', e => {
         e.preventDefault();
-        console.log("Validating login form");
+        console.log("Validating signup form");
         if (validateInputs()) {
-            fetch('/user/login', {
+            fetch('/user/signup', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
+                    name: `${firstName.value.trim()} ${lastName.value.trim()}`,
                     email: email.value.trim(),
                     password: pass.value.trim()
                 })
@@ -20,8 +24,8 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => {
                 if (!response.ok) {
                     return response.json().then(err => {
-                        alert(err.message || 'Invalid credentials');
-                        throw new Error(err.message || 'Invalid credentials');
+                        alert(err.message || 'Signup failed');
+                        throw new Error(err.message || 'Signup failed');
                     });
                 }
                 return response.json();
@@ -31,9 +35,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 window.location.href = "home.html";
             })
             .catch(error => {
-                console.error('Error during login:', error);
-                setError(email, error.message || 'Invalid email or password');
-                setError(pass, ''); 
+                console.error('Error during signup:', error);
+                setError(email, error.message || 'Signup failed');
             });
         }
     });
@@ -46,7 +49,6 @@ document.addEventListener('DOMContentLoaded', function() {
         element.style.borderColor = "#ff3860";
         element.style.borderWidth = "2px";
         
-        // Also add error class to input group if it exists
         const inputGroup = element.closest('.input-group');
         if (inputGroup) {
             inputGroup.classList.add('is-invalid');
@@ -61,7 +63,6 @@ document.addEventListener('DOMContentLoaded', function() {
         element.style.borderColor = "#09c372";
         element.style.borderWidth = "2px";
         
-        // Remove error class from input group if it exists
         const inputGroup = element.closest('.input-group');
         if (inputGroup) {
             inputGroup.classList.remove('is-invalid');
@@ -74,10 +75,30 @@ document.addEventListener('DOMContentLoaded', function() {
     };
     
     const validateInputs = () => {
+        const firstNameValue = firstName.value.trim();
+        const lastNameValue = lastName.value.trim();
         const emailValue = email.value.trim();
         const passValue = pass.value.trim();
+        const pass2Value = pass2.value.trim();
         let isValid = true;
         
+        // First Name validation
+        if (firstNameValue === '') {
+            setError(firstName, "First name is required");
+            isValid = false;
+        } else {
+            setSuccess(firstName);
+        }
+        
+        // Last Name validation
+        if (lastNameValue === '') {
+            setError(lastName, "Last name is required");
+            isValid = false;
+        } else {
+            setSuccess(lastName);
+        }
+        
+        // Email validation
         if (emailValue === '') {
             setError(email, "Email is required");
             isValid = false;
@@ -88,6 +109,7 @@ document.addEventListener('DOMContentLoaded', function() {
             setSuccess(email);
         }
         
+        // Password validation
         if (passValue === '') {
             setError(pass, 'Password is required');
             isValid = false;
@@ -98,19 +120,17 @@ document.addEventListener('DOMContentLoaded', function() {
             setSuccess(pass);
         }
         
-        if (isValid) {
-            // If validation passes, we could redirect or show success message
-            console.log("Validation successful!");
-            setTimeout(() => {
-                window.location.href = "home.html";
-            }, 1000);      
-            // Simulate login success - you would typically call an API here
-           
+        // Confirm Password validation
+        if (pass2Value === '') {
+            setError(pass2, 'Please confirm your password');
+            isValid = false;
+        } else if (pass2Value !== passValue) {
+            setError(pass2, 'Passwords do not match');
+            isValid = false;
+        } else {
+            setSuccess(pass2);
         }
         
         return isValid;
     };
-    
-   
-});
-
+}); 

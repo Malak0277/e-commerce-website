@@ -74,4 +74,11 @@ document.addEventListener('DOMContentLoaded', function() {
             dropdownContent.style.display = 'none';
         }
     });
+
+    const profileImage = localStorage.getItem('profileImage');
+    if (profileImage) {
+        document.querySelectorAll('.profile-picture img').forEach(img => {
+            img.src = profileImage;
+        });
+    }
 }); 

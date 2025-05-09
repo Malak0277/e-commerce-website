@@ -4,6 +4,7 @@ const Cake = require('../schemas/Cake');
 const authMiddleware = require('../middlewares/authMiddleware');
 const adminMiddleware = require('../middlewares/adminMiddleware');
 const createError = require('../utils/createError');
+const getID = require('../utils/idGenerator');
 
 // Simulate a database or data source
 const cakesData = {
@@ -69,8 +70,12 @@ router.get('/:id', async (req, res, next) => { //todo
     res.json(cake);
 });
 
-router.post('/', authMiddleware, adminMiddleware, async (req, res) => { //todo
-    const cake = new Cake(req.body);
+router.post('/', authMiddleware, adminMiddleware, async (req, res) => {
+    const cakeId = await getID('cake_id');
+    const cake = new Cake({
+        cake_id: cakeId,
+        ...req.body
+    });
     await cake.save();
     res.status(201).json(cake);
 });
@@ -87,7 +92,7 @@ router.put('/:id', authMiddleware, adminMiddleware, async (req, res, next) => { 
     res.json(cake);
 });
 
-router.delete('/:id', authMiddleware, adminMiddleware, async (req, res) => { //todo
+router.delete('/:id', authMiddleware, adminMiddleware, async (req, res, next) => { //todo
     const cake = await Cake.findByIdAndDelete(req.params.id);
     if (!cake) {
         return next(createError(404, "Cake not found"));
@@ -95,6 +100,18 @@ router.delete('/:id', authMiddleware, adminMiddleware, async (req, res) => { //t
     res.json({ message: 'Cake deleted successfully' });
 });
 
+
+async function createCake(cakeData) {
+  const cakeId = await getID('cake_id'); 
+
+  const newCake = new Cake({
+    _id: cakeId,  // Using custom cake ID
+    ...cakeData
+  });
+
+  await newCake.save();
+  return newCake;
+}
 
 
  module.exports = router

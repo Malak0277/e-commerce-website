@@ -3,30 +3,29 @@ const Cart = require('../schemas/Cart');
 const router = express.Router();
 const authMiddleware = require('../middlewares/authMiddleware');
 const createError = require('../utils/createError');
-const User = require('../models/User');
-const Cake = require('../models/Cake');
+const User = require('../schemas/User');
+const Cake = require('../schemas/Cake');
 const Discount = require('../schemas/Discount');
 
-router.get('/', authMiddleware, async (req, res) => { //todo
+router.get('/', authMiddleware, async (req, res, next) => { //todo?
     try {
-        let cart = await Cart.findOne({ userId: req.user.id })
-            .populate('items.cakeId');
+        let cart = await Cart.findOne({ user_id: req.user.id })
+            .populate('items.cake_id');
         
         if (!cart) {
-            cart = new Cart({ userId: req.user.id });
+            cart = new Cart({ user_id: req.user.id });
             await cart.save();
         }
         
         res.json(cart);
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        next(createError(500, error.message));
     }
 });
 
-router.post('/add', authMiddleware, async (req, res) => { //todo
+router.post('/add', authMiddleware, async (req, res, next) => { //todo?
     try {
         const { cakeId, quantity } = req.body;
-        const user = await User.findById(req.user.id);
         
         // Check if cake exists
         const cake = await Cake.findById(cakeId);
@@ -34,21 +33,21 @@ router.post('/add', authMiddleware, async (req, res) => { //todo
             return next(createError(404, "Cake not found"));
         }
 
-        let cart = await Cart.findOne({ userId: req.user.id });
+        let cart = await Cart.findOne({ user_id: req.user.id });
         if (!cart) {
-            cart = new Cart({ userId: req.user.id });
+            cart = new Cart({ user_id: req.user.id });
         }
 
         // Check if item already exists in cart
         const existingItem = cart.items.find(item => 
-            item.cakeId.toString() === cakeId
+            item.cake_id.toString() === cakeId
         );
         
         if (existingItem) {
             existingItem.quantity += quantity;
         } else {
             cart.items.push({
-                cakeId,
+                cake_id: cakeId,
                 quantity,
                 price: cake.price
             });
@@ -57,21 +56,21 @@ router.post('/add', authMiddleware, async (req, res) => { //todo
         await cart.save();
         res.json(cart);
     } catch (error) {
-        res.status(400).json({ message: error.message });
+        next(createError(400, error.message));
     }
 });
 
-router.put('/update/:cakeId', authMiddleware, async (req, res) => { //todo
+router.put('/update/:cakeId', authMiddleware, async (req, res, next) => { //todo?
     try {
         const { quantity } = req.body;
-        const cart = await Cart.findOne({ userId: req.user.id });
+        const cart = await Cart.findOne({ user_id: req.user.id });
         
         if (!cart) {
             return next(createError(404, "Cart not found"));
         }
 
         const cartItem = cart.items.find(item => 
-            item.cakeId.toString() === req.params.cakeId
+            item.cake_id.toString() === req.params.cakeId
         );
         
         if (!cartItem) {
@@ -82,32 +81,32 @@ router.put('/update/:cakeId', authMiddleware, async (req, res) => { //todo
         await cart.save();
         res.json(cart);
     } catch (error) {
-        res.status(400).json({ message: error.message });
+        next(createError(400, error.message));
     }
 });
 
-router.delete('/remove/:cakeId', authMiddleware, async (req, res) => { //todo
+router.delete('/remove/:cakeId', authMiddleware, async (req, res, next) => { //todo?
     try {
-        const cart = await Cart.findOne({ userId: req.user.id });
+        const cart = await Cart.findOne({ user_id: req.user.id });
         
         if (!cart) {
             return next(createError(404, "Cart not found"));
         }
 
         cart.items = cart.items.filter(item => 
-            item.cakeId.toString() !== req.params.cakeId
+            item.cake_id.toString() !== req.params.cakeId
         );
         
         await cart.save();
         res.json(cart);
     } catch (error) {
-        res.status(400).json({ message: error.message });
+        next(createError(400, error.message));
     }
 });
 
-router.delete('/clear', authMiddleware, async (req, res) => { //todo
+router.delete('/clear', authMiddleware, async (req, res, next) => { //todo
     try {
-        const cart = await Cart.findOne({ userId: req.user.id });
+        const cart = await Cart.findOne({ user_id: req.user.id });
         
         if (!cart) {
             return next(createError(404, "Cart not found"));
@@ -120,14 +119,14 @@ router.delete('/clear', authMiddleware, async (req, res) => { //todo
         await cart.save();
         res.json({ message: "Cart cleared successfully" });
     } catch (error) {
-        res.status(400).json({ message: error.message });
+        next(createError(400, error.message));
     }
 });
 
-router.post('/apply-discount', authMiddleware, async (req, res) => {
+router.post('/apply-discount', authMiddleware, async (req, res, next) => { //todo?
     try {
         const { code } = req.body;
-        const cart = await Cart.findOne({ userId: req.user.id });
+        const cart = await Cart.findOne({ user_id: req.user.id });
         
         if (!cart) {
             return next(createError(404, "Cart not found"));

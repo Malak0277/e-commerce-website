@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-   
+
 
     <div class="main" id="main">
         <div class="container-fluid">
@@ -79,45 +79,7 @@
         </div>
     </div>
 
-    <script>
-        function toggleNav() {
-            const sidebar = document.getElementById("sidebar");
-            if (sidebar.style.width === "250px") {
-                closeNav();
-            } else {
-                openNav();
-            }
-        }
-      
-        function openNav() {
-            document.getElementById("sidebar").style.width = "250px";
-            document.getElementById("main").style.marginLeft = "250px";
-            document.getElementById("sidebar").style.display = "block"; 
-        }
-      
-        function closeNav() {
-            document.getElementById("sidebar").style.width = "0";
-            document.getElementById("main").style.marginLeft= "0";
-            document.getElementById("sidebar").style.display = "none"; 
-        }
-        
-        // Update cart count from localStorage if available
-        document.addEventListener('DOMContentLoaded', function() {
-            updateCartCount();
-        });
-        
-        // Function to update cart count
-        function updateCartCount() {
-            let count = 0;
-            const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-            
-            if (cartItems.length) {
-                count = cartItems.reduce((total, item) => total + item.quantity, 0);
-            }
-            
-            document.getElementById('nav-cart-count').textContent = count;
-        }
-    </script>
+
     <script src="../js/login.js"></script>
 </body>
 </html>
