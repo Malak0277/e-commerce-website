@@ -1,5 +1,4 @@
 const express = require('express');
-const bcrypt = require('bcrypt');
 const User = require('../schemas/User');
 const createError = require('../utils/createError');
 const generateToken = require('../utils/generateToken');
@@ -61,8 +60,9 @@ router.get('/:id', authMiddleware, adminMiddleware, async (req, res) => { //todo
     try {
         const user = await User.findById(req.params.id);
         if (!user) {
-            return res.status(404).json({ message: 'User not found' });
+            return next(createError(404, "User not found"));
         }
+        
         res.json(user);
     } catch (error) {
         res.status(500).json({ message: error.message });
