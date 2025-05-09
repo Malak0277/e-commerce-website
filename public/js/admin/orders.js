@@ -81,22 +81,22 @@ function viewOrderDetails(orderId) {
   });
   document.getElementById('orderNotes').value = order.notes || '';
   document.getElementById('orderStatus').value = order.status.toLowerCase();
-  new bootstrap.Modal(document.getElementById('orderDetailsModal')).show();
+  new bootstrap.Modal(document.getElementById('orderDetailsModal')).show(); //show the model pop up 
 }
 
-// Save changes to order (demo only)
+//DEMO ONLY
 document.getElementById('saveOrderChanges').addEventListener('click', () => {
   // For demo, just close modal and refresh table
   bootstrap.Modal.getInstance(document.getElementById('orderDetailsModal')).hide();
   fetchOrders();
 });
 
-// Print order (demo only)
+//DEMO ONLY -- need to add the print functionality
 function printOrder(orderId) {
   alert('Print functionality is not available ');
 }
 
-// Export orders (demo only)
+//DEMO ONLY -- need to add the export functionality
 document.getElementById('exportOrders').addEventListener('click', () => {
   alert('Export functionality is not available ');
 });

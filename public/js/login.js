@@ -98,6 +98,15 @@ document.addEventListener('DOMContentLoaded', function() {
             setSuccess(pass);
         }
         
+        if (isValid) {
+            // If validation passes, we could redirect or show success message
+            console.log("Validation successful!");
+            setTimeout(() => {
+                window.location.href = "home.html";
+            }, 1000);      
+            // Simulate login success - you would typically call an API here
+           
+        }
         
         return isValid;
     };

@@ -3,16 +3,21 @@ body {
     background-color: #fff6fa;
     user-select: none;
     color: #4a4a4a;
+    padding-top: 60px; /* or whatever your navbar height is */
 }
 
 
 
 
 .topnav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1002;
     overflow: hidden;
     background-color: #ffe0eb;  /*#FF7AB3*/
-   
-  }
+}
   
 
 
@@ -42,7 +47,15 @@ body {
   }
 
 
-  
+  .review-form-container {
+    margin-left: 0;
+    transition: margin-left 0.3s ease;
+  }
+
+  .sidebar-open #review-form-container {
+    margin-left: 250px; /* same as sidebar width */
+  }
+
   .topnav a.active {
     background-color:  #ffb3cc; /*#FF7AB3*/
     color: white;
