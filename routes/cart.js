@@ -7,7 +7,7 @@ const User = require('../schemas/User');
 const Cake = require('../schemas/Cake');
 const Discount = require('../schemas/Discount');
 
-router.get('/', authMiddleware, async (req, res, next) => { //todo
+router.get('/', authMiddleware, async (req, res, next) => { //todo?
     try {
         let cart = await Cart.findOne({ user_id: req.user.id })
             .populate('items.cake_id');
@@ -23,7 +23,7 @@ router.get('/', authMiddleware, async (req, res, next) => { //todo
     }
 });
 
-router.post('/add', authMiddleware, async (req, res, next) => { //todo
+router.post('/add', authMiddleware, async (req, res, next) => { //todo?
     try {
         const { cakeId, quantity } = req.body;
         
@@ -60,7 +60,7 @@ router.post('/add', authMiddleware, async (req, res, next) => { //todo
     }
 });
 
-router.put('/update/:cakeId', authMiddleware, async (req, res, next) => { //todo
+router.put('/update/:cakeId', authMiddleware, async (req, res, next) => { //todo?
     try {
         const { quantity } = req.body;
         const cart = await Cart.findOne({ user_id: req.user.id });
@@ -85,7 +85,7 @@ router.put('/update/:cakeId', authMiddleware, async (req, res, next) => { //todo
     }
 });
 
-router.delete('/remove/:cakeId', authMiddleware, async (req, res, next) => { //todo
+router.delete('/remove/:cakeId', authMiddleware, async (req, res, next) => { //todo?
     try {
         const cart = await Cart.findOne({ user_id: req.user.id });
         
@@ -123,7 +123,7 @@ router.delete('/clear', authMiddleware, async (req, res, next) => { //todo
     }
 });
 
-router.post('/apply-discount', authMiddleware, async (req, res, next) => {
+router.post('/apply-discount', authMiddleware, async (req, res, next) => { //todo?
     try {
         const { code } = req.body;
         const cart = await Cart.findOne({ user_id: req.user.id });

@@ -15,19 +15,27 @@
 
     // Initialize the cart page
     document.addEventListener('DOMContentLoaded', function() {
-        // Load cart from localStorage
-        loadCartFromStorage();
-        updateCartDisplay();
+        loadCart();
         setupEventListeners();
-        updateNavCartCount();
     });
     
-    // Load cart from localStorage
-    function loadCartFromStorage() {
-        const storedItems = localStorage.getItem('cartItems');
-        if (storedItems) {
-            cart.items = JSON.parse(storedItems);
-            updateCartTotals();
+    // Load cart from API
+    async function loadCart() {
+        try {
+            const response = await fetch('/cart', {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+            });
+            if (!response.ok) throw new Error('Failed to load cart');
+            
+            const cartData = await response.json();
+            cart.items = cartData.items || [];
+            updateCartDisplay();
+            updateNavCartCount();
+        } catch (error) {
+            console.error('Error loading cart:', error);
+            alert('Error loading cart');
         }
     }
 
@@ -47,7 +55,7 @@
     }
 
      // Add this function to handle promo codes
-     function applyPromoCode() {
+     async function applyPromoCode() {
         const promoCodeInput = document.getElementById('promo-code');
         const promoMessage = document.getElementById('promo-message');
         const code = promoCodeInput.value.trim().toUpperCase();
@@ -58,59 +66,103 @@
             return;
         }
         
-        if (promoCodes[code]) {
-            cart.promoCode = code;
-            promoMessage.textContent = promoCodes[code].description;
+        try {
+            const response = await fetch('/cart/apply-discount', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                },
+                body: JSON.stringify({ code })
+            });
+            
+            if (!response.ok) {
+                const error = await response.json();
+                throw new Error(error.message || 'Invalid promo code');
+            }
+            
+            const updatedCart = await response.json();
+            cart.items = updatedCart.items;
+            cart.discountCode = updatedCart.discountCode;
+            cart.discountAmount = updatedCart.discountAmount;
+            
+            promoMessage.textContent = 'Promo code applied successfully!';
             promoMessage.className = 'promo-message valid-promo';
-            updateCartTotals();
-        } else {
-            cart.promoCode = null;
-            promoMessage.textContent = 'Invalid promo code';
+            updateCartDisplay();
+        } catch (error) {
+            console.error('Error applying promo code:', error);
+            promoMessage.textContent = error.message || 'Invalid promo code';
             promoMessage.className = 'promo-message invalid-promo';
-            updateCartTotals();
         }
     }
 
-    // Add item to cart 
-    function addToCart(productId, quantity = 1) {
-        // have a products database
-        const sampleProducts = {
-            'cake001': { id: 'cake001', name: 'Birthday Chocolate Cake', price: 45.99 },
-            'cake002': { id: 'cake002', name: 'Vanilla Wedding Cake', price: 39.99 }
-        };
-        
-        const product = sampleProducts[productId];
-        if (!product) return;
-
-        const existingItem = cart.items.find(item => item.id === productId);
-        if (existingItem) {
-            existingItem.quantity += quantity;
-        } else {
-            cart.items.push({
-                id: product.id,
-                name: product.name,
-                price: product.price,
-                quantity: quantity
+    // Add item to cart
+    async function addToCart(cakeId, quantity = 1) {
+        try {
+            const response = await fetch('/cart/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                },
+                body: JSON.stringify({ cakeId, quantity })
             });
+            
+            if (!response.ok) throw new Error('Failed to add item to cart');
+            
+            const updatedCart = await response.json();
+            cart.items = updatedCart.items;
+            updateCartDisplay();
+            updateNavCartCount();
+        } catch (error) {
+            console.error('Error adding to cart:', error);
+            alert('Error adding item to cart');
         }
-        updateCartTotals();
-        saveCartToStorage();
     }
 
     // Remove item from cart
-    function removeFromCart(productId) {
-        cart.items = cart.items.filter(item => item.id !== productId);
-        updateCartTotals();
-        saveCartToStorage();
+    async function removeFromCart(cakeId) {
+        try {
+            const response = await fetch(`/cart/remove/${cakeId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+            });
+            
+            if (!response.ok) throw new Error('Failed to remove item');
+            
+            const updatedCart = await response.json();
+            cart.items = updatedCart.items;
+            updateCartDisplay();
+            updateNavCartCount();
+        } catch (error) {
+            console.error('Error removing item:', error);
+            alert('Error removing item from cart');
+        }
     }
 
     // Update item quantity
-    function updateQuantity(productId, newQuantity) {
-        const item = cart.items.find(item => item.id === productId);
-        if (item) {
-            item.quantity = Math.max(1, newQuantity);
-            updateCartTotals();
-            saveCartToStorage();
+    async function updateQuantity(cakeId, newQuantity) {
+        try {
+            const response = await fetch(`/cart/update/${cakeId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                },
+                body: JSON.stringify({ quantity: newQuantity })
+            });
+            
+            if (!response.ok) throw new Error('Failed to update quantity');
+            
+            const updatedCart = await response.json();
+            cart.items = updatedCart.items;
+            updateCartDisplay();
+            updateNavCartCount();
+        } catch (error) {
+            console.error('Error updating quantity:', error);
+            alert('Error updating quantity');
         }
     }
 
@@ -158,14 +210,14 @@
                 itemsHTML += `
                     <div class="card">
                         <div class="d-flex justify-content-between">
-                            <h5>${item.name}</h5>
-                            <button onclick="removeFromCart('${item.id}')" class="btn-danger">×</button>
+                            <h5>${item.cake_id.name}</h5>
+                            <button onclick="removeFromCart('${item.cake_id._id}')" class="btn-danger">×</button>
                         </div>
                         <p class="item-price">$${item.price.toFixed(2)} each</p>
                         <div class="quantity-controls">
-                            <button onclick="updateQuantity('${item.id}', ${item.quantity-1})">-</button>
+                            <button onclick="updateQuantity('${item.cake_id._id}', ${item.quantity-1})">-</button>
                             <span>${item.quantity}</span>
-                            <button onclick="updateQuantity('${item.id}', ${item.quantity+1})">+</button>
+                            <button onclick="updateQuantity('${item.cake_id._id}', ${item.quantity+1})">+</button>
                             <span class="ms-auto item-total">$${(item.price * item.quantity).toFixed(2)}</span>
                         </div>
                     </div>

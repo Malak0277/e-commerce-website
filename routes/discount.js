@@ -5,16 +5,8 @@ const authMiddleware = require('../middlewares/authMiddleware');
 const adminMiddleware = require('../middlewares/adminMiddleware');
 const createError = require('../utils/createError');
 
-router.post('/apply', authMiddleware, async (req, res) => { //todo
-    const { code } = req.body;
-    const discount = await Discount.findOne({ code });
-    if (!discount) return res.status(404).json({ message: 'Invalid code' });
-    res.json({ message: "Valid code", percentage: discount.percentage });
-});
-
-
 // Create a new discount (admin only)
-router.post('/', authMiddleware, adminMiddleware, async (req, res, next) => {
+router.post('/', authMiddleware, adminMiddleware, async (req, res, next) => { //todo
     try {
         const discount = new Discount(req.body);
         await discount.save();
@@ -25,7 +17,7 @@ router.post('/', authMiddleware, adminMiddleware, async (req, res, next) => {
 });
 
 // Get all active discounts
-router.get('/', async (req, res) => {
+router.get('/', authMiddleware, adminMiddleware, async (req, res) => { //todo
     try {
         const currentDate = new Date();
         const discounts = await Discount.find({
@@ -60,7 +52,7 @@ router.get('/', async (req, res) => {
 // });
 
 
-router.put('/:id', authMiddleware, adminMiddleware, async (req, res, next) => {
+router.put('/:id', authMiddleware, adminMiddleware, async (req, res, next) => { //todo
     try {
         const discount = await Discount.findByIdAndUpdate(
             req.params.id,
@@ -79,7 +71,7 @@ router.put('/:id', authMiddleware, adminMiddleware, async (req, res, next) => {
 });
 
 // Delete a discount (admin only)
-router.delete('/:id', authMiddleware, adminMiddleware, async (req, res, next) => {
+router.delete('/:id', authMiddleware, adminMiddleware, async (req, res, next) => { //todo
     try {
         const discount = await Discount.findByIdAndDelete(req.params.id);
         
