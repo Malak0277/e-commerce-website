@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const Order = require('../schemas/Order');
-const Cart = require('./schemas/Cart');
-const Cake = require('./schemas/Cake');
-const getID = require('../utils/idGenerator');
+const Cart = require('../schemas/Cart');
+const Cake = require('../schemas/Cake');
+//const getID = require('../utils/idGenerator');
 
 
 router.post('/', async (req, res) => { //todo

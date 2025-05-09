@@ -5,7 +5,6 @@ const connectDB = require('./config/database');
 const app = express();
 
 const cakeRouter = require('./routes/cake');
-const authRouter = require('./routes/auth');
 const userRouter = require('./routes/user');
 const orderRouter = require('./routes/order');
 const cartRouter = require('./routes/cart');
@@ -13,7 +12,9 @@ const discountRouter = require('./routes/discount');
 const reviewRouter = require('./routes/review');
 
 // Database
-connectDB();
+connectDB().catch(err => {
+    console.error('Failed to connect to MongoDB:', err);
+});
 
 // Middleware
 app.use(express.urlencoded({ extended: true }));
@@ -21,7 +22,6 @@ app.use(express.json());
 app.use(express.static("./public"));
 
 // Routes
-app.use('/auth', authRouter);
 app.use('/cake', cakeRouter);
 app.use('/user', userRouter);
 app.use('/order', orderRouter);
@@ -37,23 +37,10 @@ app.get('/', (req, res) => {
     res.redirect('html/login.html');
 })
 
-const errorHandler = require('./middleware/errorHandler');
+const errorHandler = require('./middlewares/errorHandler');
 app.use(errorHandler);
 
-<<<<<<< HEAD
-
-async function main() {
-    const db = await connectDB();
-  
-    // Example: get all cakes
-    //const cakes = await db.collection('cakes').find().toArray();
-    //console.log(cakes);
-  }
-  
-  main();
-=======
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
->>>>>>> b305b233c12ed091b7a895a3cc277379b801b892

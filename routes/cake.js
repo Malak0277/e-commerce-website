@@ -4,7 +4,7 @@ const Cake = require('../schemas/Cake');
 const authMiddleware = require('../middlewares/authMiddleware');
 const adminMiddleware = require('../middlewares/adminMiddleware');
 const createError = require('../utils/createError');
-const getID = require('../utils/getNextNumber');
+//const getID = require('../utils/getNextNumber');
 
 // Simulate a database or data source
 const cakesData = {
@@ -88,7 +88,7 @@ router.put('/:id', authMiddleware, adminMiddleware, async (req, res, next) => { 
     res.json(cake);
 });
 
-router.delete('/:id', authMiddleware, adminMiddleware, async (req, res) => { //todo
+router.delete('/:id', authMiddleware, adminMiddleware, async (req, res, next) => { //todo
     const cake = await Cake.findByIdAndDelete(req.params.id);
     if (!cake) {
         return next(createError(404, "Cake not found"));

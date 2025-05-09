@@ -11,10 +11,35 @@ const cartItemSchema = new mongoose.Schema({
 // Define the schema for the cart
 const cartSchema = new mongoose.Schema({
   user_id: { type: String, required: true, ref: 'User' },
-  items: [cartItemSchema] // An array of cart items
+  items: [cartItemSchema], // An array of cart items
+  discountCode: {
+    type: String,
+    ref: 'Discount'
+  },
+  discountAmount: {
+    type: Number,
+    default: 0
+  },
+  totalAmount: {
+    type: Number,
+    default: 0
+  }
 });
 
 // Ensure that a user can only have one cart (unique user_id)
 cartSchema.index({ user_id: 1 }, { unique: true });
+
+cartSchema.methods.calculateTotal = function() {
+    this.totalAmount = this.items.reduce((total, item) => {
+        return total + (item.price * item.quantity);
+    }, 0);
+    return this;
+};
+
+// Add pre-save middleware
+cartSchema.pre('save', function(next) {
+    this.calculateTotal();
+    next();
+});
 
 module.exports = mongoose.model('Cart', cartSchema);
