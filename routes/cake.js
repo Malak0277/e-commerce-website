@@ -70,8 +70,12 @@ router.get('/:id', async (req, res, next) => { //todo
     res.json(cake);
 });
 
-router.post('/', authMiddleware, adminMiddleware, async (req, res) => { //todo
-    const cake = new Cake(req.body);
+router.post('/', authMiddleware, adminMiddleware, async (req, res) => {
+    const cakeId = await getID('cake_id');
+    const cake = new Cake({
+        cake_id: cakeId,
+        ...req.body
+    });
     await cake.save();
     res.status(201).json(cake);
 });
