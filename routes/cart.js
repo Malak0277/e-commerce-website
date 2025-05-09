@@ -13,21 +13,24 @@ router.get('/', authMiddleware, async (req, res, next) => { //todo?
             .populate('items.cake_id');
         
         if (!cart) {
-            cart = new Cart({ user_id: req.user.id });
+            cart = new Cart({
+                user_id: req.user.id,
+                items: []
+            });
             await cart.save();
         }
         
         res.json(cart);
     } catch (error) {
+        console.error('Cart error:', error);
         next(createError(500, error.message));
     }
 });
 
 router.post('/add', authMiddleware, async (req, res, next) => { //todo?
     try {
-        const { cakeId, quantity } = req.body;
+        const { cakeId, quantity = 1 } = req.body;
         
-        // Check if cake exists
         const cake = await Cake.findById(cakeId);
         if (!cake) {
             return next(createError(404, "Cake not found"));
@@ -38,7 +41,6 @@ router.post('/add', authMiddleware, async (req, res, next) => { //todo?
             cart = new Cart({ user_id: req.user.id });
         }
 
-        // Check if item already exists in cart
         const existingItem = cart.items.find(item => 
             item.cake_id.toString() === cakeId
         );
@@ -48,13 +50,14 @@ router.post('/add', authMiddleware, async (req, res, next) => { //todo?
         } else {
             cart.items.push({
                 cake_id: cakeId,
-                quantity,
+                quantity: quantity,
                 price: cake.price
             });
         }
 
         await cart.save();
-        res.json(cart);
+        const populatedCart = await Cart.findById(cart._id).populate('items.cake_id');
+        res.json({ message: "Item added to cart", cart: populatedCart });
     } catch (error) {
         next(createError(400, error.message));
     }
@@ -79,7 +82,8 @@ router.put('/update/:cakeId', authMiddleware, async (req, res, next) => { //todo
 
         cartItem.quantity = quantity;
         await cart.save();
-        res.json(cart);
+        const populatedCart = await Cart.findById(cart._id).populate('items.cake_id');
+        res.json(populatedCart);
     } catch (error) {
         next(createError(400, error.message));
     }
@@ -98,7 +102,8 @@ router.delete('/remove/:cakeId', authMiddleware, async (req, res, next) => { //t
         );
         
         await cart.save();
-        res.json(cart);
+        const populatedCart = await Cart.findById(cart._id).populate('items.cake_id');
+        res.json(populatedCart);
     } catch (error) {
         next(createError(400, error.message));
     }
@@ -126,7 +131,8 @@ router.delete('/clear', authMiddleware, async (req, res, next) => { //todo
 router.post('/apply-discount', authMiddleware, async (req, res, next) => { //todo?
     try {
         const { code } = req.body;
-        const cart = await Cart.findOne({ user_id: req.user.id });
+        const cart = await Cart.findOne({ user_id: req.user.id })
+            .populate('items.cake_id');
         
         if (!cart) {
             return next(createError(404, "Cart not found"));
@@ -134,22 +140,24 @@ router.post('/apply-discount', authMiddleware, async (req, res, next) => { //tod
 
         const discount = await Discount.findOne({ 
             code,
-            isActive: true,
-            startDate: { $lte: new Date() },
-            endDate: { $gte: new Date() }
+            expiry: { $gt: new Date() }
         });
 
         if (!discount) {
             return next(createError(404, "Invalid or expired discount code"));
         }
 
-        cart.discountCode = code;
-        cart.discountAmount = (cart.totalAmount * discount.percentage) / 100;
-        
-        await cart.save();
-        res.json(cart);
+        // Return cart and discount info separately
+        res.json({
+            cart: cart,
+            discount: {
+                code: discount.code,
+                percentage: discount.percentage,
+                description: discount.description
+            }
+        });
     } catch (error) {
-        res.status(400).json({ message: error.message });
+        next(createError(400, error.message));
     }
 });
 

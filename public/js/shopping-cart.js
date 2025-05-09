@@ -10,7 +10,8 @@
         subtotal: 0,
         tax: 0,
         shipping: 5,
-        total: 0
+        total: 0,
+        currentDiscount: null  // Store current discount info in frontend only
     };
 
     // Initialize the cart page
@@ -22,12 +23,21 @@
     // Load cart from API
     async function loadCart() {
         try {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                throw new Error('No authentication token found');
+            }
+
             const response = await fetch('/cart', {
                 headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    'Authorization': `Bearer ${token}`
                 }
             });
-            if (!response.ok) throw new Error('Failed to load cart');
+            
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Failed to load cart');
+            }
             
             const cartData = await response.json();
             cart.items = cartData.items || [];
@@ -35,7 +45,7 @@
             updateNavCartCount();
         } catch (error) {
             console.error('Error loading cart:', error);
-            alert('Error loading cart');
+            alert(`Error loading cart: ${error.message}`);
         }
     }
 
@@ -54,8 +64,46 @@
         }
     }
 
-     // Add this function to handle promo codes
-     async function applyPromoCode() {
+    // Add this function to calculate cart totals
+    function calculateCartTotals() {
+        // Calculate subtotal
+        cart.subtotal = cart.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        
+        // Calculate discount if exists
+        if (cart.currentDiscount) {
+            cart.discountAmount = (cart.subtotal * cart.currentDiscount.percentage) / 100;
+            console.log('Discount calculated:', cart.discountAmount); // Debug log
+        } else {
+            cart.discountAmount = 0;
+        }
+        
+        // Calculate tax (5%)
+        cart.tax = cart.subtotal * 0.05;
+        
+        // Calculate shipping (free over $100)
+        cart.shipping = cart.subtotal > 100 ? 0 : 5;
+        
+        // Calculate final total
+        cart.total = cart.subtotal + cart.tax + cart.shipping - cart.discountAmount;
+        console.log('Final total:', cart.total); // Debug log
+        
+        // Update discount display
+        updateDiscountDisplay();
+    }
+
+    function updateDiscountDisplay() {
+        const discountAmount = document.getElementById('discount-amount');
+        if (discountAmount) {
+            if (cart.currentDiscount) {
+                discountAmount.textContent = `-$${cart.discountAmount.toFixed(2)}`;
+            } else {
+                discountAmount.textContent = '$0.00';
+            }
+        }
+    }
+
+    // Update the applyPromoCode function
+    async function applyPromoCode() {
         const promoCodeInput = document.getElementById('promo-code');
         const promoMessage = document.getElementById('promo-message');
         const code = promoCodeInput.value.trim().toUpperCase();
@@ -81,13 +129,30 @@
                 throw new Error(error.message || 'Invalid promo code');
             }
             
-            const updatedCart = await response.json();
-            cart.items = updatedCart.items;
-            cart.discountCode = updatedCart.discountCode;
-            cart.discountAmount = updatedCart.discountAmount;
+            const { cart: updatedCart, discount } = await response.json();
             
-            promoMessage.textContent = 'Promo code applied successfully!';
+            // Update cart items
+            cart.items = updatedCart.items;
+            
+            // Store discount info in frontend only
+            cart.currentDiscount = {
+                code: discount.code,
+                percentage: discount.percentage,
+                description: discount.description
+            };
+            
+            // Calculate new totals
+            calculateCartTotals();
+            
+            // Force update the discount amount display
+            const discountAmount = document.getElementById('discount-amount');
+            if (discountAmount) {
+                discountAmount.textContent = `-$${cart.discountAmount.toFixed(2)}`;
+            }
+            
+            promoMessage.textContent = `Promo code applied! ${discount.percentage}% off`;
             promoMessage.className = 'promo-message valid-promo';
+            
             updateCartDisplay();
         } catch (error) {
             console.error('Error applying promo code:', error);
@@ -145,96 +210,129 @@
     // Update item quantity
     async function updateQuantity(cakeId, newQuantity) {
         try {
+            // Don't allow quantity less than 1
+            if (newQuantity < 1) {
+                return;
+            }
+
+            const token = localStorage.getItem('token');
+            if (!token) {
+                window.location.href = '/html/Login.html';
+                return;
+            }
+
             const response = await fetch(`/cart/update/${cakeId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify({ quantity: newQuantity })
             });
             
-            if (!response.ok) throw new Error('Failed to update quantity');
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Failed to update quantity');
+            }
             
             const updatedCart = await response.json();
+            if (!updatedCart || !updatedCart.items) {
+                throw new Error('Invalid cart data received');
+            }
+
+            // Only update the frontend after successful backend update
             cart.items = updatedCart.items;
             updateCartDisplay();
             updateNavCartCount();
         } catch (error) {
             console.error('Error updating quantity:', error);
-            alert('Error updating quantity');
+            alert('Error updating quantity: ' + error.message);
+            // Reload cart to ensure frontend matches backend
+            loadCart();
         }
-    }
-
-    // Calculate cart totals
-      function updateCartTotals() {
-        cart.subtotal = cart.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-        cart.tax = cart.subtotal * 0.05;
-        cart.shipping = cart.subtotal > 100 ? 0 : 5;
-        
-        // Reset discount
-        cart.discount = 0;
-        
-        // Apply promo code if valid
-        if (cart.promoCode && promoCodes[cart.promoCode]) {
-            const promo = promoCodes[cart.promoCode];
-            
-            if (promo.type === 'percentage') {
-                cart.discount = (cart.subtotal * promo.value) / 100;
-            } 
-            else if (promo.type === 'fixed') {
-                cart.discount = promo.value;
-            }
-            else if (promo.type === 'shipping') {
-                cart.shipping = 0;
-            }
-        }
-        
-        cart.total = cart.subtotal + cart.tax + cart.shipping - cart.discount;
-        updateCartDisplay();
     }
 
     // Update the cart display
     function updateCartDisplay() {
         const cartItemsContainer = document.getElementById('cart-items');
         const emptyCartMessage = document.getElementById('empty-cart-message');
+        const discountSection = document.getElementById('discount-section');
+        const discountAmount = document.getElementById('discount-amount');
 
-        if (cart.items.length === 0) {
+        console.log('Discount amount element:', discountAmount); // Debug log
+        console.log('Current discount:', cart.currentDiscount); // Debug log
+        console.log('Cart discount amount:', cart.discountAmount); // Debug log
+
+        if (!cart.items || cart.items.length === 0) {
             cartItemsContainer.innerHTML = '';
             emptyCartMessage.style.display = 'block';
-        } else {
-            emptyCartMessage.style.display = 'none';
+            if (discountSection) discountSection.style.display = 'none';
+            if (discountAmount) discountAmount.textContent = '$0.00';  // Reset discount amount
+            // Reset totals when cart is empty
+            cart.subtotal = 0;
+            cart.tax = 0;
+            cart.shipping = 5;
+            cart.total = 0;
+            calculateCartTotals();
+            return;
+        }
+
+        emptyCartMessage.style.display = 'none';
+        
+        let itemsHTML = '';
+        cart.items.forEach(item => {
+            const cake = item.cake_id;
+            if (!cake) return;
             
-            let itemsHTML = '';
-            cart.items.forEach(item => {
-                itemsHTML += `
-                    <div class="card">
-                        <div class="d-flex justify-content-between">
-                            <h5>${item.cake_id.name}</h5>
-                            <button onclick="removeFromCart('${item.cake_id._id}')" class="btn-danger">×</button>
-                        </div>
-                        <p class="item-price">$${item.price.toFixed(2)} each</p>
-                        <div class="quantity-controls">
-                            <button onclick="updateQuantity('${item.cake_id._id}', ${item.quantity-1})">-</button>
-                            <span>${item.quantity}</span>
-                            <button onclick="updateQuantity('${item.cake_id._id}', ${item.quantity+1})">+</button>
-                            <span class="ms-auto item-total">$${(item.price * item.quantity).toFixed(2)}</span>
-                        </div>
+            itemsHTML += `
+                <div class="card">
+                    <div class="d-flex justify-content-between">
+                        <h5>${cake.name}</h5>
+                        <button onclick="removeFromCart('${cake._id}')" class="btn-danger">×</button>
+                    </div>
+                    <p class="item-price">$${item.price.toFixed(2)} each</p>
+                    <div class="quantity-controls">
+                        <button onclick="updateQuantity('${cake._id}', ${item.quantity-1})" ${item.quantity <= 1 ? 'disabled' : ''}>-</button>
+                        <span>${item.quantity}</span>
+                        <button onclick="updateQuantity('${cake._id}', ${item.quantity+1})">+</button>
+                        <span class="ms-auto item-total">$${(item.price * item.quantity).toFixed(2)}</span>
+                    </div>
+                </div>
+            `;
+        });
+        
+        cartItemsContainer.innerHTML = itemsHTML;
+
+        // Calculate totals before displaying
+        calculateCartTotals();
+
+        // Update discount amount if element exists
+        if (discountAmount) {
+            if (cart.currentDiscount) {
+                const discountText = `-$${cart.discountAmount.toFixed(2)}`;
+                discountAmount.textContent = discountText;
+            } else {
+                discountAmount.textContent = '$0.00';
+            }
+        }
+
+        // Update discount section if it exists
+        if (discountSection) {
+            if (cart.currentDiscount) {
+                discountSection.style.display = 'block';
+                discountSection.innerHTML = `
+                    <div class="discount-info">
+                        <p>Discount Code: ${cart.currentDiscount.code}</p>
+                        <p>Discount: ${cart.currentDiscount.percentage}%</p>
+                        <p>Amount Saved: $${cart.discountAmount.toFixed(2)}</p>
                     </div>
                 `;
-            });
-            
-            cartItemsContainer.innerHTML = itemsHTML;
+            } else {
+                discountSection.style.display = 'none';
+            }
         }
-         // Update discount display
-         if (cart.discount > 0) {
-            document.getElementById('discount-row').style.display = 'flex';
-            document.getElementById('discount').textContent = `-$${cart.discount.toFixed(2)}`;
-        } else {
-            document.getElementById('discount-row').style.display = 'none';
-        }
-        
-        // Update summary
+
+        // Update the totals display
         document.getElementById('subtotal').textContent = `$${cart.subtotal.toFixed(2)}`;
         document.getElementById('tax').textContent = `$${cart.tax.toFixed(2)}`;
         document.getElementById('shipping').textContent = `$${cart.shipping.toFixed(2)}`;

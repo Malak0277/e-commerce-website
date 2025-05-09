@@ -50,7 +50,8 @@ body {
   .review-form-container {
     margin-left: 0;
     transition: margin-left 0.3s ease;
-    padding: 20px;
+    padding: 0 150px;
+    margin-bottom: 50px;
   }
 
   .sidebar-open #review-form-container {
