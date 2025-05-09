@@ -6,7 +6,9 @@ const userSchema = new mongoose.Schema({
   first_name: String,
   last_name: String,
   address: String,
-  phone: String
+  phone: String,
+  profile_picture: String,
+  isAdmin: { type: Boolean, default: false }
 });
 
 module.exports = mongoose.model('User', userSchema);

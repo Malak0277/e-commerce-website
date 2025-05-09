@@ -5,6 +5,11 @@ const orderSchema = new mongoose.Schema({
   user_id: { type: String, ref: 'User', required: true },
   total_price: { type: Number, required: true },
   shipping_address: { type: String, required: true },
+  payment_method: {
+    type: String,
+    enum: ['credit_card', 'paypal', 'cash_on_delivery'],
+    required: true
+  },
   created_at: { type: Date, default: Date.now },
   status: {
     type: String,
