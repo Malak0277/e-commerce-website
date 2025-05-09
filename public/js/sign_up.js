@@ -16,7 +16,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    name: `${firstName.value.trim()} ${lastName.value.trim()}`,
+                    first_name: firstName.value.trim(),
+                    last_name: lastName.value.trim(),
                     email: email.value.trim(),
                     password: pass.value.trim()
                 })

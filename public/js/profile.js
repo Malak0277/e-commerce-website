@@ -1,38 +1,44 @@
 document.addEventListener("DOMContentLoaded", () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        console.error('No token found');
+        window.location.href = 'login.html';
+        return;
+    }
+
     // Fetch user profile data
     fetch('/user/profile', {
         headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
+            'Authorization': `Bearer ${token}`
         }
     })
     .then(response => {
         if (!response.ok) {
-            throw new Error('Failed to fetch profile');
+            return response.json().then(err => {
+                throw new Error(err.message || 'Failed to fetch profile');
+            });
         }
         return response.json();
     })
     .then(data => {
         // Populate form fields with user data
-        document.getElementById('name').value = data.name || '';
+        document.getElementById('name').value = data.first_name + ' ' + data.last_name || '';
         document.getElementById('email').value = data.email || '';
         document.getElementById('phone').value = data.phone || '';
         document.getElementById('address').value = data.address || '';
 
         // Handle profile image
         if (data.profileImage) {
-            // Store the image in localStorage
             localStorage.setItem('profileImage', data.profileImage);
-            // Update the image on the page
             document.querySelector('.profile-picture img').src = data.profileImage;
         } else {
-            // Use default image if no profile image exists
             const defaultImage = '../images/profil.jpg';
             document.querySelector('.profile-picture img').src = defaultImage;
         }
     })
     .catch(error => {
         console.error('Error loading profile:', error);
-        alert('Error loading profile data');
+        alert('Error loading profile data'+ error.messag);
     });
 });
 
