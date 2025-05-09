@@ -4,7 +4,7 @@ const Cake = require('../schemas/Cake');
 const authMiddleware = require('../middlewares/authMiddleware');
 const adminMiddleware = require('../middlewares/adminMiddleware');
 const createError = require('../utils/createError');
-//const getID = require('../utils/getNextNumber');
+const getID = require('../utils/idGenerator');
 
 // Simulate a database or data source
 const cakesData = {
