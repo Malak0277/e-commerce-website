@@ -30,25 +30,23 @@ function toggleNav() {
         openNav();
     }
 }
-
 function openNav() {
     const sidebar = document.getElementById("sidebar");
     const main = document.getElementById("main");
-    
     sidebar.style.width = "250px";
     sidebar.style.display = "block";
     main.style.marginLeft = "250px";
+    document.body.classList.add('sidebar-open'); // <-- Add this line
 }
 
 function closeNav() {
     const sidebar = document.getElementById("sidebar");
     const main = document.getElementById("main");
-    
     sidebar.style.width = "0";
     sidebar.style.display = "none";
     main.style.marginLeft = originalMargin + "px";
+    document.body.classList.remove('sidebar-open'); // <-- Add this line
 }
-
 // Wait for DOM to fully load
 document.addEventListener('DOMContentLoaded', function() {
     // Store the original margin when page loads
