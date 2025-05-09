@@ -96,3 +96,5 @@ document.getElementById('profile-form').addEventListener('submit', function(e) {
         alert(error.message || 'Failed to update profile');
     });
 });
+
+//verification 
