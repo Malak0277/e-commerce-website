@@ -21,6 +21,7 @@ let promotions = [
  
 ];
 
+// Display the promotions in the table, applying search, status, and date filters
 function displayPromotions() {
   const tbody = document.getElementById('promosTable');
   tbody.innerHTML = '';
@@ -50,10 +51,12 @@ function displayPromotions() {
   });
 }
 
+// Capitalize the first letter of a string
 function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+// Open the edit promotion modal and populate fields
 window.editPromo = function(id) {
   const promo = promotions.find(p => p.id === id);
   if (!promo) return;
@@ -68,6 +71,7 @@ window.editPromo = function(id) {
   new bootstrap.Modal(document.getElementById('promoModal')).show();
 };
 
+// Add Promotion button event: open modal for new promo
 document.getElementById('addPromotionBtn').addEventListener('click', () => {
   document.getElementById('promoForm').reset();
   document.getElementById('promoId').value = '';
@@ -75,6 +79,7 @@ document.getElementById('addPromotionBtn').addEventListener('click', () => {
   new bootstrap.Modal(document.getElementById('promoModal')).show();
 });
 
+// Save promotion changes or add a new promotion (demo only)
 document.getElementById('savePromo').addEventListener('click', () => {
   const id = document.getElementById('promoId').value;
   const code = document.getElementById('promoCode').value;
@@ -98,6 +103,7 @@ document.getElementById('savePromo').addEventListener('click', () => {
   displayPromotions();
 });
 
+// Delete a promotion by ID (demo only)
 window.deletePromo = function(id) {
   if (confirm('Are you sure you want to delete this promotion?')) {
     promotions = promotions.filter(p => p.id !== id);
@@ -105,6 +111,7 @@ window.deletePromo = function(id) {
   }
 };
 
+// Delete promotion from modal (demo only)
 document.getElementById('deletePromo').addEventListener('click', () => {
   const id = document.getElementById('promoId').value;
   if (id) {
@@ -113,14 +120,17 @@ document.getElementById('deletePromo').addEventListener('click', () => {
   }
 });
 
+// Filter/search event listeners
 document.getElementById('searchPromo').addEventListener('input', displayPromotions);
 document.getElementById('statusFilter').addEventListener('change', displayPromotions);
 document.getElementById('dateFilter').addEventListener('change', displayPromotions);
 
+// Export button (demo only)
 document.getElementById('exportPromos').addEventListener('click', () => {
   alert('Export functionality is not available ');
 });
 
+// Initialize table on page load
 document.addEventListener('DOMContentLoaded', () => {
   displayPromotions();
 });

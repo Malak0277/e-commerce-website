@@ -1,4 +1,4 @@
-// demo
+// Demo data for products
 let products = [
     {
       id: 1,
@@ -23,6 +23,7 @@ let products = [
   ];
   
  
+  // Display the products in the table, applying search, category, and stock filters
   function displayProducts() {
     const tbody = document.getElementById("productsTable");
     tbody.innerHTML = '';
@@ -64,7 +65,7 @@ let products = [
     });
   }
   
-  // Handle adding new product
+  // Handle adding new product (add or update in demo)
   document.getElementById("saveProduct").addEventListener("click", () => {
     const id = document.getElementById("productId").value;
     const name = document.getElementById("productName").value;
@@ -106,7 +107,7 @@ let products = [
     displayProducts();
   });
   
-  // Edit product
+  // Edit product: open modal and populate fields
   function editProduct(id) {
     const product = products.find(p => p.id === id);
     document.getElementById("productId").value = product.id;
@@ -121,7 +122,7 @@ let products = [
     modal.show();
   }
   
-  // Delete product
+  // Delete product by ID (demo only)
   function deleteProduct(id) {
     if (confirm("Are you sure you want to delete this product?")) {
       products = products.filter(p => p.id !== id);
@@ -129,11 +130,11 @@ let products = [
     }
   }
   
-  // Filter listeners
+  // Filter/search event listeners
   document.getElementById("searchProduct").addEventListener("input", displayProducts);
   document.getElementById("categoryFilter").addEventListener("change", displayProducts);
   document.getElementById("stockFilter").addEventListener("change", displayProducts);
   
-  // Initial display
+  // Initial display on page load
   window.onload = displayProducts;
   

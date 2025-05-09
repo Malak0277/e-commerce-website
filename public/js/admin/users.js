@@ -26,6 +26,7 @@ let users = [
   }
 ];
 
+// Display the users in the table, applying search, role, and status filters
 function displayUsers() {
   const tbody = document.getElementById('usersTable');
   tbody.innerHTML = '';
@@ -55,10 +56,12 @@ function displayUsers() {
   });
 }
 
+// Capitalize the first letter of a string
 function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+// Open the edit user modal and populate fields
 window.editUser = function(id) {
   const user = users.find(u => u.id === id);
   if (!user) return;
@@ -71,6 +74,7 @@ window.editUser = function(id) {
   new bootstrap.Modal(document.getElementById('userDetailsModal')).show();
 };
 
+// Save user changes or add a new user (demo only)
 document.getElementById('saveUserChanges').addEventListener('click', () => {
   const id = document.getElementById('userId').value;
   const name = document.getElementById('userName').value;
@@ -93,6 +97,7 @@ document.getElementById('saveUserChanges').addEventListener('click', () => {
   displayUsers();
 });
 
+// Delete a user by ID (demo only)
 window.deleteUser = function(id) {
   if (confirm('Are you sure you want to delete this user?')) {
     users = users.filter(u => u.id !== id);
@@ -100,6 +105,7 @@ window.deleteUser = function(id) {
   }
 };
 
+// Delete user from modal (demo only)
 document.getElementById('deleteUser').addEventListener('click', () => {
   const id = document.getElementById('userId').value;
   if (id) {
@@ -108,14 +114,17 @@ document.getElementById('deleteUser').addEventListener('click', () => {
   }
 });
 
+// Filter/search event listeners
 document.getElementById('searchUser').addEventListener('input', displayUsers);
 document.getElementById('roleFilter').addEventListener('change', displayUsers);
 document.getElementById('statusFilter').addEventListener('change', displayUsers);
 
+// Export button (demo only)
 document.getElementById('exportUsers').addEventListener('click', () => {
   alert('Export functionality is not available in demo mode.');
 });
 
+// Initialize table on page load
 document.addEventListener('DOMContentLoaded', () => {
   displayUsers();
 });

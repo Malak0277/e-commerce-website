@@ -6,6 +6,7 @@ const demoStats = {
   lowStock: 3
 };
 
+// Demo data for recent orders
 const demoOrders = [
   { id: 1012, customerName: 'Sarah Ali', date: '2024-05-01', total: 350, status: 'Pending' },
   { id: 1011, customerName: 'Ahmed Hassan', date: '2024-04-29', total: 120, status: 'Delivered' },
@@ -14,6 +15,7 @@ const demoOrders = [
   { id: 1008, customerName: 'Laila Samir', date: '2024-04-26', total: 90, status: 'Cancelled' }
 ];
 
+// Display dashboard statistics in the stat cards
 function displayDashboardStats() {
   document.getElementById('totalOrders').textContent = demoStats.totalOrders;
   document.getElementById('totalUsers').textContent = demoStats.totalUsers;
@@ -21,6 +23,7 @@ function displayDashboardStats() {
   document.getElementById('lowStock').textContent = demoStats.lowStock;
 }
 
+// Display recent orders in the dashboard table
 function displayRecentOrders() {
   const tableBody = document.getElementById('recentOrdersTable');
   tableBody.innerHTML = '';
@@ -37,6 +40,7 @@ function displayRecentOrders() {
   });
 }
 
+// Initialize dashboard on page load
 document.addEventListener('DOMContentLoaded', () => {
   displayDashboardStats();
   displayRecentOrders();

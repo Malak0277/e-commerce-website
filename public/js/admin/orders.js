@@ -1,4 +1,4 @@
-// Demo data 
+// Demo data for orders
 const demoOrders = [
   { id: 1012, customerName: 'Sarah Ali', date: '2024-05-01', total: 350, status: 'Pending',
     items: [
@@ -27,17 +27,18 @@ const demoOrders = [
   }
 ];
 
+// Render the orders table with demo data
 function fetchOrders() {
   const tableBody = document.getElementById('ordersTable');
-  tableBody.innerHTML = '';
-  demoOrders.forEach(order => {
-    const row = document.createElement('tr');
+  tableBody.innerHTML = ''; // Clear the table
+  demoOrders.forEach(order => {    // Loop through the  orders and create a row for each order adding the order details to the table
+    const row = document.createElement('tr');  //span is used to style the status of the order (common for styling) 
     row.innerHTML = `
       <td>#${order.id}</td>
       <td>${order.customerName}</td>
-      <td>${new Date(order.date).toLocaleDateString()}</td>
-      <td>$${order.total.toFixed(2)}</td>
-      <td><span class="order-status status-${order.status.toLowerCase()}">${order.status}</span></td>
+      <td>${new Date(order.date).toLocaleDateString()}</td> 
+      <td>$${order.total.toFixed(2)}</td> 
+      <td><span class="order-status status-${order.status.toLowerCase()}">${order.status}</span></td>   
       <td>
         <button class="btn btn-sm btn-primary" onclick="viewOrderDetails(${order.id})">
           <i class="fas fa-eye"></i>
@@ -51,7 +52,8 @@ function fetchOrders() {
   });
 }
 
-function viewOrderDetails(orderId) {
+// Show order details in modal by order ID
+function viewOrderDetails(orderId) {  
   const order = demoOrders.find(o => o.id === orderId);
   if (!order) return;
   document.getElementById('modalOrderId').textContent = order.id;
@@ -82,24 +84,29 @@ function viewOrderDetails(orderId) {
   new bootstrap.Modal(document.getElementById('orderDetailsModal')).show();
 }
 
+// Save changes to order (demo only)
 document.getElementById('saveOrderChanges').addEventListener('click', () => {
   // For demo, just close modal and refresh table
   bootstrap.Modal.getInstance(document.getElementById('orderDetailsModal')).hide();
   fetchOrders();
 });
 
+// Print order (demo only)
 function printOrder(orderId) {
   alert('Print functionality is not available ');
 }
 
+// Export orders (demo only)
 document.getElementById('exportOrders').addEventListener('click', () => {
   alert('Export functionality is not available ');
 });
 
+// Filter/search event listeners
 document.getElementById('searchOrder').addEventListener('input', filterOrders);
 document.getElementById('statusFilter').addEventListener('change', filterOrders);
 document.getElementById('dateFilter').addEventListener('change', filterOrders);
 
+// Filter orders in the table based on search, status, and date
 function filterOrders() {
   const searchTerm = document.getElementById('searchOrder').value.toLowerCase();
   const statusFilter = document.getElementById('statusFilter').value;
@@ -117,6 +124,7 @@ function filterOrders() {
   });
 }
 
+// Initialize table on page load
 document.addEventListener('DOMContentLoaded', () => {
   fetchOrders();
 });
