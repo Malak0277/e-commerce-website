@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 // Define the schema for a cart item
 const cartItemSchema = new mongoose.Schema({
   cake_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Cake', required: true },
+  name: { type: String },  // Made optional temporarily
   quantity: { type: Number, default: 1 },
   number_of_people: { type: Number, default: 6 },
   price: { type: Number, required: true }

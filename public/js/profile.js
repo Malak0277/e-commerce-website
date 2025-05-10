@@ -72,9 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <div class="order-details">
                         ${order.items.map(item => {
                             console.log('Processing item:', item); // Debug log
-                            const cakeName = item.cake?.name || item.cake_id?.name || 'Unknown Item';
-                            console.log('Cake name:', cakeName); // Debug log
-                            return `<p>${item.quantity}x ${cakeName}</p>`;
+                            return `<p>${item.quantity}x ${item.name}</p>`;
                         }).join('')}
                     </div>
                     <div class="order-footer">

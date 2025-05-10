@@ -334,7 +334,11 @@
             
             // Convert cart to URL parameters
             const cartParams = new URLSearchParams();
-            cartParams.append('items', JSON.stringify(cart.items));
+            const itemsWithNames = cart.items.map(item => ({
+                ...item,
+                name: item.cake_id.name
+            }));
+            cartParams.append('items', JSON.stringify(itemsWithNames));
             cartParams.append('subtotal', cart.subtotal);
             cartParams.append('tax', cart.tax);
             cartParams.append('shipping', cart.shipping);
