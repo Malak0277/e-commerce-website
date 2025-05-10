@@ -7,7 +7,6 @@ let products = [
       price: 25.5,
       stock: 10,
       description: "Delicious birthday cake",
-      status: "Active",
       imageUrl: "https://via.placeholder.com/50"
     },
     {
@@ -17,7 +16,6 @@ let products = [
       price: 100.0,
       stock: 0,
       description: "Elegant wedding cake",
-      status: "Inactive",
       imageUrl: "https://via.placeholder.com/50"
     }
   ];
@@ -51,7 +49,6 @@ let products = [
         <td>${product.category}</td>
         <td>$${product.price.toFixed(2)}</td>
         <td>${product.stock}</td>
-        <td>${product.status}</td>
         <td class="action-buttons">
           <button class="btn btn-sm btn-info" onclick="editProduct(${product.id})">
             <i class="fas fa-edit"></i>
@@ -83,7 +80,7 @@ let products = [
     if (id) {
       // Update
       const index = products.findIndex(p => p.id == id);
-      products[index] = { id: +id, name, category, price, stock, description, status: products[index].status, imageUrl };
+      products[index] = { id: +id, name, category, price, stock, description, imageUrl };
     } else {
       // Add new
       const newProduct = {
@@ -93,7 +90,6 @@ let products = [
         price,
         stock,
         description,
-        status: "Active",
         imageUrl
       };
       products.push(newProduct);

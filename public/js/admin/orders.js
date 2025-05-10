@@ -1,6 +1,7 @@
 // Demo data for orders
 const demoOrders = [
   { id: 1012, customerName: 'Sarah Ali', date: '2024-05-01', total: 350, status: 'Pending',
+    paymentMethod: 'Credit Card',
     items: [
       { name: 'Birthday Cake', price: 200, quantity: 1 },
       { name: 'Cupcakes', price: 50, quantity: 3 }
@@ -10,6 +11,7 @@ const demoOrders = [
     notes: 'Please deliver after 5pm.'
   },
   { id: 1011, customerName: 'Ahmed Hassan', date: '2024-04-29', total: 120, status: 'Delivered',
+    paymentMethod: 'Cash on Delivery',
     items: [
       { name: 'Minis', price: 40, quantity: 3 }
     ],
@@ -18,6 +20,7 @@ const demoOrders = [
     notes: ''
   },
   { id: 1010, customerName: 'Mona Youssef', date: '2024-04-28', total: 220, status: 'Processing',
+    paymentMethod: 'PayPal',
     items: [
       { name: 'Wedding Cake', price: 220, quantity: 1 }
     ],
@@ -38,7 +41,7 @@ function fetchOrders() {
       <td>${order.customerName}</td>
       <td>${new Date(order.date).toLocaleDateString()}</td> 
       <td>$${order.total.toFixed(2)}</td> 
-      <td><span class="order-status status-${order.status.toLowerCase()}">${order.status}</span></td>   
+      <td>${order.paymentMethod || '-'}</td>
       <td>
         <button class="btn btn-sm btn-primary" onclick="viewOrderDetails(${order.id})">
           <i class="fas fa-eye"></i>
@@ -80,7 +83,6 @@ function viewOrderDetails(orderId) {
     itemsTable.appendChild(row);
   });
   document.getElementById('orderNotes').value = order.notes || '';
-  document.getElementById('orderStatus').value = order.status.toLowerCase();
   new bootstrap.Modal(document.getElementById('orderDetailsModal')).show(); //show the model pop up 
 }
 
@@ -103,24 +105,20 @@ document.getElementById('exportOrders').addEventListener('click', () => {
 
 // Filter/search event listeners
 document.getElementById('searchOrder').addEventListener('input', filterOrders);
-document.getElementById('statusFilter').addEventListener('change', filterOrders);
 document.getElementById('dateFilter').addEventListener('change', filterOrders);
 
 // Filter orders in the table based on search, status, and date
 function filterOrders() {
   const searchTerm = document.getElementById('searchOrder').value.toLowerCase();
-  const statusFilter = document.getElementById('statusFilter').value;
   const dateFilter = document.getElementById('dateFilter').value;
   const rows = document.getElementById('ordersTable').getElementsByTagName('tr');
   Array.from(rows).forEach(row => {
     const orderId = row.cells[0].textContent.toLowerCase();
     const customer = row.cells[1].textContent.toLowerCase();
     const date = row.cells[2].textContent;
-    const status = row.cells[4].textContent.trim().toLowerCase();
     const matchesSearch = orderId.includes(searchTerm) || customer.includes(searchTerm);
-    const matchesStatus = !statusFilter || status === statusFilter.toLowerCase();
     const matchesDate = !dateFilter || date === new Date(dateFilter).toLocaleDateString();
-    row.style.display = matchesSearch && matchesStatus && matchesDate ? '' : 'none';
+    row.style.display = matchesSearch  && matchesDate ? '' : 'none';
   });
 }
 
