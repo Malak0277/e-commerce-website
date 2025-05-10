@@ -36,6 +36,11 @@ router.post('/add', authMiddleware, async (req, res, next) => {
             return next(createError(404, "Cake not found"));
         }
 
+        // Check stock availability
+        if (cake.stock < quantity) {
+            return next(createError(400, `Only ${cake.stock} items available in stock`));
+        }
+
         let cart = await Cart.findOne({ user_id: req.user.id });
         if (!cart) {
             cart = new Cart({ user_id: req.user.id });
@@ -46,6 +51,10 @@ router.post('/add', authMiddleware, async (req, res, next) => {
         );
         
         if (existingItem) {
+            // Check if new total quantity exceeds stock
+            if (cake.stock < existingItem.quantity + quantity) {
+                return next(createError(400, `Only ${cake.stock} items available in stock`));
+            }
             existingItem.quantity += quantity;
         } else {
             cart.items.push({
@@ -78,6 +87,16 @@ router.put('/update/:cakeId', authMiddleware, async (req, res, next) => {
         
         if (!cartItem) {
             return next(createError(404, "Item not found in cart"));
+        }
+
+        // Check stock availability
+        const cake = await Cake.findById(req.params.cakeId);
+        if (!cake) {
+            return next(createError(404, "Cake not found"));
+        }
+
+        if (cake.stock < quantity) {
+            return next(createError(400, `Only ${cake.stock} items available in stock`));
         }
 
         cartItem.quantity = quantity;

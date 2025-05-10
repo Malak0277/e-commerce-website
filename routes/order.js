@@ -11,27 +11,50 @@ const adminMiddleware = require('../middlewares/adminMiddleware');
 // Create a new order
 router.post('/', authMiddleware, async (req, res, next) => {
     try {
-        const orderNumber = await getID('order_number');
-        
-        const orderData = {
-            order_number: orderNumber,
-            user_id: req.user.id,
-            ...req.body
-        };
+        const { items, delivery_address, payment_method } = req.body;
+        const user = req.user;
 
-        const order = new Order(orderData);
-        await order.save();
+        // Check stock availability and prepare items
+        const orderItems = [];
+        for (const item of items) {
+            const cake = await Cake.findById(item.cake_id);
+            if (!cake) {
+                return res.status(404).json({ message: `Cake with ID ${item.cake_id} not found` });
+            }
 
-        res.status(201).json({
-            message: "Order created successfully",
-            order
-        });
-    } catch (error) {
-        if (error.name === 'ValidationError') {
-            next(createError(400, error.message));
-        } else {
-            next(createError(500, "Error creating order"));
+            // Check if enough stock is available
+            if (cake.stock < item.quantity) {
+                return res.status(400).json({ 
+                    message: `Not enough stock available for ${cake.name}. Available: ${cake.stock}, Requested: ${item.quantity}` 
+                });
+            }
+
+            // Update stock
+            cake.stock -= item.quantity;
+            await cake.save();
+
+            orderItems.push({
+                cake_id: item.cake_id,
+                quantity: item.quantity,
+                number_of_people: item.number_of_people || 6,
+                price: cake.price
+            });
         }
+
+        const order = new Order({
+            user_id: user._id,
+            items: orderItems,
+            delivery_address,
+            payment_method: payment_method || 'cash_on_delivery',
+            payment_status: 'pending',
+            delivery_date: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // 1 week from now
+        });
+
+        await order.save();
+        res.status(201).json(order);
+    } catch (error) {
+        console.error('Error creating order:', error);
+        res.status(500).json({ message: 'Error creating order', error: error.message });
     }
 });
 
@@ -39,7 +62,11 @@ router.post('/', authMiddleware, async (req, res, next) => {
 router.get('/', authMiddleware, adminMiddleware, async (req, res, next) => {
     try {
         const orders = await Order.find()
-            .populate('items.cake_id', 'name price image_url')
+            .populate({
+                path: 'items.cake_id',
+                model: 'Cake',
+                select: 'name price image_url'
+            })
             .sort({ created_at: -1 });
             
         res.json(orders);
@@ -52,7 +79,11 @@ router.get('/', authMiddleware, adminMiddleware, async (req, res, next) => {
 router.get('/my-orders', authMiddleware, async (req, res, next) => {
     try {
         const orders = await Order.find({ user_id: req.user.id })
-            .populate('items.cake_id', 'name price image_url')
+            .populate({
+                path: 'items.cake_id',
+                model: 'Cake',
+                select: 'name price image_url'
+            })
             .sort({ created_at: -1 });
             
         res.json(orders);
@@ -65,7 +96,11 @@ router.get('/my-orders', authMiddleware, async (req, res, next) => {
 router.get('/:id', authMiddleware, async (req, res, next) => {
     try {
         const order = await Order.findById(req.params.id)
-            .populate('items.cake_id', 'name price image_url');
+            .populate({
+                path: 'items.cake_id',
+                model: 'Cake',
+                select: 'name price image_url'
+            });
             
         if (!order) {
             return next(createError(404, "Order not found"));
@@ -147,8 +182,9 @@ async function checkout(userId, shippingAddress) {
             totalPrice += item.quantity * item.price;
             items.push({
                 cake_id: item.cake_id,
+                cake_name: cake.name,
                 quantity: item.quantity,
-                number_of_people: item.number_of_people,
+                number_of_people: item.number_of_people || 6,
                 price: item.price
             });
         }
@@ -162,8 +198,8 @@ async function checkout(userId, shippingAddress) {
             shipping_address: shippingAddress,
             items: items,
             payment_status: 'pending',
-            payment_method: 'cash', // Default payment method
-            delivery_date: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // Default delivery in 7 days
+            payment_method: 'cash_on_delivery',
+            delivery_date: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
         });
 
         await order.save();

@@ -61,23 +61,33 @@ function generateCards(list) {
         price.className = "card-text fw-bold text-primary mt-3 mb-2";
         price.textContent = `$${cake.price.toFixed(2)}`;
 
+        // Add stock status
+        const stockStatus = document.createElement("p");
+        stockStatus.className = `card-text mb-2 ${cake.stock > 0 ? 'text-success' : 'text-danger'}`;
+        stockStatus.textContent = cake.stock > 0 ? `In Stock: ${cake.stock}` : 'Out of Stock';
+
         const orderButton = document.createElement("a");
         orderButton.className = "btn btn-warning w-100";
         orderButton.href = "#";
-        orderButton.textContent = "Order Now";
-        orderButton.addEventListener('click', function(e) {
-            e.preventDefault();
-            addToCart(cake._id, 1);
-        });
+        orderButton.textContent = cake.stock > 0 ? "Order Now" : "Out of Stock";
+        orderButton.disabled = cake.stock <= 0;
+        if (cake.stock > 0) {
+            orderButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                addToCart(cake._id, 1);
+            });
+        }
 
         // Build the card structure
         cardBody.appendChild(title);
         cardBody.appendChild(description);
         cardBody.appendChild(price);
+        cardBody.appendChild(stockStatus);
         cardBody.appendChild(orderButton);
 
         card.appendChild(img);
         card.appendChild(cardBody);
+
         col.appendChild(card);
         row.appendChild(col);
     });

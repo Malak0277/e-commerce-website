@@ -221,46 +221,30 @@
 
     // Update item quantity
     async function updateQuantity(cakeId, newQuantity) {
+        if (newQuantity < 1) return;
+        
         try {
-            // Don't allow quantity less than 1
-            if (newQuantity < 1) {
-                return;
-            }
-
-            const token = localStorage.getItem('token');
-            if (!token) {
-                window.location.href = '/html/Login.html';
-                return;
-            }
-
             const response = await fetch(`/cart/update/${cakeId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
                 },
                 body: JSON.stringify({ quantity: newQuantity })
             });
             
             if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.message || 'Failed to update quantity');
+                const error = await response.json();
+                throw new Error(error.message || 'Failed to update quantity');
             }
             
             const updatedCart = await response.json();
-            if (!updatedCart || !updatedCart.items) {
-                throw new Error('Invalid cart data received');
-            }
-
-            // Only update the frontend after successful backend update
             cart.items = updatedCart.items;
             updateCartDisplay();
             updateNavCartCount();
         } catch (error) {
             console.error('Error updating quantity:', error);
-            alert('Error updating quantity: ' + error.message);
-            // Reload cart to ensure frontend matches backend
-            loadCart();
+            alert(error.message || 'Error updating quantity');
         }
     }
 
@@ -268,8 +252,6 @@
     function updateCartDisplay() {
         const cartItemsContainer = document.getElementById('cart-items');
         const emptyCartMessage = document.getElementById('empty-cart-message');
-
-        console.log('Current discount:', cart.currentDiscount); // Debug log
 
         if (!cart.items || cart.items.length === 0) {
             cartItemsContainer.innerHTML = '';
@@ -293,6 +275,9 @@
             const cake = item.cake_id;
             if (!cake) return;
             
+            const stockWarning = item.quantity >= cake.stock ? 
+                `<span class="stock-warning">Only ${cake.stock} left in stock!</span>` : '';
+            
             itemsHTML += `
                 <div class="card">
                     <div class="d-flex justify-content-between">
@@ -300,10 +285,11 @@
                         <button onclick="removeFromCart('${cake._id}')" class="btn-danger">×</button>
                     </div>
                     <p class="item-price">$${item.price.toFixed(2)} each</p>
+                    ${stockWarning}
                     <div class="quantity-controls">
                         <button onclick="updateQuantity('${cake._id}', ${item.quantity-1})" ${item.quantity <= 1 ? 'disabled' : ''}>-</button>
                         <span>${item.quantity}</span>
-                        <button onclick="updateQuantity('${cake._id}', ${item.quantity+1})">+</button>
+                        <button onclick="updateQuantity('${cake._id}', ${item.quantity+1})" ${item.quantity >= cake.stock ? 'disabled' : ''}>+</button>
                         <span class="ms-auto item-total">$${(item.price * item.quantity).toFixed(2)}</span>
                     </div>
                 </div>
@@ -311,15 +297,7 @@
         });
         
         cartItemsContainer.innerHTML = itemsHTML;
-
-        // Calculate totals before displaying
         calculateCartTotals();
-
-        // Update the totals display
-        document.getElementById('subtotal').textContent = `$${cart.subtotal.toFixed(2)}`;
-        document.getElementById('tax').textContent = `$${cart.tax.toFixed(2)}`;
-        document.getElementById('shipping').textContent = `$${cart.shipping.toFixed(2)}`;
-        document.getElementById('total').textContent = `$${cart.total.toFixed(2)}`;
     }
 
     // Set up event listeners

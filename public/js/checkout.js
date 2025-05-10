@@ -84,6 +84,11 @@ function setupEventListeners(cart) {
                 payment_method: 'cash_on_delivery',
                 items: cart.items.map(item => ({
                     cake_id: item.id || item._id,
+                    cake: {
+                        name: item.name,
+                        price: item.price,
+                        image: item.image
+                    },
                     quantity: parseInt(item.quantity),
                     price: parseFloat(item.price),
                     number_of_people: parseInt(item.number_of_people || 1)

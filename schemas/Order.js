@@ -19,6 +19,7 @@ const orderSchema = new mongoose.Schema({
   items: [
     {
       cake_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Cake', required: true },
+      cake_name: { type: String, required: true },
       quantity: { type: Number, required: true },
       number_of_people: { type: Number, required: true },
       price: { type: Number, required: true }
