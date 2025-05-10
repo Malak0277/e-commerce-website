@@ -147,13 +147,13 @@ router.post('/apply-discount', authMiddleware, async (req, res, next) => { //tod
             return next(createError(404, "Invalid or expired discount code"));
         }
 
-        // Return cart and discount info separately
+        // Return cart and discount info without storing in cart
         res.json({
             cart: cart,
             discount: {
                 code: discount.code,
                 percentage: discount.percentage,
-                description: discount.description
+                description: `Save ${discount.percentage}% on your order`
             }
         });
     } catch (error) {

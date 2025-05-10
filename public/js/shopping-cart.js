@@ -1,9 +1,3 @@
-      // Get the promo code input field and apply button
-      const promoCodes = {
-        'SWEET10': { type: 'percentage', value: 10, description: '10% off your order' },
-        'FREESHIP': { type: 'shipping', value: 0, description: 'Free shipping' },
-        'CAKE20': { type: 'fixed', value: 20, description: '$20 off your order' }
-    };
     // Cart data structure
     let cart = {
         items: [],
@@ -57,11 +51,7 @@
 
     // Update the cart count in the navigation
     function updateNavCartCount() {
-        const count = cart.items.reduce((total, item) => total + item.quantity, 0);
-        const navCountElement = document.getElementById('nav-cart-count');
-        if (navCountElement) {
-            navCountElement.textContent = count;
-        }
+        loadCartCount();
     }
 
     // Add this function to calculate cart totals
@@ -72,7 +62,6 @@
         // Calculate discount if exists
         if (cart.currentDiscount) {
             cart.discountAmount = (cart.subtotal * cart.currentDiscount.percentage) / 100;
-            console.log('Discount calculated:', cart.discountAmount); // Debug log
         } else {
             cart.discountAmount = 0;
         }
@@ -85,20 +74,17 @@
         
         // Calculate final total
         cart.total = cart.subtotal + cart.tax + cart.shipping - cart.discountAmount;
-        console.log('Final total:', cart.total); // Debug log
         
         // Update discount display
-        updateDiscountDisplay();
-    }
-
-    function updateDiscountDisplay() {
-        const discountAmount = document.getElementById('discount-amount');
-        if (discountAmount) {
-            if (cart.currentDiscount) {
-                discountAmount.textContent = `-$${cart.discountAmount.toFixed(2)}`;
-            } else {
-                discountAmount.textContent = '$0.00';
-            }
+        const discountRow = document.getElementById('discount-row');
+        const discountAmount = document.getElementById('discount');
+        
+        if (cart.currentDiscount) {
+            discountRow.style.display = 'flex';
+            discountAmount.textContent = `-$${cart.discountAmount.toFixed(2)}`;
+        } else {
+            discountRow.style.display = 'none';
+            discountAmount.textContent = '$0.00';
         }
     }
 
@@ -134,7 +120,7 @@
             // Update cart items
             cart.items = updatedCart.items;
             
-            // Store discount info in frontend only
+            // Store discount info in frontend
             cart.currentDiscount = {
                 code: discount.code,
                 percentage: discount.percentage,
@@ -144,7 +130,7 @@
             // Calculate new totals
             calculateCartTotals();
             
-            // Force update the discount amount display
+            // Update the discount amount display
             const discountAmount = document.getElementById('discount-amount');
             if (discountAmount) {
                 discountAmount.textContent = `-$${cart.discountAmount.toFixed(2)}`;
@@ -256,20 +242,17 @@
     function updateCartDisplay() {
         const cartItemsContainer = document.getElementById('cart-items');
         const emptyCartMessage = document.getElementById('empty-cart-message');
-        const discountSection = document.getElementById('discount-section');
-        const discountAmount = document.getElementById('discount-amount');
 
-        console.log('Discount amount element:', discountAmount); // Debug log
         console.log('Current discount:', cart.currentDiscount); // Debug log
-        console.log('Cart discount amount:', cart.discountAmount); // Debug log
 
         if (!cart.items || cart.items.length === 0) {
             cartItemsContainer.innerHTML = '';
             emptyCartMessage.style.display = 'block';
-            if (discountSection) discountSection.style.display = 'none';
-            if (discountAmount) discountAmount.textContent = '$0.00';  // Reset discount amount
+            
             // Reset totals when cart is empty
             cart.subtotal = 0;
+            cart.discountAmount = 0;
+            cart.currentDiscount = null;
             cart.tax = 0;
             cart.shipping = 5;
             cart.total = 0;
@@ -306,32 +289,6 @@
         // Calculate totals before displaying
         calculateCartTotals();
 
-        // Update discount amount if element exists
-        if (discountAmount) {
-            if (cart.currentDiscount) {
-                const discountText = `-$${cart.discountAmount.toFixed(2)}`;
-                discountAmount.textContent = discountText;
-            } else {
-                discountAmount.textContent = '$0.00';
-            }
-        }
-
-        // Update discount section if it exists
-        if (discountSection) {
-            if (cart.currentDiscount) {
-                discountSection.style.display = 'block';
-                discountSection.innerHTML = `
-                    <div class="discount-info">
-                        <p>Discount Code: ${cart.currentDiscount.code}</p>
-                        <p>Discount: ${cart.currentDiscount.percentage}%</p>
-                        <p>Amount Saved: $${cart.discountAmount.toFixed(2)}</p>
-                    </div>
-                `;
-            } else {
-                discountSection.style.display = 'none';
-            }
-        }
-
         // Update the totals display
         document.getElementById('subtotal').textContent = `$${cart.subtotal.toFixed(2)}`;
         document.getElementById('tax').textContent = `$${cart.tax.toFixed(2)}`;
@@ -355,7 +312,11 @@
             cartParams.append('tax', cart.tax);
             cartParams.append('shipping', cart.shipping);
             cartParams.append('total', cart.total);
-            
+            cartParams.append('discount', cart.discountAmount);
+            if (cart.currentDiscount) {
+                cartParams.append('promoCode', cart.currentDiscount.code);
+            }
+
             // Redirect to checkout 7ta el data fe url till ma n3ml db don't change it 3shan man5sarsh b3d
             window.location.href = `checkout.html?${cartParams.toString()}`;
         });
