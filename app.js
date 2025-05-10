@@ -2,6 +2,7 @@ require('dotenv').config()
 const express = require('express')
 const connectDB = require('./config/database');
 const mongoose = require('mongoose');
+const path = require('path');
 
 const app = express();
 
@@ -20,7 +21,7 @@ connectDB().catch(err => {
 // Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.static("./public"));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
 app.use('/cake', cakeRouter);
@@ -30,13 +31,13 @@ app.use('/cart', cartRouter);
 app.use('/discount', discountRouter);
 app.use('/review', reviewRouter);
 
-app.get('/home', (req, res) => {
-    res.redirect('html/home.html');
-})
+// app.get('/home', (req, res) => {
+//     res.sendFile(path.join(__dirname, 'public', 'html', 'home.html'));
+// });
 
 app.get('/', (req, res) => {
-    res.redirect('html/login.html');
-})
+    res.sendFile(path.join(__dirname, 'public', 'html', 'login.html'));
+});
 
 
 const errorHandler = require('./middlewares/errorHandler');
