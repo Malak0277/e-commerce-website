@@ -8,11 +8,11 @@ const demoStats = {
 
 // Demo data for recent orders
 const demoOrders = [
-  { id: 1012, customerName: 'Sarah Ali', date: '2024-05-01', total: 350, status: 'Pending' },
-  { id: 1011, customerName: 'Ahmed Hassan', date: '2024-04-29', total: 120, status: 'Delivered' },
-  { id: 1010, customerName: 'Mona Youssef', date: '2024-04-28', total: 220, status: 'Processing' },
-  { id: 1009, customerName: 'Omar Fathy', date: '2024-04-27', total: 180, status: 'Shipped' },
-  { id: 1008, customerName: 'Laila Samir', date: '2024-04-26', total: 90, status: 'Cancelled' }
+  { id: 1012, customerName: 'Sarah Ali', date: '2024-05-01', total: 35, },
+  { id: 1011, customerName: 'Ahmed Hassan', date: '2024-04-29', total: 120,},
+  { id: 1010, customerName: 'Mona Youssef', date: '2024-04-28', total: 220, },
+  { id: 1009, customerName: 'Omar Fathy', date: '2024-04-27', total: 18, },
+  { id: 1008, customerName: 'Laila Samir', date: '2024-04-26', total: 90, }
 ];
 
 // Display dashboard statistics in the stat cards
@@ -34,7 +34,6 @@ function displayRecentOrders() {
       <td>${order.customerName}</td>
       <td>${new Date(order.date).toLocaleDateString()}</td>
       <td>$${order.total.toFixed(2)}</td>
-      <td><span class="order-status status-${order.status.toLowerCase()}">${order.status}</span></td>
     `;
     tableBody.appendChild(row);
   });

@@ -25,60 +25,61 @@
                                                                   background-repeat: no-repeat;
                                                                   background-size: cover;
                                                                   position: relative;"> 
-      <section class="hero">
-        <div class="hero-text" id="hero-text">
-          <h1 class="title">Candy Cakes-Tanta</h1>
-            <p>Custom cakes, cupcakes, and treats with beautiful decoration and great taste!</p>
-                      <a onclick="document.location = 'customize_order.HTML' ;"><button class="block">Customize Your Order</button></a>
-        
-          </div>
-          </section>
-        </div>
+   <!-- Main Content -->
+   <div class="main" id="main">
+    <!-- Hero Section -->
     
-
-
-      <div class="row">
-        <div class="col">
-          <h2 class="section-title" id="menu">Menu</h2>  
-        </div>
-      </div>   
-      <div class="card-container">
+        <section class="hero">
+            <div class="hero-text" id="hero-text">
+                <h1 class="title">Candy Cakes-Tanta</h1>
+                <p>Custom cakes, cupcakes, and treats with beautiful decoration and great taste!</p>
+                <a onclick="document.location = 'customize_order.HTML';"><button class="block">Customize Your Order</button></a>
+            </div>
+        </section>
+    </div>
+    
+    <!-- Menu Section -->
+    <h2 class="section-title" id="menu">Menu</h2>
+    <div class="card-container">
         <div class="card" data-type="birthday">Birthday</div>
         <div class="card" data-type="minis">Minis</div>
         <div class="card" data-type="wedding">Wedding & Engagement</div>
         <div class="card" data-type="eid">Eid Treats</div>
         <div class="card" data-type="others">Special Occasions</div>
-      </div>
-      
-         
-          
-       
- <h2 class="section-title" id="about">About Us</h2>
-      <p style="padding: 0 20px 40px; text-align: center;">
-        We're passionate about creating custom desserts for every occasion. From birthdays to weddings, our cakes bring joy to your celebrations.
-      </p>
     </div>
+    
+    <!-- About Section -->
+    <div class="about-section">
+        <div class="about-content">
+            <h2 class="section-title" id="about">About Us</h2>
+            <p>
+                We're passionate about creating custom desserts for every occasion. From birthdays to weddings, our cakes bring joy to your celebrations.
+            </p>
+        </div>
     </div>
- 
-    <!-- Reviews will be loaded here -->
-  </div>
-  <div class="review-form-container" id="review-form-container">
-    <h4>Leave a Review</h4>
-    <form id="review-form">
-      <label for="rating">Rating:</label>
-      <select id="rating" required>
-        <option value="">Select</option>
-        <option value="5">★★★★★</option>
-        <option value="4">★★★★☆</option>
-        <option value="3">★★★☆☆</option>
-        <option value="2">★★☆☆☆</option>
-        <option value="1">★☆☆☆☆</option>
-      </select>
-      <label for="reviewText">Your Review:</label>
-      <textarea id="reviewText" rows="2" required></textarea>
-      <button type="submit" class="btn-main">Submit Review</button>
-    </form>
-  </div>
+    
+    <!-- Review Form -->
+    <div class="review-form-container" id="review-form-container">
+        <h4>Leave a Review</h4>
+        <form id="review-form">
+            <div>
+                <label for="rating">Rating:</label>
+                <select id="rating" required>
+                    <option value="">Select</option>
+                    <option value="5">★★★★★</option>
+                    <option value="4">★★★★☆</option>
+                    <option value="3">★★★☆☆</option>
+                    <option value="2">★★☆☆☆</option>
+                    <option value="1">★☆☆☆☆</option>
+                </select>
+            </div>
+            <div>
+                <label for="reviewText">Your Review:</label>
+                <textarea id="reviewText" rows="4" required></textarea>
+            </div>
+            <button type="submit" class="btn-main">Submit Review</button>
+        </form>
+    </div>
 </div>
 
     <script src="../js/loadNavbar.js"></script>
