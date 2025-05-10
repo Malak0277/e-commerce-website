@@ -56,11 +56,15 @@
 
     // Add this function to calculate cart totals
     function calculateCartTotals() {
+        console.log('Calculating cart totals...'); // Debug log
+        console.log('Current cart state:', cart); // Debug log
+        
         // Calculate subtotal
         cart.subtotal = cart.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
         
         // Calculate discount if exists
         if (cart.currentDiscount) {
+            console.log('Applying discount:', cart.currentDiscount); // Debug log
             cart.discountAmount = (cart.subtotal * cart.currentDiscount.percentage) / 100;
         } else {
             cart.discountAmount = 0;
@@ -74,6 +78,14 @@
         
         // Calculate final total
         cart.total = cart.subtotal + cart.tax + cart.shipping - cart.discountAmount;
+        
+        console.log('Calculated totals:', { // Debug log
+            subtotal: cart.subtotal,
+            discountAmount: cart.discountAmount,
+            tax: cart.tax,
+            shipping: cart.shipping,
+            total: cart.total
+        });
         
         // Update discount display
         const discountRow = document.getElementById('discount-row');
@@ -94,6 +106,8 @@
         const promoMessage = document.getElementById('promo-message');
         const code = promoCodeInput.value.trim().toUpperCase();
         
+        console.log('Applying promo code:', code);
+        
         if (!code) {
             promoMessage.textContent = 'Please enter a promo code';
             promoMessage.className = 'promo-message invalid-promo';
@@ -101,6 +115,7 @@
         }
         
         try {
+            console.log('Sending request to server...');
             const response = await fetch('/cart/apply-discount', {
                 method: 'POST',
                 headers: {
@@ -110,39 +125,50 @@
                 body: JSON.stringify({ code })
             });
             
+            console.log('Server response status:', response.status);
+            const data = await response.json();
+            console.log('Server response data:', data);
+            
             if (!response.ok) {
-                const error = await response.json();
-                throw new Error(error.message || 'Invalid promo code');
+                console.log('Invalid discount code response');
+                promoMessage.textContent = data.message || 'Invalid discount code';
+                promoMessage.className = 'promo-message invalid-promo';
+                return;
             }
             
-            const { cart: updatedCart, discount } = await response.json();
+            console.log('Valid discount code received');
+            const { discount } = data;
             
-            // Update cart items
-            cart.items = updatedCart.items;
-            
-            // Store discount info in frontend
+            // Store discount info in frontend only
             cart.currentDiscount = {
                 code: discount.code,
                 percentage: discount.percentage,
                 description: discount.description
             };
             
+            console.log('Updated cart with discount:', cart);
+            
             // Calculate new totals
             calculateCartTotals();
             
             // Update the discount amount display
-            const discountAmount = document.getElementById('discount-amount');
-            if (discountAmount) {
+            const discountRow = document.getElementById('discount-row');
+            const discountAmount = document.getElementById('discount');
+            console.log('Discount elements:', { discountRow, discountAmount });
+            
+            if (discountRow && discountAmount) {
+                discountRow.style.display = 'flex';
                 discountAmount.textContent = `-$${cart.discountAmount.toFixed(2)}`;
             }
             
+            // Show success message
             promoMessage.textContent = `Promo code applied! ${discount.percentage}% off`;
             promoMessage.className = 'promo-message valid-promo';
             
             updateCartDisplay();
         } catch (error) {
             console.error('Error applying promo code:', error);
-            promoMessage.textContent = error.message || 'Invalid promo code';
+            promoMessage.textContent = 'Error applying promo code';
             promoMessage.className = 'promo-message invalid-promo';
         }
     }
@@ -317,19 +343,27 @@
                 cartParams.append('promoCode', cart.currentDiscount.code);
             }
 
-            // Redirect to checkout 7ta el data fe url till ma n3ml db don't change it 3shan man5sarsh b3d
+            // Redirect to checkout
             window.location.href = `checkout.html?${cartParams.toString()}`;
         });
         
-       
-        document.getElementById('cart-items').insertAdjacentHTML('beforeend', demoButtons);
         // Add promo code listener
-        document.getElementById('apply-promo').addEventListener('click', applyPromoCode);
+        const applyPromoBtn = document.getElementById('apply-promo');
+        if (applyPromoBtn) {
+            applyPromoBtn.addEventListener('click', function(e) {
+                e.preventDefault(); // Prevent form submission
+                applyPromoCode();
+            });
+        }
         
         // Also allow Enter key to apply promo
-        document.getElementById('promo-code').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                applyPromoCode();
-            }
-        });
+        const promoCodeInput = document.getElementById('promo-code');
+        if (promoCodeInput) {
+            promoCodeInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault(); // Prevent form submission
+                    applyPromoCode();
+                }
+            });
+        }
     }
