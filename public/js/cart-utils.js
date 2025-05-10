@@ -11,7 +11,14 @@ function updateNavCartCount() {
 async function loadCartCount() {
     try {
         const token = localStorage.getItem('token');
-        if (!token) return;
+        if (!token) {
+            // If no token, set count to 0
+            const navCountElement = document.getElementById('nav-cart-count');
+            if (navCountElement) {
+                navCountElement.textContent = '0';
+            }
+            return;
+        }
 
         const response = await fetch('/cart', {
             headers: {
@@ -19,7 +26,10 @@ async function loadCartCount() {
             }
         });
         
-        if (!response.ok) return;
+        if (!response.ok) {
+            console.error('Failed to load cart count');
+            return;
+        }
         
         const cartData = await response.json();
         const count = cartData.items.reduce((total, item) => total + item.quantity, 0);
@@ -29,5 +39,13 @@ async function loadCartCount() {
         }
     } catch (error) {
         console.error('Error loading cart count:', error);
+        // Set count to 0 on error
+        const navCountElement = document.getElementById('nav-cart-count');
+        if (navCountElement) {
+            navCountElement.textContent = '0';
+        }
     }
-} 
+}
+
+// Call loadCartCount when the page loads
+document.addEventListener('DOMContentLoaded', loadCartCount);

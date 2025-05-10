@@ -3,22 +3,7 @@ let originalMargin = 0;
 
 // Function to update cart count
 function updateCartCount() {
-    try {
-        let count = 0;
-        const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-        
-        if (cartItems.length) {
-            count = cartItems.reduce((total, item) => total + item.quantity, 0);
-        }
-        
-        const navCartCount = document.getElementById('nav-cart-count');
-        const sidebarCartCount = document.getElementById('sidebar-cart-count');
-        
-        if (navCartCount) navCartCount.textContent = count;
-        if (sidebarCartCount) sidebarCartCount.textContent = count;
-    } catch (error) {
-        console.error("Error updating cart count:", error);
-    }
+    loadCartCount();
 }
 
 // Define these functions globally so they can be called from HTML
@@ -36,7 +21,7 @@ function openNav() {
     sidebar.style.width = "250px";
     sidebar.style.display = "block";
     main.style.marginLeft = "250px";
-    document.body.classList.add('sidebar-open'); // <-- Add this line
+    document.body.classList.add('sidebar-open'); 
 }
 
 function closeNav() {
@@ -45,7 +30,7 @@ function closeNav() {
     sidebar.style.width = "0";
     sidebar.style.display = "none";
     main.style.marginLeft = originalMargin + "px";
-    document.body.classList.remove('sidebar-open'); // <-- Add this line
+    document.body.classList.remove('sidebar-open'); 
 }
 // Wait for DOM to fully load
 document.addEventListener('DOMContentLoaded', function() {
@@ -81,4 +66,14 @@ document.addEventListener('DOMContentLoaded', function() {
             img.src = profileImage;
         });
     }
+
+
+     const cards = document.querySelectorAll('.card');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+                card.addEventListener('click', function() {
+                    const type = this.getAttribute('data-type');
+                    window.location.href = `subpage.html?type=${type}`;
+                });
+            });
 }); 
