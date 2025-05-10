@@ -16,41 +16,26 @@ router.post('/', authMiddleware, adminMiddleware, async (req, res, next) => { //
     }
 });
 
-// Get all active discounts
 router.get('/', authMiddleware, adminMiddleware, async (req, res) => { //todo
     try {
-        const currentDate = new Date();
-        const discounts = await Discount.find({
-            startDate: { $lte: currentDate },
-            endDate: { $gte: currentDate },
-            isActive: true
-        });
+        const discounts = await Discount.find();
         res.json(discounts);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 });
 
-// // Get a specific discount
-// router.get('/:code', async (req, res, next) => {
-//     try {
-//         const discount = await Discount.findOne({ 
-//             code: req.params.code,
-//             isActive: true,
-//             startDate: { $lte: new Date() },
-//             endDate: { $gte: new Date() }
-//         });
-        
-//         if (!discount) {
-//             return next(createError(404, "Discount not found or expired"));
-//         }
-        
-//         res.json(discount);
-//     } catch (error) {
-//         next(createError(500, error.message));
-//     }
-// });
-
+router.get('/:id', authMiddleware, adminMiddleware, async (req, res) => {
+    try {
+      const discount = await Discount.findById(req.params.id);
+      if (!discount) {
+        return res.status(404).json({ message: "Discount not found" });
+      }
+      res.json(discount);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  });
 
 router.put('/:id', authMiddleware, adminMiddleware, async (req, res, next) => { //todo
     try {

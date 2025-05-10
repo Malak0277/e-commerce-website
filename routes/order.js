@@ -58,22 +58,16 @@ router.post('/', authMiddleware, async (req, res, next) => {
     }
 });
 
-// Get all orders (admin only)
 router.get('/', authMiddleware, adminMiddleware, async (req, res, next) => {
     try {
-        const orders = await Order.find()
-            .populate({
-                path: 'items.cake_id',
-                model: 'Cake',
-                select: 'name price image_url'
-            })
-            .sort({ created_at: -1 });
-            
-        res.json(orders);
+      const orders = await Order.find()
+        .populate('user_id', 'first_name last_name email')
+        .sort({ created_at: -1 });
+      res.json(orders);
     } catch (error) {
-        next(createError(500, "Error fetching orders"));
+      next(createError(500, "Error fetching orders"));
     }
-});
+  });
 
 // Get user's orders
 router.get('/my-orders', authMiddleware, async (req, res, next) => {

@@ -159,27 +159,33 @@ body {
     text-align: center;
     padding: 0 20px;
 
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    width: 100%;
-  }
+.hero-text {
+  text-align: center;
+  width: 90%;
+  max-width: 800px;
+  padding: 40px;
+  border-radius: 15px;
+  background-color: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(4px);
+  animation: float 6s ease-in-out infinite;
+  position: relative;
+  z-index: 1;
+}
 
-  .hero-text {
-    max-width: 600px;
-  }
-  .hero-img {
-    width: 100%;
-    height: auto;
-    border-radius: 15px;
-  }
-  .title {
-    font-family: 'Great Vibes', cursive;
-    font-size: 64px;
-    color: #ff69a6;
-  }
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
+}
+
+.title {
+  font-size: 4rem;
+  color: var(--primary-pink);
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+  font-family: 'Great Vibes', cursive;
+}
 
   .hero-text p {
     font-size: 18px;
@@ -201,27 +207,24 @@ body {
     background-color: #ffb3cc;
   }
 
-  .section-title {
-    text-align: center;
-    font-size: 32px;
-    margin: 40px 0 20px;
-  }
+/* Section Titles */
+.section-title {
+  font-size: 5em;
+  color: var(--primary-pink);
+  text-align: center;
+  margin: 40px 0 30px;
+  font-family: 'Great Vibes', cursive;
+}
 
-
-  .card-body {
-    text-align: center;
-    width: fit-content;
-   ;
-
-  }
-    
-
-  .card-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 20px;
-      padding: 20px;
-    }
+/* Menu Section */
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
 
 
     .card {
@@ -537,7 +540,7 @@ body {
       padding: 15px;
     }
     .card-body {
-      width: 100%;
+      width: 200%;
     }
     
     .card-title {
