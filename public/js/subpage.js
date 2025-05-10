@@ -98,17 +98,29 @@ function addToCart(cakeId, quantity) {
             'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({
-            cake_id: cakeId,
-            quantity: quantity
+            cakeId: cakeId,
+            quantity: quantity || 1
         })
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to add to cart');
+        }
+        return response.json();
+    })
     .then(data => {
-        if (data.message) {
-            alert('Added to cart successfully!');
+        alert('Added to cart successfully!');
+        // Update navbar cart count
+        if (data.cart && data.cart.items) {
+            const count = data.cart.items.reduce((total, item) => total + item.quantity, 0);
+            const navCountElement = document.getElementById('nav-cart-count');
+            if (navCountElement) {
+                navCountElement.textContent = count;
+            }
         }
     })
     .catch(error => {
+        console.error('Error:', error);
         alert('Error adding to cart');
     });
 } 

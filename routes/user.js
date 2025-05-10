@@ -34,23 +34,15 @@ router.post('/login', async (req, res, next) => { //todo?
         if (!isMatch) return next(createError(401, "Invalid credentials"));
 
         const token = generateToken(user._id);
-
-        res.json({ token }); 
+        const isAdmin = user.isAdmin;
+        res.json({ token, isAdmin }); 
 
 });
 
 
-router.get('/profile', authMiddleware, async (req, res, next) => {
-    try {
-        const user = await User.findById(req.user.id).select('-password');
-        if (!user) {
-            return next(createError(404, 'User not found'));
-        }
-        res.json(user);
-    } catch (error) {
-        console.error('Profile fetch error:', error);
-        next(createError(500, 'Error fetching profile'));
-    }
+router.get('/profile', authMiddleware, async (req, res) => { //todo?
+    const user = await User.findById(req.user.id).select('-password');
+    res.json(user);
 });
 
 router.put('/profile', authMiddleware, async (req, res) => { //todo?
