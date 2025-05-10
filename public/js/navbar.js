@@ -76,4 +76,5 @@ document.addEventListener('DOMContentLoaded', function() {
                     window.location.href = `subpage.html?type=${type}`;
                 });
             });
+
 }); 

@@ -38,23 +38,6 @@ app.get('/', (req, res) => {
     res.redirect('html/login.html');
 })
 
-// Test database connection route
-app.get('/test-db', async (req, res) => {
-    try {
-        await connectDB();
-        res.json({ 
-            status: 'success', 
-            message: 'Database connection successful',
-            connectionState: mongoose.connection.readyState
-        });
-    } catch (error) {
-        res.status(500).json({ 
-            status: 'error', 
-            message: 'Database connection failed',
-            error: error.message 
-        });
-    }
-});
 
 const errorHandler = require('./middlewares/errorHandler');
 app.use(errorHandler);

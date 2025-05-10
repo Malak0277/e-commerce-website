@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const urlParams = new URLSearchParams(window.location.search);
 
     if (!urlParams.has('items')) {
-        window.location.href = 'cart.html';
+        window.location.href = 'checkout.html';
         return;
     }
 
@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function () {
         setupEventListeners(cart);
     } catch (e) {
         console.error('Error parsing cart data:', e);
-        window.location.href = 'cart.html';
+        window.location.href = 'checkout.html';
     }
 });
 

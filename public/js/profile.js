@@ -91,6 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error('Error:', error);
         alert('Error loading data: ' + error.message);
     });
+
 });
 
 // Profile picture handling
