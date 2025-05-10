@@ -3,22 +3,7 @@ let originalMargin = 0;
 
 // Function to update cart count
 function updateCartCount() {
-    try {
-        let count = 0;
-        const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-        
-        if (cartItems.length) {
-            count = cartItems.reduce((total, item) => total + item.quantity, 0);
-        }
-        
-        const navCartCount = document.getElementById('nav-cart-count');
-        const sidebarCartCount = document.getElementById('sidebar-cart-count');
-        
-        if (navCartCount) navCartCount.textContent = count;
-        if (sidebarCartCount) sidebarCartCount.textContent = count;
-    } catch (error) {
-        console.error("Error updating cart count:", error);
-    }
+    loadCartCount();
 }
 
 // Define these functions globally so they can be called from HTML
