@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
             localStorage.setItem('profileImage', data.profileImage);
             document.querySelector('.profile-picture img').src = data.profileImage;
         } else {
-            const defaultImage = '../images/profil.jpg';
+            const defaultImage = '/images/profil.jpg';
             document.querySelector('.profile-picture img').src = defaultImage;
         }
 

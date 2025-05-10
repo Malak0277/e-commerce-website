@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .then(data => {
                 localStorage.setItem('token', data.token);
-                window.location.href = "home.html";
+                window.location.href = "/html/home.html";
             })
             .catch(error => {
                 console.error('Error during signup:', error);
