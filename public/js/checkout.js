@@ -72,29 +72,69 @@ function setupEventListeners(cart) {
         document.getElementById('total').textContent = `$${(cart.subtotal + cart.tax + shippingCost).toFixed(2)}`;
     });
 
-    document.getElementById('checkout-form').addEventListener('submit', function (e) {
+    document.getElementById('checkout-form').addEventListener('submit', async function (e) {
         e.preventDefault();
 
         clearAllErrors();
 
         if (validateForm()) {
             const orderData = {
-                shipping: {
-                    firstName: document.getElementById('first-name').value,
-                    lastName: document.getElementById('last-name').value,
-                    email: document.getElementById('email').value,
-                    address: document.getElementById('address').value,
-                    city: document.getElementById('city').value,
-                    postalCode: document.getElementById('postal-code').value,
-                    method: document.getElementById('shipping-method').value
-                },
-                payment: document.querySelector('input[name="payment-method"]:checked').value,
-                items: cart.items,
-                total: cart.total
+                shipping_address: `${document.getElementById('first-name').value} ${document.getElementById('last-name').value}, ${document.getElementById('address').value}, ${document.getElementById('city').value}, ${document.getElementById('postal-code').value}`,
+                shipping_method: document.getElementById('shipping-method').value,
+                payment_method: 'cash_on_delivery',
+                items: cart.items.map(item => ({
+                    cake_id: item.id || item._id,
+                    quantity: parseInt(item.quantity),
+                    price: parseFloat(item.price),
+                    number_of_people: parseInt(item.number_of_people || 1)
+                })),
+                total_price: parseFloat(cart.total)
             };
 
-            console.log('Order submitted:', orderData);
-            window.location.href = 'home.html';
+            try {
+                // Send order to server
+                const response = await fetch('/order', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    },
+                    body: JSON.stringify(orderData)
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Failed to place order');
+                }
+
+                // Clear server-side cart
+                const clearCartResponse = await fetch('/cart/clear', {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
+
+                if (!clearCartResponse.ok) {
+                    console.error('Failed to clear server cart');
+                }
+
+                // Clear cart from localStorage
+                localStorage.removeItem('cart');
+                localStorage.removeItem('cartItems');
+                
+                // Update cart count in navbar
+                const navCountElement = document.getElementById('nav-cart-count');
+                if (navCountElement) {
+                    navCountElement.textContent = '0';
+                }
+                
+                // Redirect to home page
+                window.location.href = 'home.html';
+            } catch (error) {
+                console.error('Error placing order:', error);
+                showError('checkout-form', error.message || 'Failed to place order. Please try again.');
+            }
         }
     });
 }
