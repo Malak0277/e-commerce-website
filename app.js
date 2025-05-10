@@ -42,7 +42,11 @@ app.get('/', (req, res) => {
 const errorHandler = require('./middlewares/errorHandler');
 app.use(errorHandler);
 
+/*
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
+*/
+
+module.exports = app;
