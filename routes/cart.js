@@ -36,6 +36,14 @@ router.post('/add', authMiddleware, async (req, res, next) => {
             return next(createError(404, "Cake not found"));
         }
 
+        // Check stock availability
+        if (cake.stock === 0) {
+            return next(createError(400, "Empty stock"));
+        }
+        if (cake.stock < quantity) {
+            return next(createError(400, `Only ${cake.stock} items available in stock`));
+        }
+
         let cart = await Cart.findOne({ user_id: req.user.id });
         if (!cart) {
             cart = new Cart({ user_id: req.user.id });
@@ -46,6 +54,10 @@ router.post('/add', authMiddleware, async (req, res, next) => {
         );
         
         if (existingItem) {
+            // Check if adding the new quantity would exceed stock
+            if (cake.stock < existingItem.quantity + quantity) {
+                return next(createError(400, `Only ${cake.stock - existingItem.quantity} more items available in stock`));
+            }
             existingItem.quantity += quantity;
         } else {
             cart.items.push({

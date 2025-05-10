@@ -104,7 +104,9 @@ function addToCart(cakeId, quantity) {
     })
     .then(response => {
         if (!response.ok) {
-            throw new Error('Failed to add to cart');
+            return response.json().then(data => {
+                throw new Error(data.message || 'Failed to add to cart');
+            });
         }
         return response.json();
     })
@@ -121,6 +123,6 @@ function addToCart(cakeId, quantity) {
     })
     .catch(error => {
         console.error('Error:', error);
-        alert('Error adding to cart');
+        alert(error.message);
     });
 } 

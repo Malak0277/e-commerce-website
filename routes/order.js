@@ -138,8 +138,10 @@ async function checkout(userId, shippingAddress) {
             if (!cake) {
                 throw new Error(`Cake with ID ${item.cake_id} not found`);
             }
-            if (!cake.is_available) {
-                throw new Error(`Cake ${cake.name} is not available`);
+            
+            // Check stock availability
+            if (cake.stock < item.quantity) {
+                throw new Error(`Insufficient stock for ${cake.name}. Only ${cake.stock} items available.`);
             }
             
             totalPrice += item.quantity * item.price;
@@ -149,6 +151,10 @@ async function checkout(userId, shippingAddress) {
                 number_of_people: item.number_of_people,
                 price: item.price
             });
+
+            // Update stock
+            cake.stock -= item.quantity;
+            await cake.save();
         }
 
         // 3. Create the order
