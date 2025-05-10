@@ -31,14 +31,8 @@
         .admin-nav-link i {
             margin-right: 10px;
         }
-        .user-status {
-            padding: 5px 10px;
-            border-radius: 15px;
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-        .status-active { background-color: #d4edda; color: #155724; }
-        .status-inactive { background-color: #f8d7da; color: #721c24; }
+   
+       
         .user-role {
             padding: 5px 10px;
             border-radius: 15px;
@@ -47,6 +41,11 @@
         }
         .role-admin { background-color: #cce5ff; color: #004085; }
         .role-user { background-color: #fff3cd; color: #856404; }
+        .role-wide {
+            min-width: 150px;
+            width: 180px;
+            font-size: 1.1rem;
+        }
     </style>
 </head>
 <body>
@@ -88,18 +87,12 @@
                             </div>
                             <div class="col-md-3">
                                 <select class="form-select" id="roleFilter">
-                                    <option value="">All Roles</option>
+                                    <option value="">Roles</option>
                                     <option value="admin">Admin</option>
                                     <option value="user">User</option>
                                 </select>
                             </div>
-                            <div class="col-md-3">
-                                <select class="form-select" id="statusFilter">
-                                    <option value="">All Status</option>
-                                    <option value="active">Active</option>
-                                    <option value="inactive">Inactive</option>
-                                </select>
-                            </div>
+                           
                             <div class="col-md-2">
                                 <button class="btn btn-primary w-160" id="exportUsers">
                                     <i class="fas fa-download"></i> Export
@@ -120,7 +113,6 @@
                                         <th>Name</th>
                                         <th>Email</th>
                                         <th>Role</th>
-                                        <th>Status</th>
                                         <th>Joined Date</th>
                                         <th>Actions</th>
                                     </tr>
@@ -162,13 +154,7 @@
                                 <option value="admin">Admin</option>
                             </select>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label">Status</label>
-                            <select class="form-select" id="userStatus">
-                                <option value="active">Active</option>
-                                <option value="inactive">Inactive</option>
-                            </select>
-                        </div>
+                      
                         <div class="mb-3">
                             <label class="form-label">Reset Password</label>
                             <input type="password" class="form-control" id="userPassword" placeholder="Leave blank to keep current password">

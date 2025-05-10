@@ -28,7 +28,12 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .then(data => {
                 localStorage.setItem('token', data.token);
-                window.location.href = "home.html";
+                if(data.isAdmin){
+                    window.location.href = "admin/dashboard.html";
+                }
+                else{
+                    window.location.href = "home.html";
+                }
             })
             .catch(error => {
                 console.error('Error during login:', error);
