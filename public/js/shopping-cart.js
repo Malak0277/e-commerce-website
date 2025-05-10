@@ -11,7 +11,8 @@
         tax: 0,
         shipping: 5,
         total: 0,
-        currentDiscount: null  // Store current discount info in frontend only
+        currentDiscount: null,
+        discountAmount: 0
     };
 
     // Initialize the cart page
