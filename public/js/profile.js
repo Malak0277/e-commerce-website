@@ -35,10 +35,61 @@ document.addEventListener("DOMContentLoaded", () => {
             const defaultImage = '../images/profil.jpg';
             document.querySelector('.profile-picture img').src = defaultImage;
         }
+
+        // Fetch order history
+        return fetch('/order/my-orders', {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to fetch order history');
+        }
+        return response.json();
+    })
+    .then(orders => {
+        console.log('Received orders:', orders); // Debug log
+        const orderHistoryContainer = document.querySelector('.order-history');
+        // Clear existing content first
+        orderHistoryContainer.innerHTML = '<h2 class="section-title">Order History</h2>';
+        const orderItemsContainer = document.createElement('div');
+        orderItemsContainer.className = 'order-items';
+        
+        if (!orders || orders.length === 0) {
+            orderItemsContainer.innerHTML = '<p class="no-orders">No orders found</p>';
+        } else {
+            orderItemsContainer.innerHTML = orders.map(order => {
+                console.log('Processing order:', order); // Debug log
+                console.log('Order items:', order.items); // Debug log
+                return `
+                <div class="order-item">
+                    <div class="order-header">
+                        <p class="order-date">${new Date(order.created_at).toLocaleDateString()}</p>
+                        <p class="order-number">Order #${order.order_number}</p>
+                    </div>
+                    <div class="order-details">
+                        ${order.items.map(item => {
+                            console.log('Processing item:', item); // Debug log
+                            const cakeName = item.cake?.name || item.cake_id?.name || 'Unknown Item';
+                            console.log('Cake name:', cakeName); // Debug log
+                            return `<p>${item.quantity}x ${cakeName}</p>`;
+                        }).join('')}
+                    </div>
+                    <div class="order-footer">
+                        <p class="order-total">Total: $${order.total_price.toFixed(2)}</p>
+                        <p class="order-status ${order.status.toLowerCase()}">${order.status}</p>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+        
+        orderHistoryContainer.appendChild(orderItemsContainer);
     })
     .catch(error => {
-        console.error('Error loading profile:', error);
-        alert('Error loading profile data'+ error.messag);
+        console.error('Error:', error);
+        alert('Error loading data: ' + error.message);
     });
 });
 
