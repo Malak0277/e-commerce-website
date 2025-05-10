@@ -83,6 +83,7 @@ function setupEventListeners(cart) {
                 shipping_method: document.getElementById('shipping-method').value,
                 payment_method: 'cash_on_delivery',
                 items: cart.items.map(item => ({
+                    name: item.name,
                     cake_id: item.id || item._id,
                     quantity: parseInt(item.quantity),
                     price: parseFloat(item.price),

@@ -50,7 +50,6 @@ router.get('/', authMiddleware, adminMiddleware, async (req, res, next) => {
 router.get('/my-orders', authMiddleware, async (req, res, next) => {
     try {
         const orders = await Order.find({ user_id: req.user.id })
-            .populate('items.cake_id', 'name price image_url')
             .sort({ created_at: -1 });
             
         res.json(orders);
@@ -146,7 +145,7 @@ async function checkout(userId, shippingAddress) {
             
             totalPrice += item.quantity * item.price;
             items.push({
-                cake_id: item.cake_id,
+                name: item.name,
                 quantity: item.quantity,
                 number_of_people: item.number_of_people,
                 price: item.price

@@ -62,6 +62,7 @@ router.post('/add', authMiddleware, async (req, res, next) => {
         } else {
             cart.items.push({
                 cake_id: cakeId,
+                name: cake.name,
                 quantity: quantity,
                 price: cake.price
             });
