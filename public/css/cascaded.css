@@ -183,7 +183,7 @@ body.sidebar-open .main {
 
 .hero-text {
   text-align: center;
-  width: 80%;
+  width: 90%;
   max-width: 800px;
   padding: 40px;
   border-radius: 15px;
@@ -231,7 +231,7 @@ body.sidebar-open .main {
 
 /* Section Titles */
 .section-title {
-  font-size: 3rem;
+  font-size: 5em;
   color: var(--primary-pink);
   text-align: center;
   margin: 40px 0 30px;
@@ -673,7 +673,7 @@ body.sidebar-open .main {
     transform: scaleX(1);
 }
     .card-body {
-      width: 100%;
+      width: 200%;
     }
     
     .card-title {
